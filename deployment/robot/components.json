@@ -1,0 +1,6 @@
+{
+  "deployed": [],
+  "status": "no new robot components deployed",
+  "raw_storage_root": "/home/user/gento-skye_raw_data",
+  "reader_deployment": "none: read-only Python worker sent over SSH stdin"
+}

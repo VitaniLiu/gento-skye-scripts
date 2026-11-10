@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "scope": "offline structural checks only; no ROS publication or motion",
+  "verified_hash_files": 11,
+  "root": "base_link",
+  "joint_count": 32,
+  "movable_joints": [
+    "Joint1_L",
+    "Joint2_L",
+    "Joint3_L",
+    "Joint4_L",
+    "Joint5_L",
+    "Joint6_L",
+    "Joint7_L",
+    "Joint1_R",
+    "Joint2_R",
+    "Joint3_R",
+    "Joint4_R",
+    "Joint5_R",
+    "Joint6_R",
+    "Joint7_R",
+    "waist_joint_1",
+    "waist_joint_2",
+    "waist_joint_3",
+    "Head_J1_Joint",
+    "Head_J2_Joint"
+  ],
+  "tracking_to_base": "identity",
+  "mjcf_target_frames": {
+    "left_tool": {
+      "parent": "flange_L",
+      "position": "0 0.00 .05",
+      "quaternion_wxyz": "0.0005633121735972125 0.707388044876899 -0.0005628637715330792 0.7068249569936026"
+    },
+    "right_tool": {
+      "parent": "flange_R",
+      "position": "0 -0.00 .05",
+      "quaternion_wxyz": "0.0005633121735972125 -0.707388044876899 -0.0005628637715330792 -0.7068249569936026"
+    },
+    "eyes_link": {
+      "parent": "head_Link_2",
+      "position": "0.08 0.08 0",
+      "quaternion_wxyz": "0.7073882691671998 -0.706825181105366 0.0 0.0"
+    },
+    "torso_link": {
+      "parent": "waist_Link_3",
+      "position": "0 0 0.323",
+      "quaternion_wxyz": "1.0 0.0 0.0 0.0"
+    },
+    "tracking_base_link": {
+      "parent": "base_link",
+      "position": "0 0 0",
+      "quaternion_wxyz": "1 0 0 0"
+    }
+  },
+  "limits": "software model only; historical calibration and physical TCP/optical validation pending",
+  "robot_model_selection": "gento/skye",
+  "runtime_robot_name": "Gento_Sky_2026.4.03",
+  "source_evidence": "provenance.json",
+  "waist_model_mapping_candidate": {
+    "height": "waist_joint_1",
+    "pitch": "-waist_joint_2",
+    "yaw": "waist_joint_3",
+    "qualification": "model zero/sign only; feedback calibration/order not verified"
+  },
+  "axes_evidence": "front wheel x=+0.23; back x=-0.23; left y=+0.218; right y=-0.218; lift axis +Z",
+  "physical_base_origin": "model center in wheel layout XY; wheel joint origins z=0.07; floor correspondence not physically verified"
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "purpose": "candidate initial pose and physical return target; capture only",
+  "captured_at": "2026-11-01T16:35:22.209855+08:00",
+  "source": {
+    "topic": "/controller/odom",
+    "frame_id": "odom",
+    "child_frame_id": "base_link",
+    "publisher_gid": "0110b374bac69fcbd0263fa700002903",
+    "source_stamp": {
+      "sec": 1774958150,
+      "nanosec": 272789325
+    }
+  },
+  "pose": {
+    "x_m": 3.3555803995380166e-05,
+    "y_m": 9.593796728209576e-09,
+    "z_m": 0.0,
+    "yaw_rad": 0.0,
+    "yaw_encoding": "legacy raw yaw (radians) in orientation.w; NOT a quaternion"
+  },
+  "raw_orientation": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "w": 0.0
+  },
+  "feedback_velocity": {
+    "vx_mps": 0.0,
+    "vy_mps": 0.0,
+    "wz_radps": 0.0
+  },
+  "imu_observation": {
+    "topic": "/driver/imu/Data",
+    "frame_id": "imu",
+    "source_stamp": {
+      "sec": 1774958150,
+      "nanosec": 277131350
+    },
+    "quaternion": [
+      -0.003490645808083628,
+      0.0017453182463138157,
+      -5.941338186864855e-06,
+      -0.9999923845813837
+    ],
+    "yaw_rad": -3.019915981956727e-07,
+    "imu_to_base_transform_verified": false
+  },
+  "encoding_evidence": {
+    "existing_test_source": "/opt/kernelmind/apex/install/lingho_base_control/lib/lingho_base_control/test_base_controller.py:43",
+    "existing_main_function": "BaseController::yaw_from_state reads offset 136 directly; State header40 + Twist48 + position24 + orientation.w24"
+  },
+  "limitations": [
+    "Odom frame only; no geographic or map reference established.",
+    "Ground position accuracy and heading response during motion have not been validated.",
+    "Do not reuse after odometry/controller restart without revalidation.",
+    "Native source time differs from host time; capture time is host receipt time."
+  ],
+  "motion_executed": false
+}

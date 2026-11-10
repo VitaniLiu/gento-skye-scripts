@@ -1,0 +1,48 @@
+{
+  "feature": "processing",
+  "motion_enabled": false,
+  "zero_tolerance": 1e-08,
+  "zero_duration_s": 2.0,
+  "zero_ratio": 0.95,
+  "gap_s": 0.5,
+  "remote_timeout_s": 1800,
+  "logical_candidates": {
+    "pico_action": [
+      "/tj/control/target_poseL",
+      "/tj/control/target_poseR",
+      "/tj/control/vr_body"
+    ],
+    "gamesir_action": [
+      "/recording/host/events",
+      "/move/ManualMoveCmd"
+    ],
+    "body_state": [
+      "/tj/joint_states",
+      "/tj/info/joint_feedback",
+      "/tj/info/gripper_feedback_L",
+      "/tj/info/gripper_feedback_R"
+    ],
+    "chassis_state": [
+      "/move/State",
+      "/controller/odom"
+    ]
+  },
+  "required_camera_roles": [
+    "head"
+  ],
+  "sampling_gap_tolerances": {
+    "/tj/info/vr_connected": {
+      "max_gap_s": 1.5,
+      "scope": "configured tolerance for connection-status observations, not an SDK rate guarantee",
+      "evidence": "test/episode00000000: 40 status messages over about 40 seconds; native_timing_audit and raw report; configurable tolerance"
+    }
+  },
+  "camera_frame_ids": {
+    "head": {
+      "expected": [
+        "csi_left_eye"
+      ],
+      "evidence": "native_timing_audit.json recorded frame_id + user selected left eye as head; software identity only"
+    }
+  }
+}

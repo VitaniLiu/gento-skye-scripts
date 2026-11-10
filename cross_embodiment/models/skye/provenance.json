@@ -1,0 +1,162 @@
+[
+  {
+    "source": "/home/descfly/gento-skye_scripts/models/robot/skye_coordinate_evidence_20261103/robot_Gento_Sky.xml",
+    "destination": "models/skye/source.xml",
+    "sha256": "c34f0ad10ee6f7635e4c4120da38cefdd2ca22f5c0cce0f878b8b891c8996b58"
+  },
+  {
+    "source": "/home/descfly/gento-skye_scripts/models/robot/skye_coordinate_evidence_20261103/runtime_expanded.urdf",
+    "destination": "models/skye/reference.urdf",
+    "sha256": "6caa36a4327deb3e206512eda54875bfecb40f7bf316a3d03458c2211f200911"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Base_L.STL",
+    "destination": "models/skye/meshes/m6_Base_L.STL",
+    "sha256": "f22c309ed8cacd2fc776e2f72a2fc5618d9da84315267377edd3205e91ebbcb5"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link1_L.STL",
+    "destination": "models/skye/meshes/m6_Link1_L.STL",
+    "sha256": "d00097eec49600a4111ee5a124d6636f50ea09a7a1dc8486d98f4370dde7a932"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link2_L.STL",
+    "destination": "models/skye/meshes/m6_Link2_L.STL",
+    "sha256": "4776a6a2086ddc61b1643aff93386e545baccef2751db29d863fe027a76f325e"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link3_L.STL",
+    "destination": "models/skye/meshes/m6_Link3_L.STL",
+    "sha256": "d58f1039bd3eb2ccc1a1959b89d2de7ae714344ad8cb8b78ef97b92dcd317d26"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link4_L.STL",
+    "destination": "models/skye/meshes/m6_Link4_L.STL",
+    "sha256": "77f18566339f38acac1785fae517b05ff1e5247b95404ce26536d215bbed9cd7"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link5_L.STL",
+    "destination": "models/skye/meshes/m6_Link5_L.STL",
+    "sha256": "573f15ee62b0a9b2d62aceeb756800fd86969a685535e91416b73d51f1c57613"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link6_L.STL",
+    "destination": "models/skye/meshes/m6_Link6_L.STL",
+    "sha256": "b6b7570d8ebf1d2acb01baf8941b892f5a5f72aaa05503ab8340da8a2a7b2c13"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link7_L.STL",
+    "destination": "models/skye/meshes/m6_Link7_L.STL",
+    "sha256": "126cc7d41c37049ce34d2636bfe2d460c21e3429ed080877d1c5e983109ef798"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Base_R.STL",
+    "destination": "models/skye/meshes/m6_Base_R.STL",
+    "sha256": "f22c309ed8cacd2fc776e2f72a2fc5618d9da84315267377edd3205e91ebbcb5"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link1_R.STL",
+    "destination": "models/skye/meshes/m6_Link1_R.STL",
+    "sha256": "fdb1075fe0b41e5c2cb7c2fe13c9d2e62ff4dd6eb540ea841b8603db28369dd0"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link2_R.STL",
+    "destination": "models/skye/meshes/m6_Link2_R.STL",
+    "sha256": "53eb9fc69c939d2ebd4f32c1df341c1c42bc3d9d0911db0c9fcee70aa2701b34"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link3_R.STL",
+    "destination": "models/skye/meshes/m6_Link3_R.STL",
+    "sha256": "122456d8fc3e81694f352fc1f29d0bc19066f7f3d7572857a1be1e7c030dec9c"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link4_R.STL",
+    "destination": "models/skye/meshes/m6_Link4_R.STL",
+    "sha256": "77f18566339f38acac1785fae517b05ff1e5247b95404ce26536d215bbed9cd7"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link5_R.STL",
+    "destination": "models/skye/meshes/m6_Link5_R.STL",
+    "sha256": "2de51a340695c89b2fd58b1171dfacc4d85aa4e6cd50879e021a2d0bde8599a8"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link6_R.STL",
+    "destination": "models/skye/meshes/m6_Link6_R.STL",
+    "sha256": "49722d14b9ac34a84a41c95f49bd0b2a8859d4a05f66b247822bf36b0a703cd5"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/m6/Link7_R.STL",
+    "destination": "models/skye/meshes/m6_Link7_R.STL",
+    "sha256": "6eb75b059ff383e90a153be840bcce84b23d8f8afd074b1bc9dfec1b18c2351f"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/Underpan_Base_link.STL",
+    "destination": "models/skye/meshes/Gento_Sky_Underpan_Base_link.STL",
+    "sha256": "e8895eb8bd9c0ee2184fce272c1500d3e142c0fab2027e2707b2fa9a35fec02a"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/left_front_wheel_Link_1.STL",
+    "destination": "models/skye/meshes/Gento_Sky_left_front_wheel_Link_1.STL",
+    "sha256": "64619238e69d056e17e3e095dd27ce5473068fcfcd889ac3c3839a8c9531fc3e"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/left_front_wheel_Link_2.STL",
+    "destination": "models/skye/meshes/Gento_Sky_left_front_wheel_Link_2.STL",
+    "sha256": "9b7c302d23c2f9e921a9a8c2842c83166d7e8a0ac4e59f5ef1809d3d342a46cd"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/right_front_wheel_Link_1.STL",
+    "destination": "models/skye/meshes/Gento_Sky_right_front_wheel_Link_1.STL",
+    "sha256": "8c31d4cd38308e0f888c942fc0f275d031a037b300109e6bd61ecf0c12d28b37"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/right_front_wheel_Link_2.STL",
+    "destination": "models/skye/meshes/Gento_Sky_right_front_wheel_Link_2.STL",
+    "sha256": "e7c39c369c102907627e00d1d0bf6fa54bdf48a5dfc0f48f6d915d23ac1d0eb4"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/left_back_wheel_Link_1.STL",
+    "destination": "models/skye/meshes/Gento_Sky_left_back_wheel_Link_1.STL",
+    "sha256": "75e91fde94e306b8ac069ab5dfe26d7f5bc1de7f32cbfdbfa88dfede25fddf29"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/left_back_wheel_Link_2.STL",
+    "destination": "models/skye/meshes/Gento_Sky_left_back_wheel_Link_2.STL",
+    "sha256": "03c033971816e02a536400c149092c0730bb5eec3b3a8603de56a81f0dd495b6"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/right_back_wheel_Link_1.STL",
+    "destination": "models/skye/meshes/Gento_Sky_right_back_wheel_Link_1.STL",
+    "sha256": "b553071f0e5c1a9eae2d7e0b93a688a88d458223119391fd47685db65e8a85bc"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/right_back_wheel_Link_2.STL",
+    "destination": "models/skye/meshes/Gento_Sky_right_back_wheel_Link_2.STL",
+    "sha256": "48b25ccf228c7c3d99d2889d97bd90032358611aaf6c3457b331debd9be3289e"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/waist_Link_1_prismatic.STL",
+    "destination": "models/skye/meshes/Gento_Sky_waist_Link_1_prismatic.STL",
+    "sha256": "acd1aef303b19cb4e883128972fe4889d9e7daae48c8d0a39ea658b2f2d44209"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/waist_Link_2.STL",
+    "destination": "models/skye/meshes/Gento_Sky_waist_Link_2.STL",
+    "sha256": "b726cebb6700f6b4fe17f0444250385dd2859816a13d304a0c4496da89c20d73"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/waist_Link_3.STL",
+    "destination": "models/skye/meshes/Gento_Sky_waist_Link_3.STL",
+    "sha256": "a07e745fc959b4d3303a72f37c7d67aabd48d403f6a0624e5c7a5c27df3262fe"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/head_Link_1.STL",
+    "destination": "models/skye/meshes/Gento_Sky_head_Link_1.STL",
+    "sha256": "82f68c3f7e52b5529b2fa1641d32f0b6a59a4d659b255e621671c0b2a1b2324f"
+  },
+  {
+    "source": "/opt/ApexTeleop/resources/app/dist/meshes/Gento_Sky/head_Link_2.STL",
+    "destination": "models/skye/meshes/Gento_Sky_head_Link_2.STL",
+    "sha256": "319cc76535afc292ffed2aaa665498d43fbe0e1e75bc4528c165349fd075fb23"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "project_root": "/home/descfly/gento-skye_scripts",
+  "storage_mount": "/mnt/apex-data",
+  "storage_serial": "WD-WX12A367D1A2",
+  "robot_ssh": "user@6.6.7.100",
+  "robot_raw_root": "/home/user/gento-skye_raw_data",
+  "motion_enabled": false
+}

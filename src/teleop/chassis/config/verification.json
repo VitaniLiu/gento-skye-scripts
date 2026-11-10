@@ -1,0 +1,11 @@
+{
+  "reference_sha256": "86eb0b4c1da2ca00c722eb8f0087669e3f7ceaa974d34cd68bf254307644f566",
+  "controller_prefix": "0110c5e19a9a977a7ecf10c3",
+  "direction_and_scale_verified": false,
+  "independent_stop_verified": false,
+  "no_odometry_reset_confirmed": false,
+  "stop_timeout_s": null,
+  "verified_at": null,
+  "evidence_note": "用户2026-11-02本次前进实测粗略确认与里程计0.8091m相符；只作为直线符号与量级依据，未作精密尺度校正。角度、独立停车及未重置确认仍未验证。",
+  "straight_direction_and_scale_verified": true
+}

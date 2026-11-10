@@ -1,0 +1,24 @@
+{
+  "reference_only": [
+    {
+      "path": "scripts/replay/lerobot_replay.py",
+      "sha256": "bacfdcc6ceaddad24b1cf14591feb531cfca67e27b56f75a00c302e08faea86b"
+    },
+    {
+      "path": "scripts/replay/replay_kinematics.py",
+      "sha256": "fb703e5b46bc9146dfb0c2a709d5e76a79710bc996db09f35c335d29a743841e"
+    },
+    {
+      "path": "configs/teleop/waist.json",
+      "sha256": "b1e2d3eb2d85fbb80552297636dcacd537450b45cb886eb3642ce82404423f9c"
+    }
+  ],
+  "implementation": "Independent decoder and MuJoCo FK/IK. Uses reference replay ideas: column-based rotation, bounded least-squares, seed continuity, joint velocity limits. No runtime import or invocation of parent functions. Default waist copied as configuration value.",
+  "differences": [
+    "G2 structural profile instead of Skye control semantics",
+    "Retain/report invalid or unmatched frames instead of aborting",
+    "MuJoCo FK instead of handwritten URDF FK",
+    "Offline Home seed instead of live robot joints",
+    "No robot endpoints, reset, chassis or gripper dispatch"
+  ]
+}

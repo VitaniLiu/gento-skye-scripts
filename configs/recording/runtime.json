@@ -1,0 +1,169 @@
+{
+  "feature": "recording",
+  "motion_enabled": false,
+  "minimum_free_bytes": 1073741824,
+  "stream_timeout_seconds": 2,
+  "domains": [
+    {
+      "id": 24,
+      "topics": {
+        "/tj/control/target_poseL": "geometry_msgs/msg/PoseStamped",
+        "/tj/control/target_poseR": "geometry_msgs/msg/PoseStamped",
+        "/tj/control/vr_body": "marvin_msgs/msg/VrBody",
+        "/tj/control/ik_request": "marvin_msgs/msg/IKRequest",
+        "/tj/control/joint_cmd_A": "marvin_msgs/msg/JointcmdArm",
+        "/tj/control/joint_cmd_B": "marvin_msgs/msg/JointcmdArm",
+        "/tj/control/joint_cmd_body": "marvin_msgs/msg/JointcmdBody",
+        "/tj/control/joint_cmd_head": "marvin_msgs/msg/JointcmdHead",
+        "/tj/control/gripperValueL": "std_msgs/msg/Float32",
+        "/tj/control/gripperValueR": "std_msgs/msg/Float32",
+        "/tj/joint_states": "sensor_msgs/msg/JointState",
+        "/tj/info/joint_feedback": "marvin_msgs/msg/Jointfeedback",
+        "/tj/info/gripper_feedback_L": "std_msgs/msg/Float32MultiArray",
+        "/tj/info/gripper_feedback_R": "std_msgs/msg/Float32MultiArray",
+        "/camera/left_eye/image_h264": "foxglove_msgs/msg/CompressedVideo",
+        "/camera/right_eye/image_h264": "foxglove_msgs/msg/CompressedVideo",
+        "/move/State": "move/msg/State",
+        "/controller/odom": "nav_msgs/msg/Odometry",
+        "/move/ManualMoveCmd": "geometry_msgs/msg/TwistStamped",
+        "/move/AutoMoveCmd": "geometry_msgs/msg/TwistStamped",
+        "/tj/control/eef_cmd_A": "geometry_msgs/msg/PoseStamped",
+        "/tj/control/eef_cmd_B": "geometry_msgs/msg/PoseStamped",
+        "/tj/control/ik_result": "marvin_msgs/msg/IKResult",
+        "/tj/info/joint_cmd_mux/latest_joint_cmd": "sensor_msgs/msg/JointState",
+        "/tj/info/robot_state": "std_msgs/msg/Int16MultiArray",
+        "/tj/info/vr_connected": "std_msgs/msg/Bool",
+        "/tj/control/enableL": "std_msgs/msg/Bool",
+        "/tj/control/enableR": "std_msgs/msg/Bool",
+        "/camera/left_wrist/image_h264": "foxglove_msgs/msg/CompressedVideo",
+        "/camera/right_wrist/image_h264": "foxglove_msgs/msg/CompressedVideo"
+      },
+      "required": [
+        "/tj/joint_states",
+        "/tj/info/joint_feedback",
+        "/tj/info/gripper_feedback_L",
+        "/tj/info/gripper_feedback_R",
+        "/camera/left_eye/image_h264",
+        "/camera/right_eye/image_h264",
+        "/move/State",
+        "/controller/odom",
+        "/tj/control/target_poseL",
+        "/tj/control/target_poseR",
+        "/tj/control/vr_body",
+        "/tj/control/ik_request",
+        "/tj/control/gripperValueL",
+        "/tj/control/gripperValueR",
+        "/tj/info/robot_state"
+      ]
+    }
+  ],
+  "camera_scope": "head_and_wrist_roles; head deployed, wrists last reported physically removed",
+  "chassis_domain_evidence": "2026-11-02 live domain24 State/odom; legacy domain0 absent",
+  "require_all_topics": false,
+  "optional_topic_policy": "Capture all configured control branches when published. Inactive branch absence is retained in manifest, never synthesized. Required logical target/feedback/image streams must be fresh; IK availability masks remain authoritative.",
+  "schema_version": "2.0",
+  "lifecycle": {
+    "pending_area": "_pending",
+    "discarded_area": "_discarded",
+    "formal_name": "episode%08d",
+    "retain_requires_explicit_user_action": true
+  },
+  "images": {
+    "head": {
+      "topics": [
+        "/camera/left_eye/image_h264",
+        "/camera/right_eye/image_h264"
+      ],
+      "required": true
+    },
+    "left_wrist": {
+      "topics": [
+        "/camera/left_wrist/image_h264"
+      ],
+      "required": false,
+      "deployment_status": "physically_removed",
+      "topic_verification": "candidate only; verify actual publisher/type when reinstalled"
+    },
+    "right_wrist": {
+      "topics": [
+        "/camera/right_wrist/image_h264"
+      ],
+      "required": false,
+      "deployment_status": "physically_removed",
+      "topic_verification": "candidate only; verify actual publisher/type when reinstalled"
+    }
+  },
+  "logical_streams": {
+    "pico_action": {
+      "stage": "control_target",
+      "topics": [
+        "/tj/control/target_poseL",
+        "/tj/control/target_poseR",
+        "/tj/control/vr_body",
+        "/tj/control/ik_request",
+        "/tj/control/joint_cmd_A",
+        "/tj/control/joint_cmd_B",
+        "/tj/control/joint_cmd_body",
+        "/tj/control/joint_cmd_head",
+        "/tj/control/gripperValueL",
+        "/tj/control/gripperValueR",
+        "/tj/control/eef_cmd_A",
+        "/tj/control/eef_cmd_B",
+        "/tj/control/ik_result",
+        "/tj/control/enableL",
+        "/tj/control/enableR"
+      ],
+      "note": "availability masks retained; target is not execution"
+    },
+    "gamesir_action": {
+      "topic": "/recording/host/events",
+      "event_type": "target",
+      "stage": "chassis_publish",
+      "evidence": [
+        "command_id",
+        "published",
+        "send_result",
+        "owner",
+        "enable_epoch"
+      ],
+      "host_input_event": "input_reply",
+      "note": "host forwarded robot publication evidence; queued input is not actuator execution"
+    },
+    "body_state": {
+      "stage": "measured_feedback",
+      "topics": [
+        "/tj/joint_states",
+        "/tj/info/joint_feedback",
+        "/tj/info/gripper_feedback_L",
+        "/tj/info/gripper_feedback_R"
+      ],
+      "validity_topic": "/recording/gripper/can"
+    },
+    "chassis_state": {
+      "stage": "measured_feedback",
+      "topics": [
+        "/move/State",
+        "/controller/odom"
+      ]
+    }
+  },
+  "transport": {
+    "max_log_backlog_bytes": 8388608,
+    "max_unacknowledged": 4096,
+    "robot_queue_messages": 4096,
+    "write_timeout_seconds": 2,
+    "heartbeat_timeout_seconds": 5,
+    "drain_timeout_seconds": 5,
+    "max_message_bytes": 1048576
+  },
+  "dds_queue_depth": 256,
+  "acquisition_backend": {
+    "kind": "apex_topics_rosbag2_mcap",
+    "reuse": [
+      "Apex native ROS messages",
+      "Apex encoded H264 publishers",
+      "installed rosbag2 MCAP writer"
+    ],
+    "native_record_services_called": false
+  }
+}

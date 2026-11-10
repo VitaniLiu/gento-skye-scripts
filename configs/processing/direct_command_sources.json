@@ -1,0 +1,188 @@
+{
+  "/tj/control/joint_cmd_A": {
+    "publishers": [
+      {
+        "node": "/tj/joint_cmd_mux",
+        "type": "marvin_msgs/msg/JointcmdArm"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "/tj/marvin_robot_node",
+        "type": "marvin_msgs/msg/JointcmdArm"
+      },
+      {
+        "node": "//all_topic_log_recorder",
+        "type": "marvin_msgs/msg/JointcmdArm"
+      }
+    ]
+  },
+  "/tj/control/joint_cmd_B": {
+    "publishers": [
+      {
+        "node": "/tj/joint_cmd_mux",
+        "type": "marvin_msgs/msg/JointcmdArm"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "/tj/marvin_robot_node",
+        "type": "marvin_msgs/msg/JointcmdArm"
+      },
+      {
+        "node": "//all_topic_log_recorder",
+        "type": "marvin_msgs/msg/JointcmdArm"
+      }
+    ]
+  },
+  "/tj/control/joint_cmd_body": {
+    "publishers": [
+      {
+        "node": "//gento_waist_lock",
+        "type": "marvin_msgs/msg/JointcmdBody"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "/tj/marvin_robot_node",
+        "type": "marvin_msgs/msg/JointcmdBody"
+      },
+      {
+        "node": "//all_topic_log_recorder",
+        "type": "marvin_msgs/msg/JointcmdBody"
+      }
+    ]
+  },
+  "/tj/control/joint_cmd_head": {
+    "publishers": [
+      {
+        "node": "/tj/joint_cmd_mux",
+        "type": "marvin_msgs/msg/JointcmdHead"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "/tj/marvin_robot_node",
+        "type": "marvin_msgs/msg/JointcmdHead"
+      },
+      {
+        "node": "//all_topic_log_recorder",
+        "type": "marvin_msgs/msg/JointcmdHead"
+      }
+    ]
+  },
+  "/tj/control/gripperValueL": {
+    "publishers": [
+      {
+        "node": "/tj/gento_replay_node",
+        "type": "std_msgs/msg/Float32"
+      },
+      {
+        "node": "/tj/VR_reader",
+        "type": "std_msgs/msg/Float32"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "//gento_gripper_slow",
+        "type": "std_msgs/msg/Float32"
+      },
+      {
+        "node": "//all_topic_log_recorder",
+        "type": "std_msgs/msg/Float32"
+      }
+    ]
+  },
+  "/tj/control/gripperValueR": {
+    "publishers": [
+      {
+        "node": "/tj/gento_replay_node",
+        "type": "std_msgs/msg/Float32"
+      },
+      {
+        "node": "/tj/VR_reader",
+        "type": "std_msgs/msg/Float32"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "//gento_gripper_slow",
+        "type": "std_msgs/msg/Float32"
+      },
+      {
+        "node": "//all_topic_log_recorder",
+        "type": "std_msgs/msg/Float32"
+      }
+    ]
+  },
+  "/tj/control/gripper_slow_targetL": {
+    "publishers": [
+      {
+        "node": "//gento_gripper_slow",
+        "type": "std_msgs/msg/Float32"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "/tj/dm_gripper_motor_node",
+        "type": "std_msgs/msg/Float32"
+      }
+    ]
+  },
+  "/tj/control/gripper_slow_targetR": {
+    "publishers": [
+      {
+        "node": "//gento_gripper_slow",
+        "type": "std_msgs/msg/Float32"
+      }
+    ],
+    "subscribers": [
+      {
+        "node": "/tj/dm_gripper_motor_node",
+        "type": "std_msgs/msg/Float32"
+      }
+    ]
+  },
+  "driver": {
+    "binary": "/opt/kernelmind/apex_tool/install/lib/dm_gripper_py/dm_motor_test",
+    "sha256": "0b2b89c4860ff8c060aca45e897345200f93b9136a571ae134610c1b371f059f",
+    "callbacks": "\n/opt/kernelmind/apex_tool/install/lib/dm_gripper_py/dm_motor_test:     file format elf64-littleaarch64\n\n\nDisassembly of section .text:\n\n0000000000075b50 <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E0_E9_M_invokeERKSt9_Any_dataOS6_>:\n   75b50:\tf9400002 \tldr\tx2, [x0]\n   75b54:\t2f00e402 \tmovi\td2, #0x0\n   75b58:\ta9400023 \tldp\tx3, x0, [x1]\n   75b5c:\ta9007c3f \tstp\txzr, xzr, [x1]\n   75b60:\tfd422440 \tldr\td0, [x2, #1096]\n   75b64:\tfd422841 \tldr\td1, [x2, #1104]\n   75b68:\tbd400063 \tldr\ts3, [x3]\n   75b6c:\t1e202078 \tfcmpe\ts3, #0.0\n   75b70:\t540000c4 \tb.mi\t75b88 <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E0_E9_M_invokeERKSt9_Any_dataOS6_+0x38>  // b.first\n   75b74:\t1e2e1004 \tfmov\ts4, #1.000000000000000000e+00\n   75b78:\t1e6e1002 \tfmov\td2, #1.000000000000000000e+00\n   75b7c:\t1e242070 \tfcmpe\ts3, s4\n   75b80:\t5400004c \tb.gt\t75b88 <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E0_E9_M_invokeERKSt9_Any_dataOS6_+0x38>\n   75b84:\t1e22c062 \tfcvt\td2, s3\n   75b88:\t1e603821 \tfsub\td1, d1, d0\n   75b8c:\t1f410040 \tfmadd\td0, d2, d1, d0\n   75b90:\tfd021840 \tstr\td0, [x2, #1072]\n   75b94:\tb4000040 \tcbz\tx0, 75b9c <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E0_E9_M_invokeERKSt9_Any_dataOS6_+0x4c>\n   75b98:\t17fff52e \tb\t73050 <_ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE10_M_releaseEv>\n   75b9c:\td65f03c0 \tret\n\n0000000000075ba0 <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E_E9_M_invokeERKSt9_Any_dataOS6_>:\n   75ba0:\tf9400002 \tldr\tx2, [x0]\n   75ba4:\t2f00e402 \tmovi\td2, #0x0\n   75ba8:\ta9400023 \tldp\tx3, x0, [x1]\n   75bac:\ta9007c3f \tstp\txzr, xzr, [x1]\n   75bb0:\tfd421c40 \tldr\td0, [x2, #1080]\n   75bb4:\tfd422041 \tldr\td1, [x2, #1088]\n   75bb8:\tbd400063 \tldr\ts3, [x3]\n   75bbc:\t1e202078 \tfcmpe\ts3, #0.0\n   75bc0:\t540000c4 \tb.mi\t75bd8 <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E_E9_M_invokeERKSt9_Any_dataOS6_+0x38>  // b.first\n   75bc4:\t1e2e1004 \tfmov\ts4, #1.000000000000000000e+00\n   75bc8:\t1e6e1002 \tfmov\td2, #1.000000000000000000e+00\n   75bcc:\t1e242070 \tfcmpe\ts3, s4\n   75bd0:\t5400004c \tb.gt\t75bd8 <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E_E9_M_invokeERKSt9_Any_dataOS6_+0x38>\n   75bd4:\t1e22c062 \tfcvt\td2, s3\n   75bd8:\t1e603821 \tfsub\td1, d1, d0\n   75bdc:\t1f410040 \tfmadd\td0, d2, d1, d0\n   75be0:\tfd021440 \tstr\td0, [x2, #1064]\n   75be4:\tb4000040 \tcbz\tx0, 75bec <_ZNSt17_Function_handlerIFvSt10shared_ptrIN8std_msgs3msg8Float32_ISaIvEEEEEZN13DmGripperNodeC4EvEUlS6_E_E9_M_invokeERKSt9_Any_dataOS6_+0x4c>\n   75be8:\t17fff51a \tb\t73050 <_ZNSt16_Sp_counted_baseILN9__gnu_cxx12_Lock_policyE2EE10_M_releaseEv>\n   75bec:\td65f03c0 \tret\n",
+    "send": "\n/opt/kernelmind/apex_tool/install/lib/dm_gripper_py/dm_motor_test:     file format elf64-littleaarch64\n\n\nDisassembly of section .text:\n\n00000000000a0240 <_ZN13DmGripperNode13control_cycleEv>:\n   a0240:\ta9bb7bfd \tstp\tx29, x30, [sp, #-80]!\n   a0244:\t910003fd \tmov\tx29, sp\n   a0248:\ta90153f3 \tstp\tx19, x20, [sp, #16]\n   a024c:\ta9025bf5 \tstp\tx21, x22, [sp, #32]\n   a0250:\ta90363f7 \tstp\tx23, x24, [sp, #48]\n   a0254:\td12403ff \tsub\tsp, sp, #0x900\n   a0258:\tf90203ff \tstr\txzr, [sp, #1024]\n   a025c:\tf0000161 \tadrp\tx1, cf000 <_ZTVN6rclcpp10exceptions18UnimplementedErrorE+0x10>\n   a0260:\tf9479021 \tldr\tx1, [x1, #3872]\n   a0264:\taa0003f3 \tmov\tx19, x0\n   a0268:\tfd421400 \tldr\td0, [x0, #1064]\n   a026c:\t910fa016 \tadd\tx22, x0, #0x3e8\n   a0270:\tf9400022 \tldr\tx2, [x1]\n   a0274:\tf9047fe2 \tstr\tx2, [sp, #2296]\n   a0278:\td2800002 \tmov\tx2, #0x0                   \t// #0\n   a027c:\taa1603e0 \tmov\tx0, x22\n   a0280:\t91116262 \tadd\tx2, x19, #0x458\n   a0284:\t1e624000 \tfcvt\ts0, d0\n   a0288:\t6d401041 \tldp\td1, d4, [x2]\n   a028c:\t6d410c42 \tldp\td2, d3, [x2, #16]\n   a0290:\t1e624021 \tfcvt\ts1, d1\n   a0294:\t1e624084 \tfcvt\ts4, d4\n   a0298:\t1e624042 \tfcvt\ts2, d2\n   a029c:\t1e624063 \tfcvt\ts3, d3\n   a02a0:\t940019c0 \tbl\ta69a0 <dm_channel_send_mit>\n   a02a4:\t37f80460 \ttbnz\tw0, #31, a0330 <_ZN13DmGripperNode13control_cycleEv+0xf0>\n   a02a8:\t91116261 \tadd\tx1, x19, #0x458\n   a02ac:\tfd421a60 \tldr\td0, [x19, #1072]\n   a02b0:\t91101275 \tadd\tx21, x19, #0x404\n   a02b4:\taa1503e0 \tmov\tx0, x21\n   a02b8:\t6d401021 \tldp\td1, d4, [x1]\n   a02bc:\t1e624000 \tfcvt\ts0, d0\n   a02c0:\t6d410c22 \tldp\td2, d3, [x1, #16]\n   a02c4:\t1e624021 \tfcvt\ts1, d1\n   a02c8:\t1e624084 \tfcvt\ts4, d4\n   a02cc:\t1e624042 \tfcvt\ts2, d2\n   a02d0:\t1e624063 \tfcvt\ts3, d3\n   a02d4:\t940019b3 \tbl\ta69a0 <dm_channel_send_mit>\n   a02d8:\t37f81980 \ttbnz\tw0, #31, a0608 <_ZN13DmGripperNode13control_cycleEv+0x3c8>\n",
+    "config": "dm_gripper_motor_node:\n  ros__parameters:\n    # SocketCAN interfaces and DM motor IDs.\n    left_can_interface: \"vcan0\"\n    right_can_interface: \"vcan1\"\n    left_motor_id: 1\n    right_motor_id: 2\n\n    # Each control cycle sends both MIT commands and drains received CAN frames.\n    control_rate_hz: 1000.0\n    # Publishes the latest decoded feedback to ROS topics; this is not CAN RX frequency.\n    feedback_rate_hz: 200.0\n    rx_frames_per_cycle: 32\n\n    # MIT command: [position, velocity, kp, kd, torque].\n    # Position is generated at runtime from /tj/control/gripperValueL/R and the limits below.\n    vel_cmd: 0.0\n    kp: 3.0\n    kd: 0.12\n    current_limit: 0.0\n\n    Motor1_min_pos: 0.0\n    Motor1_max_pos: 1.6\n    Motor2_min_pos: 0.0\n    Motor2_max_pos: 1.6\n\n    auto_calibrate: false\n    disable_on_shutdown: false\n"
+  },
+  "control_parameters": {
+    "path": "/home/descfly/gento-skye_scripts/models/robot/skye_coordinate_evidence_20261103/robot_control_parameters.yaml",
+    "sha256": "03f17f0b60f2cdd974880ae615c7a0680245287a3b93a185a1a1f8684a3f79d0",
+    "joint_orders": {
+      "left_joints": [
+        "Joint1_L",
+        "Joint2_L",
+        "Joint3_L",
+        "Joint4_L",
+        "Joint5_L",
+        "Joint6_L",
+        "Joint7_L"
+      ],
+      "right_joints": [
+        "Joint1_R",
+        "Joint2_R",
+        "Joint3_R",
+        "Joint4_R",
+        "Joint5_R",
+        "Joint6_R",
+        "Joint7_R"
+      ],
+      "head_joints": [
+        "Head_J1_Joint",
+        "Head_J2_Joint"
+      ],
+      "lift_joints": [
+        "waist_joint_1"
+      ],
+      "body_joints": [
+        "waist_joint_2",
+        "waist_joint_3"
+      ]
+    }
+  }
+}

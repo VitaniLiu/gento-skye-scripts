@@ -1,0 +1,13 @@
+{
+  "feature": "teleop",
+  "motion_enabled": false,
+  "ros_domain_id": 24,
+  "chassis_remote_dir": "/home/user/gento-skye_scripts/src/teleop/chassis",
+  "device": "/dev/input/js0",
+  "hidraw": "/dev/gamepad-control-hid",
+  "feedback_timeout_s": 0.8,
+  "observer_timeout_s": 0.8,
+  "startup_timeout_s": 10,
+  "upper_stop": "manual_physical_estop",
+  "vr_timeout_s": 2.5
+}

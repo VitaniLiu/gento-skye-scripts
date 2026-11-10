@@ -1,0 +1,56 @@
+tasks:
+  # frame_name targets the *body* (left_tool/right_tool), not the zero-offset
+  # site (left_tool_site/right_tool_site) nested under it. Pinocchio's MJCF
+  # importer mis-composes the placement of a <site> that sits 2+ fixed
+  # (non-jointed) bodies deep (flange_L -> left_tool -> left_tool_site here)
+  # -- it loses the intermediate flange_L offset, giving a wrong world pose
+  # (confirmed by comparing against MuJoCo's FK for the same model). The body
+  # itself has the same placement MuJoCo reports for the site (the site's
+  # pos/quat here is identity), so this is numerically a no-op for the
+  # python/mink side (which loads the model via MuJoCo, unaffected) while
+  # fixing the cpp/pinocchio side.
+  - name: left_hand
+    type: relative_frame
+    frame_name: left_tool
+    frame_type: body
+    root_name: torso_link
+    root_type: body
+    position_cost: 8.5
+    orientation_cost: 1.0
+    lm_damping: 1.0
+    offset_se3: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+  - name: right_hand
+    type: relative_frame
+    frame_name: right_tool
+    frame_type: body
+    root_name: torso_link
+    root_type: body
+    position_cost: 8.5
+    orientation_cost: 1.0
+    lm_damping: 1.0
+    offset_se3: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+  - name: torso
+    type: frame
+    frame_name: torso_link
+    frame_type: body
+    position_cost: 4.5
+    orientation_cost: 2.5
+    lm_damping: 1.0
+    offset_se3: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+  - name: pelvis
+    type: frame
+    frame_name: base_link
+    frame_type: body
+    position_cost: 4.5
+    orientation_cost: 1.0
+    lm_damping: 1.0
+    offset_se3: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+  - name: head
+    type: frame
+    frame_name: eyes_link
+    frame_type: body
+    position_cost: 0.0
+    orientation_cost: 2.0
+    lm_damping: 1.0
+    offset_se3: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+

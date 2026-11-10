@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "purpose": "return to user-selected stationary start before 2026-11-02 calibration movement",
+  "captured_at": "2026-11-02T10:18:04.132242+08:00",
+  "source": {
+    "topic": "/controller/odom",
+    "frame_id": "odom",
+    "child_frame_id": "base_link",
+    "publisher_gid": "0110c5e19a9a977a7ecf10c300002903",
+    "source_stamp": {
+      "sec": 1774957312,
+      "nanosec": 727806575
+    },
+    "state_publisher_gid": "0110c5e19a9a977a7ecf10c300002b03",
+    "native_command_gid": "011017e1cda14686cbd2e4df00002203"
+  },
+  "pose": {
+    "x_m": -0.0013388685765514388,
+    "y_m": 0.00034070432420560143,
+    "yaw_rad": -0.003490960468546934,
+    "z_m": 0.0,
+    "yaw_encoding": "legacy raw yaw (radians) in orientation.w; NOT a quaternion"
+  },
+  "raw_orientation": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "w": -0.003490960468546934
+  },
+  "feedback_velocity": {
+    "vx_mps": 0.0,
+    "vy_mps": 0.0,
+    "wz_radps": 0.0
+  },
+  "capture_evidence": {
+    "log_path": "/home/descfly/tianjidipan/logs/pose-calibration-20261102-101801-237fbd0d.jsonl",
+    "sha256": "e7b39f6efc3253ec742c6042260f19d8f954cc9f1b3e887ddb2763e6dbb53dda",
+    "stationary_duration_s": 1.0001076600001397,
+    "baseline_samples": 20,
+    "total_pose_samples": 11587,
+    "measurement_stamp_regressions": 0,
+    "captured_before_motion": true,
+    "stationary_finish_pose": {
+      "x_m": 0.8077292291890755,
+      "y_m": -0.007862477037646361,
+      "z_m": 0.0,
+      "yaw_rad": -0.019198922683493866,
+      "raw_orientation": [
+        0.0,
+        0.0,
+        0.0,
+        -0.019198922683493866
+      ],
+      "frame_id": "odom",
+      "child_frame_id": "base_link",
+      "source_stamp": [
+        1774957911,
+        640652275
+      ],
+      "received_monotonic_s": 1702.071387005
+    },
+    "ground_distance_confirmation": "User reported approximate agreement only; no precise ruler value provided."
+  },
+  "limitations": [
+    "Local odometry coordinates; do not reuse after controller/odometry reset.",
+    "Turn direction and scale and independent stop mechanism remain unverified."
+  ]
+}

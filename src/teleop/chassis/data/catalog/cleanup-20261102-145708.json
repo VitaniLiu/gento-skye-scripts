@@ -1,0 +1,1607 @@
+{
+  "backup": null,
+  "backup_sha256": "cac176fbbfe3d216507133b99c0ea7749b5f99ede2a9b0dca90f00ed80a616e1",
+  "backup_members": 383,
+  "runtime_sha256": {
+    "sender.py": "5f2354b6af8492fa2f10bab96317e990980d3c40880744d349d6ed6caa1279ab",
+    "replay.py": "71ba951118827d15992e765461e930dccd8c9eb5787247af4abcb2d27f9e2c4b",
+    "robot_endpoint.py": "7e356b50f046fe30c2261b802243f624b1016f7fb59dea3565d5f994d9ec0004",
+    "controller.py": "6f79b1ef9345db5e7f2729cbd8932e87bd70468691ecd2b22459b19fc936b0f0",
+    "live_io.py": "ecdccdf61ed7f5c5264ec9e5ad38d9e3a0ab25a169eed75337ebbb3459798e06",
+    "live_protocol.py": "041550450e3bfca0399c27b57ea60b1f651e2c1d1fd0c53e64797364fa5527b1",
+    "run_robot.sh": "4d75e17abfa8d153de67c447fdb319c72d215bba595526e58a96a650f09ae159",
+    "deploy-sha256.txt": "36e3c61f65d11b3db8a1d980f980b43068a94803a13d2f4331f2299289aef7e9",
+    "preview.py": "ba25e1da5dd05bbf780a4977af01b0722a9ea95b3ba808db8c3dfc2d469d18cf",
+    "reset/button.py": "c411ef26e93eaeb50fe7ba26765f068391e17510d4fa131775d2cb2d8fd31912",
+    "reset/hybrid.py": "479cf068ae21213eebe33b868ad6b4c19056e66946ebcf032485a3dc5bc14351",
+    "reset/retrace.py": "11c6e9b60ac253c6aa61b15a9469cc5a8889065e81793a3be96307c96dd15a32",
+    "reset/logic.py": "e7a2e2df4faeb31483619d6f97d8c0893360c17328181cf5726be580da3e4c07",
+    "reset/reset.py": "334ada355bca9374584607226a2b1d95bc7486a5ac056acec2571c9d94317c38",
+    "reset/verification.json": "c42f3b3a98ef90a3e389515dcfff53dc18a6ef52be46b39054024efd864a777a",
+    "reference/reset-reference-20261102-101804.json": "86eb0b4c1da2ca00c722eb8f0087669e3f7ceaa974d34cd68bf254307644f566",
+    "reference/reset-reference-20261101-163522.json": "0fa7b7ddf164026822592a94bbf0e8547d67f4e4e6883eeccbe529cb2640eb47",
+    "docs/replay-source.json": "dceb5529ac1c49b17c8beb2ffeb5c0c148bb5f0bf7857517be840910b53d5572"
+  },
+  "moved": [
+    [
+      "reset/test_button.py",
+      "tests/test_button.py"
+    ],
+    [
+      "reset/test_command_reverse.py",
+      "tests/test_command_reverse.py"
+    ],
+    [
+      "reset/test_hybrid.py",
+      "tests/test_hybrid.py"
+    ],
+    [
+      "reset/test_reset.py",
+      "tests/test_reset.py"
+    ],
+    [
+      "reset/test_retrace.py",
+      "tests/test_retrace.py"
+    ],
+    [
+      "reset/deploy_gamepad.py",
+      "tools/deploy.py"
+    ],
+    [
+      "reset/checks/hybrid_real_log_model.py",
+      "tools/validation/hybrid_real_log_model.py"
+    ],
+    [
+      "reset/checks/hybrid_stress_model.py",
+      "tools/validation/hybrid_stress_model.py"
+    ],
+    [
+      "docs/superpowers/specs/2026-11-02-hybrid-retrace-design.md",
+      "docs/design/hybrid-reset.md"
+    ],
+    [
+      "docs/route-comparison-20261102-143643-result.json",
+      "data/comparisons/2026-11-02/manual-vs-replay.json"
+    ],
+    [
+      "docs/route-comparison-20261102-request.json",
+      "data/comparisons/2026-11-02/request.json"
+    ],
+    [
+      "reference/control.py",
+      "reference/vendor_snapshot/control.py"
+    ],
+    [
+      "reference/host_input.py",
+      "reference/vendor_snapshot/host_input.py"
+    ],
+    [
+      "reference/receiver.py",
+      "reference/vendor_snapshot/receiver.py"
+    ],
+    [
+      "reference/run.sh",
+      "reference/vendor_snapshot/run.sh"
+    ],
+    [
+      "logs/joystick-20261101-113752-0d73ce90.jsonl",
+      "logs/history/2026-11-01/joystick-20261101-113752-0d73ce90.jsonl"
+    ],
+    [
+      "logs/joystick-20261101-114019-8401ba1c.jsonl",
+      "logs/history/2026-11-01/joystick-20261101-114019-8401ba1c.jsonl"
+    ],
+    [
+      "logs/live-20261101-121228-8780e1ba.jsonl",
+      "logs/history/2026-11-01/live-20261101-121228-8780e1ba.jsonl"
+    ],
+    [
+      "logs/live-20261101-122556-130d708a.jsonl",
+      "logs/history/2026-11-01/live-20261101-122556-130d708a.jsonl"
+    ],
+    [
+      "logs/live-20261101-122722-eb22720d.jsonl",
+      "logs/history/2026-11-01/live-20261101-122722-eb22720d.jsonl"
+    ],
+    [
+      "logs/live-20261101-123640-ef0dab4b.jsonl",
+      "logs/history/2026-11-01/live-20261101-123640-ef0dab4b.jsonl"
+    ],
+    [
+      "logs/live-20261101-125316-a8168a3c.jsonl",
+      "logs/history/2026-11-01/live-20261101-125316-a8168a3c.jsonl"
+    ],
+    [
+      "logs/live-20261101-130038-b0fff3f7.jsonl",
+      "logs/history/2026-11-01/live-20261101-130038-b0fff3f7.jsonl"
+    ],
+    [
+      "logs/live-20261101-130050-4cc7a6f6.jsonl",
+      "logs/history/2026-11-01/live-20261101-130050-4cc7a6f6.jsonl"
+    ],
+    [
+      "logs/live-20261101-130122-2f897a24.jsonl",
+      "logs/history/2026-11-01/live-20261101-130122-2f897a24.jsonl"
+    ],
+    [
+      "logs/live-20261101-130444-94099fc7.jsonl",
+      "logs/history/2026-11-01/live-20261101-130444-94099fc7.jsonl"
+    ],
+    [
+      "logs/live-20261101-130535-801d5ac5.jsonl",
+      "logs/history/2026-11-01/live-20261101-130535-801d5ac5.jsonl"
+    ],
+    [
+      "logs/live-20261101-130753-90ac72c7.jsonl",
+      "logs/history/2026-11-01/live-20261101-130753-90ac72c7.jsonl"
+    ],
+    [
+      "logs/live-20261101-130822-9c6850c1.jsonl",
+      "logs/history/2026-11-01/live-20261101-130822-9c6850c1.jsonl"
+    ],
+    [
+      "logs/live-20261101-130924-f0c08b17.jsonl",
+      "logs/history/2026-11-01/live-20261101-130924-f0c08b17.jsonl"
+    ],
+    [
+      "logs/live-20261101-131042-31123d74.jsonl",
+      "logs/history/2026-11-01/live-20261101-131042-31123d74.jsonl"
+    ],
+    [
+      "logs/live-20261101-131136-60779eef.jsonl",
+      "logs/history/2026-11-01/live-20261101-131136-60779eef.jsonl"
+    ],
+    [
+      "logs/live-20261101-131307-d2de3155.jsonl",
+      "logs/history/2026-11-01/live-20261101-131307-d2de3155.jsonl"
+    ],
+    [
+      "logs/live-20261101-131333-01d78051.jsonl",
+      "logs/history/2026-11-01/live-20261101-131333-01d78051.jsonl"
+    ],
+    [
+      "logs/live-20261101-131837-bb91912d.jsonl",
+      "logs/history/2026-11-01/live-20261101-131837-bb91912d.jsonl"
+    ],
+    [
+      "logs/live-20261101-163043-48f5d78c.jsonl",
+      "logs/history/2026-11-01/live-20261101-163043-48f5d78c.jsonl"
+    ],
+    [
+      "logs/live-20261101-170627-98d95b21.jsonl",
+      "logs/history/2026-11-01/live-20261101-170627-98d95b21.jsonl"
+    ],
+    [
+      "logs/live-20261101-170637-745d3f8c.jsonl",
+      "logs/history/2026-11-01/live-20261101-170637-745d3f8c.jsonl"
+    ],
+    [
+      "logs/live-20261101-183447-63d8b57e.jsonl",
+      "logs/history/2026-11-01/live-20261101-183447-63d8b57e.jsonl"
+    ],
+    [
+      "logs/live-20261101-183455-ea9525f1.jsonl",
+      "logs/history/2026-11-01/live-20261101-183455-ea9525f1.jsonl"
+    ],
+    [
+      "logs/live-20261101-183513-9077f7d1.jsonl",
+      "logs/history/2026-11-01/live-20261101-183513-9077f7d1.jsonl"
+    ],
+    [
+      "logs/live-20261101-185331-42011a4f.jsonl",
+      "logs/history/2026-11-01/live-20261101-185331-42011a4f.jsonl"
+    ],
+    [
+      "logs/live-20261101-185423-f4718f33.jsonl",
+      "logs/history/2026-11-01/live-20261101-185423-f4718f33.jsonl"
+    ],
+    [
+      "logs/live-20261101-190116-7f24ac39.jsonl",
+      "logs/history/2026-11-01/live-20261101-190116-7f24ac39.jsonl"
+    ],
+    [
+      "logs/live-20261102-100607-12aabdd6.jsonl",
+      "logs/history/2026-11-02/live-20261102-100607-12aabdd6.jsonl"
+    ],
+    [
+      "logs/live-20261102-100703-dd4c8a1e.jsonl",
+      "logs/history/2026-11-02/live-20261102-100703-dd4c8a1e.jsonl"
+    ],
+    [
+      "logs/live-20261102-101209-5e9ba5f3.jsonl",
+      "logs/history/2026-11-02/live-20261102-101209-5e9ba5f3.jsonl"
+    ],
+    [
+      "logs/live-20261102-102302-9b1b2dbf.jsonl",
+      "logs/history/2026-11-02/live-20261102-102302-9b1b2dbf.jsonl"
+    ],
+    [
+      "logs/live-20261102-102316-cad65a74.jsonl",
+      "logs/history/2026-11-02/live-20261102-102316-cad65a74.jsonl"
+    ],
+    [
+      "logs/live-20261102-110444-4edd4271.jsonl",
+      "logs/history/2026-11-02/live-20261102-110444-4edd4271.jsonl"
+    ],
+    [
+      "logs/live-20261102-113938-e94a1c46.jsonl",
+      "logs/history/2026-11-02/live-20261102-113938-e94a1c46.jsonl"
+    ],
+    [
+      "logs/live-20261102-114450-f8c373e8.jsonl",
+      "logs/history/2026-11-02/live-20261102-114450-f8c373e8.jsonl"
+    ],
+    [
+      "logs/live-20261102-115249-efb5dc18.jsonl",
+      "logs/history/2026-11-02/live-20261102-115249-efb5dc18.jsonl"
+    ],
+    [
+      "logs/live-20261102-115813-ade73260.jsonl",
+      "logs/history/2026-11-02/live-20261102-115813-ade73260.jsonl"
+    ],
+    [
+      "logs/live-20261102-120545-bb4424c3.jsonl",
+      "logs/history/2026-11-02/live-20261102-120545-bb4424c3.jsonl"
+    ],
+    [
+      "logs/live-20261102-120654-49b9bf83.jsonl",
+      "logs/history/2026-11-02/live-20261102-120654-49b9bf83.jsonl"
+    ],
+    [
+      "logs/live-20261102-120817-0a06235a.jsonl",
+      "logs/history/2026-11-02/live-20261102-120817-0a06235a.jsonl"
+    ],
+    [
+      "logs/live-20261102-120906-63b8c698.jsonl",
+      "logs/history/2026-11-02/live-20261102-120906-63b8c698.jsonl"
+    ],
+    [
+      "logs/live-20261102-121126-60943b92.jsonl",
+      "logs/history/2026-11-02/live-20261102-121126-60943b92.jsonl"
+    ],
+    [
+      "logs/live-20261102-121419-ce85d955.jsonl",
+      "logs/history/2026-11-02/live-20261102-121419-ce85d955.jsonl"
+    ],
+    [
+      "logs/live-20261102-121941-deaf51c4.jsonl",
+      "logs/history/2026-11-02/live-20261102-121941-deaf51c4.jsonl"
+    ],
+    [
+      "logs/live-20261102-122109-ae47648d.jsonl",
+      "logs/history/2026-11-02/live-20261102-122109-ae47648d.jsonl"
+    ],
+    [
+      "logs/live-20261102-122117-de3b2321.jsonl",
+      "logs/history/2026-11-02/live-20261102-122117-de3b2321.jsonl"
+    ],
+    [
+      "logs/live-20261102-122357-a2d3e94c.jsonl",
+      "logs/history/2026-11-02/live-20261102-122357-a2d3e94c.jsonl"
+    ],
+    [
+      "logs/live-20261102-122643-d34d4d93.jsonl",
+      "logs/history/2026-11-02/live-20261102-122643-d34d4d93.jsonl"
+    ],
+    [
+      "logs/live-20261102-122708-735aab4e.jsonl",
+      "logs/history/2026-11-02/live-20261102-122708-735aab4e.jsonl"
+    ],
+    [
+      "logs/live-20261102-123123-48b32587.jsonl",
+      "logs/history/2026-11-02/live-20261102-123123-48b32587.jsonl"
+    ],
+    [
+      "logs/live-20261102-123133-84b1d83a.jsonl",
+      "logs/history/2026-11-02/live-20261102-123133-84b1d83a.jsonl"
+    ],
+    [
+      "logs/live-20261102-123436-456939dd.jsonl",
+      "logs/history/2026-11-02/live-20261102-123436-456939dd.jsonl"
+    ],
+    [
+      "logs/live-20261102-123500-733e5d78.jsonl",
+      "logs/history/2026-11-02/live-20261102-123500-733e5d78.jsonl"
+    ],
+    [
+      "logs/live-20261102-123755-9b6f03cf.jsonl",
+      "logs/history/2026-11-02/live-20261102-123755-9b6f03cf.jsonl"
+    ],
+    [
+      "logs/live-20261102-123810-0b1780a9.jsonl",
+      "logs/history/2026-11-02/live-20261102-123810-0b1780a9.jsonl"
+    ],
+    [
+      "logs/live-20261102-123847-85eb9c07.jsonl",
+      "logs/history/2026-11-02/live-20261102-123847-85eb9c07.jsonl"
+    ],
+    [
+      "logs/live-20261102-124527-99e3bc44.jsonl",
+      "logs/history/2026-11-02/live-20261102-124527-99e3bc44.jsonl"
+    ],
+    [
+      "logs/live-20261102-124807-f204e82c.jsonl",
+      "logs/history/2026-11-02/live-20261102-124807-f204e82c.jsonl"
+    ],
+    [
+      "logs/live-20261102-124818-edb8bc69.jsonl",
+      "logs/history/2026-11-02/live-20261102-124818-edb8bc69.jsonl"
+    ],
+    [
+      "logs/live-20261102-124938-bc5c4ceb.jsonl",
+      "logs/history/2026-11-02/live-20261102-124938-bc5c4ceb.jsonl"
+    ],
+    [
+      "logs/live-20261102-124946-4522b031.jsonl",
+      "logs/history/2026-11-02/live-20261102-124946-4522b031.jsonl"
+    ],
+    [
+      "logs/live-20261102-125429-afc94adb.jsonl",
+      "logs/history/2026-11-02/live-20261102-125429-afc94adb.jsonl"
+    ],
+    [
+      "logs/live-20261102-125541-942045cc.jsonl",
+      "logs/history/2026-11-02/live-20261102-125541-942045cc.jsonl"
+    ],
+    [
+      "logs/live-20261102-125613-8327af33.jsonl",
+      "logs/history/2026-11-02/live-20261102-125613-8327af33.jsonl"
+    ],
+    [
+      "logs/live-20261102-125634-be244484.jsonl",
+      "logs/history/2026-11-02/live-20261102-125634-be244484.jsonl"
+    ],
+    [
+      "logs/live-20261102-130656-f35a4dd9.jsonl",
+      "logs/history/2026-11-02/live-20261102-130656-f35a4dd9.jsonl"
+    ],
+    [
+      "logs/live-20261102-130725-a3e9a3a4.jsonl",
+      "logs/history/2026-11-02/live-20261102-130725-a3e9a3a4.jsonl"
+    ],
+    [
+      "logs/live-20261102-131134-35a6c7c9.jsonl",
+      "logs/history/2026-11-02/live-20261102-131134-35a6c7c9.jsonl"
+    ],
+    [
+      "logs/live-20261102-131153-585865c7.jsonl",
+      "logs/history/2026-11-02/live-20261102-131153-585865c7.jsonl"
+    ],
+    [
+      "logs/live-20261102-135231-a74b53b5.jsonl",
+      "logs/history/2026-11-02/live-20261102-135231-a74b53b5.jsonl"
+    ],
+    [
+      "logs/live-20261102-135243-dfba95c3.jsonl",
+      "logs/history/2026-11-02/live-20261102-135243-dfba95c3.jsonl"
+    ],
+    [
+      "logs/live-20261102-135326-58c04380.jsonl",
+      "logs/history/2026-11-02/live-20261102-135326-58c04380.jsonl"
+    ],
+    [
+      "logs/live-20261102-140444-a98bae8f.jsonl",
+      "logs/history/2026-11-02/live-20261102-140444-a98bae8f.jsonl"
+    ],
+    [
+      "logs/live-20261102-140513-6e8f1ed8.jsonl",
+      "logs/history/2026-11-02/live-20261102-140513-6e8f1ed8.jsonl"
+    ],
+    [
+      "logs/live-20261102-140523-9284a00a.jsonl",
+      "logs/history/2026-11-02/live-20261102-140523-9284a00a.jsonl"
+    ],
+    [
+      "logs/live-20261102-140806-b75db4ab.jsonl",
+      "logs/history/2026-11-02/live-20261102-140806-b75db4ab.jsonl"
+    ],
+    [
+      "logs/live-20261102-140811-a3272736.jsonl",
+      "logs/history/2026-11-02/live-20261102-140811-a3272736.jsonl"
+    ],
+    [
+      "logs/live-20261102-141024-ab1e851d.jsonl",
+      "logs/history/2026-11-02/live-20261102-141024-ab1e851d.jsonl"
+    ],
+    [
+      "logs/live-20261102-141151-fd2e1aab.jsonl",
+      "logs/history/2026-11-02/live-20261102-141151-fd2e1aab.jsonl"
+    ],
+    [
+      "logs/live-20261102-141232-2d793082.jsonl",
+      "logs/history/2026-11-02/live-20261102-141232-2d793082.jsonl"
+    ],
+    [
+      "logs/live-20261102-141545-b7963808.jsonl",
+      "logs/history/2026-11-02/live-20261102-141545-b7963808.jsonl"
+    ],
+    [
+      "logs/live-20261102-142849-1abfafb2.jsonl",
+      "logs/history/2026-11-02/live-20261102-142849-1abfafb2.jsonl"
+    ],
+    [
+      "logs/live-20261102-142915-cfc4ab96.jsonl",
+      "logs/history/2026-11-02/live-20261102-142915-cfc4ab96.jsonl"
+    ],
+    [
+      "logs/live-20261102-142918-fc6b928b.jsonl",
+      "logs/history/2026-11-02/live-20261102-142918-fc6b928b.jsonl"
+    ],
+    [
+      "logs/live-20261102-142958-96ced803.jsonl",
+      "logs/history/2026-11-02/live-20261102-142958-96ced803.jsonl"
+    ],
+    [
+      "logs/live-20261102-143111-c16d6d33.jsonl",
+      "logs/history/2026-11-02/live-20261102-143111-c16d6d33.jsonl"
+    ],
+    [
+      "logs/live-20261102-143139-fba60f67.jsonl",
+      "logs/history/2026-11-02/live-20261102-143139-fba60f67.jsonl"
+    ],
+    [
+      "logs/live-20261102-143238-c748e550.jsonl",
+      "logs/history/2026-11-02/live-20261102-143238-c748e550.jsonl"
+    ],
+    [
+      "logs/pose-calibration-stderr-20261102-101801-237fbd0d.txt",
+      "logs/transport/2026-11-02/pose-calibration-stderr-20261102-101801-237fbd0d.txt"
+    ],
+    [
+      "logs/readonly-targets-49175d44.jsonl",
+      "logs/history/undated/readonly-targets-49175d44.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-121228-7d129d31.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-121228-7d129d31.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-122556-a6921ef2.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-122556-a6921ef2.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-123640-111e63e9.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-123640-111e63e9.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-125316-ebe52fa2.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-125316-ebe52fa2.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-130122-354465db.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-130122-354465db.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-130444-35044bde.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-130444-35044bde.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-130535-53430ea6.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-130535-53430ea6.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-130753-e27843c3.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-130753-e27843c3.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-130822-f7bf8370.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-130822-f7bf8370.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-130924-6bfbf56f.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-130924-6bfbf56f.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-131042-1cb836c5.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-131042-1cb836c5.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-131136-38aecbd3.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-131136-38aecbd3.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-131307-f54ac0e9.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-131307-f54ac0e9.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-131333-15809c72.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-131333-15809c72.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-131837-0d7c067d.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-131837-0d7c067d.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-163043-efa96426.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-163043-efa96426.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-170627-f12ca212.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-170627-f12ca212.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-170637-5a19de28.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-170637-5a19de28.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-183455-f1c2f095.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-183455-f1c2f095.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-183513-4e367cd9.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-183513-4e367cd9.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-185423-1afb1765.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-185423-1afb1765.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261101-190116-8ce49516.jsonl",
+      "logs/transport/2026-11-01/ssh-stderr-20261101-190116-8ce49516.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-100607-faa8f3b7.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-100607-faa8f3b7.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-100703-15430104.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-100703-15430104.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-101209-37eb3463.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-101209-37eb3463.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-102302-473cde11.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-102302-473cde11.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-102316-9baaac90.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-102316-9baaac90.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-110444-e990904e.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-110444-e990904e.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-113938-2c0c3218.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-113938-2c0c3218.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-114450-0d2d6a0d.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-114450-0d2d6a0d.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-115249-bdd4ae42.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-115249-bdd4ae42.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-115813-840d1caf.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-115813-840d1caf.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-120545-5d5cbfc3.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-120545-5d5cbfc3.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-120654-db04b0d6.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-120654-db04b0d6.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-120906-0a58cf04.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-120906-0a58cf04.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-121126-abe661c8.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-121126-abe661c8.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-121419-c08d32f9.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-121419-c08d32f9.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-121941-91bad4bd.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-121941-91bad4bd.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-122109-6207f80c.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-122109-6207f80c.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-122117-16c8c209.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-122117-16c8c209.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-122357-bd293408.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-122357-bd293408.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-122643-e4fcc23b.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-122643-e4fcc23b.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-122708-62546fb1.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-122708-62546fb1.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123123-5cf717eb.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123123-5cf717eb.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123133-331e9e19.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123133-331e9e19.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123436-01d542c1.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123436-01d542c1.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123500-28b31b77.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123500-28b31b77.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123755-86697943.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123755-86697943.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123810-75f639c7.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123810-75f639c7.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-123847-8e0e6e40.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-123847-8e0e6e40.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-124527-61a18a57.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-124527-61a18a57.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-124807-d5cb5ef4.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-124807-d5cb5ef4.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-124818-c8e32581.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-124818-c8e32581.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-124938-ade42501.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-124938-ade42501.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-124946-0591d74c.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-124946-0591d74c.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-125429-c4196e83.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-125429-c4196e83.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-125541-afeb016b.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-125541-afeb016b.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-125613-91cf2fac.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-125613-91cf2fac.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-125634-068fe75b.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-125634-068fe75b.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-130656-18bc4780.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-130656-18bc4780.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-130725-5398d264.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-130725-5398d264.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-131134-a940215e.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-131134-a940215e.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-131153-a9d32829.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-131153-a9d32829.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-135243-8f1cc36b.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-135243-8f1cc36b.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-135326-cede85a4.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-135326-cede85a4.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-140444-535116e6.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-140444-535116e6.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-140523-2c525949.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-140523-2c525949.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-140806-d092937d.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-140806-d092937d.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-140811-2ed39320.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-140811-2ed39320.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-141024-e93e3d82.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-141024-e93e3d82.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-141151-ff2f9789.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-141151-ff2f9789.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-141232-43866443.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-141232-43866443.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-141545-af2ccb66.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-141545-af2ccb66.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-142849-11465c1e.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-142849-11465c1e.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-142958-276aae0d.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-142958-276aae0d.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-143111-87a632eb.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-143111-87a632eb.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-143139-dba3b80a.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-143139-dba3b80a.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-143238-f55feb23.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-143238-f55feb23.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-143643-34a11fd3.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-143643-34a11fd3.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-144044-9033f6f1.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-144044-9033f6f1.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-144118-ad5d5c3b.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-144118-ad5d5c3b.jsonl"
+    ],
+    [
+      "logs/ssh-stderr-20261102-144247-192aaf6b.jsonl",
+      "logs/transport/2026-11-02/ssh-stderr-20261102-144247-192aaf6b.jsonl"
+    ],
+    [
+      "reset/logs/manual-forward-20261101-170538-e0808076-stderr.txt",
+      "logs/history/reset-standalone/manual-forward-20261101-170538-e0808076-stderr.txt"
+    ],
+    [
+      "reset/logs/manual-forward-20261101-170538-e0808076.jsonl",
+      "logs/history/reset-standalone/manual-forward-20261101-170538-e0808076.jsonl"
+    ],
+    [
+      "reset/logs/manual-validation-20261101-183332-5910609a-stderr.txt",
+      "logs/history/reset-standalone/manual-validation-20261101-183332-5910609a-stderr.txt"
+    ],
+    [
+      "reset/logs/manual-validation-20261101-183332-5910609a.jsonl",
+      "logs/history/reset-standalone/manual-validation-20261101-183332-5910609a.jsonl"
+    ],
+    [
+      "reset/logs/manual-validation-20261101-183414-70c1a084-stderr.txt",
+      "logs/history/reset-standalone/manual-validation-20261101-183414-70c1a084-stderr.txt"
+    ],
+    [
+      "reset/logs/manual-validation-20261101-183414-70c1a084.jsonl",
+      "logs/history/reset-standalone/manual-validation-20261101-183414-70c1a084.jsonl"
+    ]
+  ],
+  "removed": [
+    {
+      "path": "logs/demo-20261101-113103-a6e424c6.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-113340-6deb6789.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-113423-d5fe452d.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-113447-b0a2e2f4.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-113530-998a5997.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-113530-c496f545.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-115057-c62c307a.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-115330-9e3c8f2b.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-115628-dd1834c2.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-115815-e913b3b6.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-120203-e37c1c59.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-120306-b361f4a9.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-122040-f7f53405.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-122244-b5195468.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-123110-a1c9a2e3.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-124517-72d7151d.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-124855-70cd0170.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-124904-5e17ebc6.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-124959-6778d889.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-131651-49f775f6.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261101-165615-832af3bc.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-115228-9a7d0782.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-120640-607cc475.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-121729-f0f686b8.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-121827-42da970f.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-121954-603b48d4.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-123344-171ce25a.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-123408-a5bb83d0.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-123451-0ed6b879.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-124711-5b9f7d60.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-124818-5d69476b.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-125519-fe88573a.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-125605-3a06f02d.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-130544-366fd4d8.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-130717-ec730555.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-131109-899d93ef.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-131526-4f522f56.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-140334-29036b0b.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-142744-095a0a27.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-142848-0161bbdf.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-144018-c9c8c654.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/demo-20261102-144044-e704be74.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 1101
+    },
+    {
+      "path": "logs/joystick-20261101-113646-178b87a2.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261101-122722-2b95155b.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261101-130038-e1cc370b.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261101-130050-3b17f2bf.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261101-183447-071ba0de.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261101-185331-4fa5839a.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261102-120817-f4bc271b.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261102-135231-e352d809.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261102-140513-74ae51b8.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261102-142915-01e11937.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/ssh-stderr-20261102-142918-8d89fb8e.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "logs/unsupported-20261101-113340-19cde649.jsonl",
+      "reason": "Regenerable synthetic demo or empty log",
+      "bytes": 0
+    },
+    {
+      "path": "docs/buffer-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 4234
+    },
+    {
+      "path": "docs/capture-after-reset-20261101-131030.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 908
+    },
+    {
+      "path": "docs/capture-retry-20261101-131312.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 901
+    },
+    {
+      "path": "docs/demo-output.jsonl",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 3007
+    },
+    {
+      "path": "docs/design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1349
+    },
+    {
+      "path": "docs/live-design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2700
+    },
+    {
+      "path": "docs/live-final-tests.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 8671
+    },
+    {
+      "path": "docs/live-host-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 7387
+    },
+    {
+      "path": "docs/live-host-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2926
+    },
+    {
+      "path": "docs/live-io-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6014
+    },
+    {
+      "path": "docs/live-io-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 4785
+    },
+    {
+      "path": "docs/live-metadata-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1983
+    },
+    {
+      "path": "docs/live-protocol-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 5187
+    },
+    {
+      "path": "docs/live-protocol-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 8827
+    },
+    {
+      "path": "docs/live-review-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 8547
+    },
+    {
+      "path": "docs/live-review-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 9003
+    },
+    {
+      "path": "docs/live-review.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 742
+    },
+    {
+      "path": "docs/live-runtime-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6958
+    },
+    {
+      "path": "docs/live-runtime-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 4298
+    },
+    {
+      "path": "docs/live_protocol.py.native-dds.diff",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2103
+    },
+    {
+      "path": "docs/motion-session-20261101-123640.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6243
+    },
+    {
+      "path": "docs/motion-session-20261101-131333.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 8386
+    },
+    {
+      "path": "docs/native-dds-before/live_protocol.py",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6411
+    },
+    {
+      "path": "docs/native-dds-before/robot_endpoint.py",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 10922
+    },
+    {
+      "path": "docs/native-dds-final-tests.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 10362
+    },
+    {
+      "path": "docs/native-dds-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 9891
+    },
+    {
+      "path": "docs/native-dds-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6874
+    },
+    {
+      "path": "docs/native-dds-review.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1611
+    },
+    {
+      "path": "docs/native-review-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 3575
+    },
+    {
+      "path": "docs/progress.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 3307
+    },
+    {
+      "path": "docs/replay-binding-before-20261101-131333.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 706
+    },
+    {
+      "path": "docs/replay-candidate.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 402
+    },
+    {
+      "path": "docs/replay-capture-request-20261101-123520.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 839
+    },
+    {
+      "path": "docs/replay-endpoint.diff",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2427
+    },
+    {
+      "path": "docs/replay-final-tests.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 13076
+    },
+    {
+      "path": "docs/replay-full-window-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6814
+    },
+    {
+      "path": "docs/replay-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 12200
+    },
+    {
+      "path": "docs/replay-integrity-20261101-131333.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 610
+    },
+    {
+      "path": "docs/replay-no-resample-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2646
+    },
+    {
+      "path": "docs/replay-plan-pin.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 309
+    },
+    {
+      "path": "docs/replay-rebind-131333-tests.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 13076
+    },
+    {
+      "path": "docs/replay-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6147
+    },
+    {
+      "path": "docs/replay-review-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6278
+    },
+    {
+      "path": "docs/replay-review.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1155
+    },
+    {
+      "path": "docs/reset-return-design-20261101.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 7685
+    },
+    {
+      "path": "docs/review-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 3377
+    },
+    {
+      "path": "docs/review-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 6373
+    },
+    {
+      "path": "docs/robot_endpoint.before-replay.py",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 14888
+    },
+    {
+      "path": "docs/robot_endpoint.py.native-dds.diff",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 7606
+    },
+    {
+      "path": "docs/sender.before-usb-startup.py",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 12783
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-01-dpad-offline.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2680
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-01-live-sender.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1985
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-01-native-dds-fix.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1715
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-01-small-replay.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1779
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-command-reverse-retrace.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 984
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-retrace-moving-correction.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1150
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-retrace-no-unrecorded-steering.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1676
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-retrace-terminal-pose.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2026
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-02-retrace-waypoint-tolerance.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1349
+    },
+    {
+      "path": "docs/superpowers/specs/2026-11-02-command-reverse-retrace-design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 735
+    },
+    {
+      "path": "docs/superpowers/specs/2026-11-02-retrace-moving-correction-design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 841
+    },
+    {
+      "path": "docs/superpowers/specs/2026-11-02-retrace-no-unrecorded-steering-design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1055
+    },
+    {
+      "path": "docs/superpowers/specs/2026-11-02-retrace-terminal-pose-design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1007
+    },
+    {
+      "path": "docs/superpowers/specs/2026-11-02-retrace-terminal-pose-design.md.orig",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1007
+    },
+    {
+      "path": "docs/superpowers/specs/2026-11-02-retrace-waypoint-tolerance-design.md",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 628
+    },
+    {
+      "path": "docs/task1-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1978
+    },
+    {
+      "path": "docs/task1-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 19382
+    },
+    {
+      "path": "docs/task2-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 2633
+    },
+    {
+      "path": "docs/task2-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 7719
+    },
+    {
+      "path": "docs/tests-final.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 3523
+    },
+    {
+      "path": "docs/usb-startup-before-sha256.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 699
+    },
+    {
+      "path": "docs/usb-startup-green.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 11148
+    },
+    {
+      "path": "docs/usb-startup-real-readonly.json",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 173
+    },
+    {
+      "path": "docs/usb-startup-red.txt",
+      "reason": "Historical development material retained in pre-cleanup archive",
+      "bytes": 1491
+    },
+    {
+      "path": "reset/checks/before.json",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 1691
+    },
+    {
+      "path": "reset/checks/dependencies.sha256",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 324
+    },
+    {
+      "path": "reset/checks/final-check.json",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 934
+    },
+    {
+      "path": "reset/checks/final-new-tests.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 3989
+    },
+    {
+      "path": "reset/checks/history/core-green.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 2081
+    },
+    {
+      "path": "reset/checks/history/core-red.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 838
+    },
+    {
+      "path": "reset/checks/history/entry-green.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 2630
+    },
+    {
+      "path": "reset/checks/history/entry-red.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 3312
+    },
+    {
+      "path": "reset/checks/history/lateral-red.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 821
+    },
+    {
+      "path": "reset/checks/history/review-first-run.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 4489
+    },
+    {
+      "path": "reset/checks/history/review-red.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 6270
+    },
+    {
+      "path": "reset/checks/legacy-tests.txt",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 13076
+    },
+    {
+      "path": "reset/checks/review.md",
+      "reason": "Historical verification output retained in pre-cleanup archive",
+      "bytes": 1327
+    },
+    {
+      "path": "LIVE_USAGE.md",
+      "reason": "Superseded documentation retained in archive; replaced by current guides",
+      "bytes": 7848
+    },
+    {
+      "path": "REPLAY_USAGE.md",
+      "reason": "Superseded documentation retained in archive; replaced by current guides",
+      "bytes": 3010
+    },
+    {
+      "path": "reset/plan.md",
+      "reason": "Superseded documentation retained in archive; replaced by current guides",
+      "bytes": 1732
+    },
+    {
+      "path": "reset/progress.md",
+      "reason": "Superseded documentation retained in archive; replaced by current guides",
+      "bytes": 761
+    },
+    {
+      "path": "deploy-sha256.txt.orig",
+      "reason": "Obsolete patch backup retained in archive",
+      "bytes": 1009
+    },
+    {
+      "path": "live_protocol.py.orig",
+      "reason": "Obsolete patch backup retained in archive",
+      "bytes": 8215
+    },
+    {
+      "path": "reset/retrace.py.orig",
+      "reason": "Obsolete patch backup retained in archive",
+      "bytes": 10620
+    },
+    {
+      "path": "reset/test_retrace.py.orig",
+      "reason": "Obsolete patch backup retained in archive",
+      "bytes": 12667
+    },
+    {
+      "path": "archives/20261102-reset-history/button-reset/candidate/reset/button.py",
+      "reason": "Old loose archive consolidated into verified pre-cleanup archive",
+      "bytes": 4283
+    },
+    {
+      "path": "archives/20261102-reset-history/button-reset/candidate/reset/reset.py",
+      "reason": "Old loose archive consolidated into verified pre-cleanup archive",
+      "bytes": 22542
+    },
+    {
+      "path": "archives/20261102-reset-history/position-calibration/start_capture.py",
+      "reason": "Old loose archive consolidated into verified pre-cleanup archive",
+      "bytes": 7958
+    },
+    {
+      "path": "__pycache__/controller.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 10778
+    },
+    {
+      "path": "__pycache__/live_protocol.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 12755
+    },
+    {
+      "path": "reset/__pycache__/button.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 7342
+    },
+    {
+      "path": "reset/__pycache__/deploy_gamepad.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 4625
+    },
+    {
+      "path": "reset/__pycache__/logic.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 27244
+    },
+    {
+      "path": "reset/__pycache__/retrace.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 15681
+    },
+    {
+      "path": "reset/__pycache__/test_retrace.cpython-312.pyc",
+      "reason": "Regenerable Python bytecode cache",
+      "bytes": 20914
+    }
+  ],
+  "motion_started": false,
+  "backup_status": "deleted_at_user_request",
+  "backup_deleted_at": "2026-11-02T15:24:30.753133+08:00"
+}

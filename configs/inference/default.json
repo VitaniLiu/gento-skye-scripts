@@ -1,0 +1,200 @@
+{
+  "model": "default",
+  "robot": {
+    "ssh": "user@6.6.7.100",
+    "remote_root": "/home/user/gento-skye_scripts",
+    "ros_domain_id": 24,
+    "reset_height_m": 0.49631398916244507,
+    "impedance_mode": 3
+  },
+  "server": {
+    "ssh_host": "zw",
+    "server_host": "127.0.0.1",
+    "server_port": 8000,
+    "local_port": 18000,
+    "timeout_s": 30,
+    "wire_protocol": "json_length_v1"
+  },
+  "inference": {
+    "robot_id": "gento_skye",
+    "action_dim": 78,
+    "action_horizon": 32,
+    "action_dt_s": 0.05,
+    "execute_steps": 32,
+    "protocol_to_robot": {
+      "waist_yaw_offset_rad": 2.2470422322840022e-07,
+      "waist_pitch_scale": -1.0,
+      "waist_pitch_offset_rad": -3.0484872695524246e-05,
+      "waist_height_scale": 1.0,
+      "waist_height_offset_m": 0.4756409823894501
+    },
+    "tasks": {
+      "gouwu": {
+        "instruction": "gouwu",
+        "masked_indices": [
+          27,
+          28,
+          29,
+          31
+        ],
+        "masked_ranges": [
+          [
+            32,
+            54
+          ],
+          [
+            55,
+            77
+          ]
+        ],
+        "image": {
+          "input_size": [
+            1280,
+            720
+          ],
+          "crop_xyxy": [
+            164,
+            255,
+            1179,
+            704
+          ],
+          "output_size": [
+            320,
+            320
+          ],
+          "encoding": "PNG"
+        }
+      },
+      "shopping": {
+        "instruction": "shopping",
+        "masked_indices": [
+          27,
+          28,
+          31
+        ],
+        "masked_ranges": [
+          [
+            32,
+            54
+          ],
+          [
+            55,
+            77
+          ]
+        ]
+      },
+      "shouwu": {
+        "instruction": "shouwu",
+        "masked_indices": [
+          27,
+          28,
+          29,
+          31
+        ],
+        "masked_ranges": [
+          [
+            32,
+            54
+          ],
+          [
+            55,
+            77
+          ]
+        ]
+      },
+      "toulaji": {
+        "instruction": "toulaji",
+        "masked_indices": [
+          27,
+          28
+        ],
+        "masked_ranges": [
+          [
+            32,
+            54
+          ],
+          [
+            55,
+            77
+          ]
+        ],
+        "image": {
+          "input_size": [
+            1280,
+            720
+          ],
+          "crop_xyxy": [
+            286,
+            0,
+            1006,
+            720
+          ],
+          "output_size": [
+            320,
+            320
+          ],
+          "encoding": "PNG"
+        }
+      },
+      "test": {
+        "instruction": "test",
+        "masked_indices": [
+          27,
+          28,
+          31
+        ],
+        "masked_ranges": [
+          [
+            32,
+            54
+          ],
+          [
+            55,
+            77
+          ]
+        ]
+      }
+    },
+    "data_contract": {
+      "version": "skye_native_wrist_v1",
+      "reference_frame": "base_link",
+      "arm_frames": [
+        "flange_L",
+        "flange_R"
+      ],
+      "head_frame": "eyes_link",
+      "rotation6d": "first_two_columns",
+      "position_unit": "m",
+      "normalized": false,
+      "q_applied": false,
+      "waist_height_origin_m": 0.4756409823894501
+    },
+    "image_history_offsets_s": [
+      -0.8,
+      -0.6,
+      -0.4,
+      -0.2,
+      0.0
+    ]
+  },
+  "grippers": {
+    "left": {
+      "closed": -0.04100874066352844,
+      "open": 1.1789500713348389
+    },
+    "right": {
+      "closed": -0.03681257367134094,
+      "open": 1.1552989482879639
+    }
+  },
+  "topics": {
+    "joints": "/tj/joint_states",
+    "body_feedback": "/tj/info/joint_feedback",
+    "left_gripper_feedback": "/tj/info/gripper_feedback_L",
+    "right_gripper_feedback": "/tj/info/gripper_feedback_R",
+    "head_camera": "/camera/left_eye/image_h264",
+    "chassis_command": "/move/ManualMoveCmd",
+    "chassis_state": "/move/State",
+    "chassis_odometry": "/controller/odom"
+  }
+}

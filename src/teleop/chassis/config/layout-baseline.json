@@ -1,0 +1,650 @@
+{
+  "legacy_robot_sha256": {
+    "controller.py": "6f79b1ef9345db5e7f2729cbd8932e87bd70468691ecd2b22459b19fc936b0f0",
+    "live_protocol.py": "041550450e3bfca0399c27b57ea60b1f651e2c1d1fd0c53e64797364fa5527b1",
+    "live_io.py": "ecdccdf61ed7f5c5264ec9e5ad38d9e3a0ab25a169eed75337ebbb3459798e06",
+    "robot_endpoint.py": "6899a9ec48d4307f05a1514c3bc88ec5bc2648150bdb93a6b9181fe924d9dfb9",
+    "run_robot.sh": "4d75e17abfa8d153de67c447fdb319c72d215bba595526e58a96a650f09ae159",
+    "replay.py": "71ba951118827d15992e765461e930dccd8c9eb5787247af4abcb2d27f9e2c4b",
+    "reset/logic.py": "e7a2e2df4faeb31483619d6f97d8c0893360c17328181cf5726be580da3e4c07",
+    "reset/reset.py": "f4e75e464ef5ffc1d35d3b232f781484c528bfca119f95d4a595933a79caff4e",
+    "reset/button.py": "1a509684918d618580b8a2ae0508989c4dbb9cc544cf906b51237db12f7fabca",
+    "reset/verification.json": "c42f3b3a98ef90a3e389515dcfff53dc18a6ef52be46b39054024efd864a777a",
+    "reference/reset-reference-20261102-101804.json": "86eb0b4c1da2ca00c722eb8f0087669e3f7ceaa974d34cd68bf254307644f566",
+    "reset/retrace.py": "11c6e9b60ac253c6aa61b15a9469cc5a8889065e81793a3be96307c96dd15a32",
+    "reset/hybrid.py": "479cf068ae21213eebe33b868ad6b4c19056e66946ebcf032485a3dc5bc14351",
+    "deploy-sha256.txt": "d8f2014e6ad3ddbc2bdf54a839e20083402cc456d7e81fc247362a604cbfa664"
+  },
+  "migration": {
+    "backup": null,
+    "moves": [
+      {
+        "old": "sender.py",
+        "new": "src/teleop/sender.py",
+        "sha256": "485109976c1ee3f9a2a0c3b1febe5c7034c8a6aab92a68990dfebeecdb3f4e6c"
+      },
+      {
+        "old": "controller.py",
+        "new": "src/teleop/controller.py",
+        "sha256": "6f79b1ef9345db5e7f2729cbd8932e87bd70468691ecd2b22459b19fc936b0f0"
+      },
+      {
+        "old": "preview.py",
+        "new": "src/teleop/preview.py",
+        "sha256": "ba25e1da5dd05bbf780a4977af01b0722a9ea95b3ba808db8c3dfc2d469d18cf"
+      },
+      {
+        "old": "route_recording.py",
+        "new": "src/record/route_recording.py",
+        "sha256": "b73ffa825019b07c31ed0f3be7f7e27b9b11ef0c0f0eb38a3010396e90ee1095"
+      },
+      {
+        "old": "replay.py",
+        "new": "src/replay/replay.py",
+        "sha256": "71ba951118827d15992e765461e930dccd8c9eb5787247af4abcb2d27f9e2c4b"
+      },
+      {
+        "old": "robot_endpoint.py",
+        "new": "src/robot/robot_endpoint.py",
+        "sha256": "6899a9ec48d4307f05a1514c3bc88ec5bc2648150bdb93a6b9181fe924d9dfb9"
+      },
+      {
+        "old": "live_protocol.py",
+        "new": "src/common/live_protocol.py",
+        "sha256": "041550450e3bfca0399c27b57ea60b1f651e2c1d1fd0c53e64797364fa5527b1"
+      },
+      {
+        "old": "live_io.py",
+        "new": "src/common/live_io.py",
+        "sha256": "ecdccdf61ed7f5c5264ec9e5ad38d9e3a0ab25a169eed75337ebbb3459798e06"
+      },
+      {
+        "old": "run_robot.sh",
+        "new": "scripts/run_robot.sh",
+        "sha256": "4d75e17abfa8d153de67c447fdb319c72d215bba595526e58a96a650f09ae159"
+      },
+      {
+        "old": "deploy-sha256.txt",
+        "new": "config/deploy-sha256.txt",
+        "sha256": "d8f2014e6ad3ddbc2bdf54a839e20083402cc456d7e81fc247362a604cbfa664"
+      },
+      {
+        "old": "docs/replay-source.json",
+        "new": "config/replay-source.json",
+        "sha256": "dceb5529ac1c49b17c8beb2ffeb5c0c148bb5f0bf7857517be840910b53d5572"
+      },
+      {
+        "old": "reset/verification.json",
+        "new": "config/verification.json",
+        "sha256": "c42f3b3a98ef90a3e389515dcfff53dc18a6ef52be46b39054024efd864a777a"
+      },
+      {
+        "old": "reset/README.md",
+        "new": "docs/reset-modules.md",
+        "sha256": "69debdfb5259c45993e90db1635f0e6be04e05c6ea4de2a618630e85888abe1a"
+      },
+      {
+        "old": "tools/deploy.py",
+        "new": "scripts/deploy.py",
+        "sha256": "4b679a90334526167516b7f3bb28a7837f3a95a7636fa44ac813601e44e5006f"
+      },
+      {
+        "old": "tools/run_tests.py",
+        "new": "scripts/run_tests.py",
+        "sha256": "98a83db035c3968467f0eaee3c0b909a5554b261300c5dc0aa6b55b1a7134a94"
+      },
+      {
+        "old": "tools/validation/hybrid_real_log_model.py",
+        "new": "scripts/validation/hybrid_real_log_model.py",
+        "sha256": "3f22f0bd01c6cc748d42ee727206ec07555ec085ea320dd7b134df529f2e0f44"
+      },
+      {
+        "old": "tools/validation/hybrid_stress_model.py",
+        "new": "scripts/validation/hybrid_stress_model.py",
+        "sha256": "1feec186512e82728fd317c8b7893b976453f5f34f44e3087f5ffdc3d674659b"
+      },
+      {
+        "old": "reset/logic.py",
+        "new": "src/reset/logic.py",
+        "sha256": "e7a2e2df4faeb31483619d6f97d8c0893360c17328181cf5726be580da3e4c07"
+      },
+      {
+        "old": "reset/retrace.py",
+        "new": "src/reset/retrace.py",
+        "sha256": "11c6e9b60ac253c6aa61b15a9469cc5a8889065e81793a3be96307c96dd15a32"
+      },
+      {
+        "old": "reset/button.py",
+        "new": "src/reset/button.py",
+        "sha256": "1a509684918d618580b8a2ae0508989c4dbb9cc544cf906b51237db12f7fabca"
+      },
+      {
+        "old": "reset/reset.py",
+        "new": "src/reset/reset.py",
+        "sha256": "f4e75e464ef5ffc1d35d3b232f781484c528bfca119f95d4a595933a79caff4e"
+      },
+      {
+        "old": "reset/hybrid.py",
+        "new": "src/reset/hybrid.py",
+        "sha256": "479cf068ae21213eebe33b868ad6b4c19056e66946ebcf032485a3dc5bc14351"
+      },
+      {
+        "old": "logs/live-20261102-144247-dd53841f.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-144247-dd53841f.jsonl",
+        "sha256": "790155b1b8b5e2bfddeb34faa316c91496ad663d204b5679b5e7872b452cfa27"
+      },
+      {
+        "old": "logs/live-20261102-144118-8748c39b.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-144118-8748c39b.jsonl",
+        "sha256": "24429580160b00ff9945fb8b7fd5f0f67412f15ff3222a05cf029f10bd8a07e1"
+      },
+      {
+        "old": "logs/pose-calibration-20261102-101801-237fbd0d.jsonl",
+        "new": "logs/sessions/calibration/pose-calibration-20261102-101801-237fbd0d.jsonl",
+        "sha256": "e7b39f6efc3253ec742c6042260f19d8f954cc9f1b3e887ddb2763e6dbb53dda"
+      },
+      {
+        "old": "logs/live-20261102-150237-0e7eea0d.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-150237-0e7eea0d.jsonl",
+        "sha256": "f7e247e9a60ff79dcb2c5eb59dd6b1c10f2b62caf578e27f5df076d6325e251c"
+      },
+      {
+        "old": "logs/live-20261102-143643-07625ff9.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-143643-07625ff9.jsonl",
+        "sha256": "4942d10f5c768ae47beeb47926c021c2a3582e38f81693f2835296722f469580"
+      },
+      {
+        "old": "logs/live-20261102-144044-b1ce2fd2.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-144044-b1ce2fd2.jsonl",
+        "sha256": "26d9d6399aeb848f4c7883af783bcb79845a6d0780fc1dbedee683d375ac7814"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-183447-63d8b57e.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-183447-63d8b57e.jsonl",
+        "sha256": "2d90a512c10077a5b806440b72530f7f58a8dd640ecd608558e9b0f8b3d3964f"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-190116-7f24ac39.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-190116-7f24ac39.jsonl",
+        "sha256": "97dc05d121ec65c026fdf13fb889b5e82c6f7210cb6fbe5969a3d3016955daa1"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-183455-ea9525f1.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-183455-ea9525f1.jsonl",
+        "sha256": "77c1bd183c867f9ca5778df4fb194c9242669d3d216ecfa1a584a0108bae405e"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-131042-31123d74.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-131042-31123d74.jsonl",
+        "sha256": "148d861261a324e7f2480f99ef5587518c83293ac36d2cd17fec0790ac2cb482"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130038-b0fff3f7.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130038-b0fff3f7.jsonl",
+        "sha256": "f3475e720944c683e8591639015fc5e3b76926eb6866183ab42c0df3ce37c23a"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-185331-42011a4f.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-185331-42011a4f.jsonl",
+        "sha256": "10ed9694550f0da52b281368ba0cecb0e2caca2cc78efda02ec8242d89154433"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-131307-d2de3155.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-131307-d2de3155.jsonl",
+        "sha256": "741b356b5de45365420d7e09a9473965783310f0d39a7672fb57a7cfe062e865"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-131136-60779eef.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-131136-60779eef.jsonl",
+        "sha256": "4112e0dfe4dc0e3e5c05fe641cc0e42e687cd3af2756b23da34249ba9f97dc66"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-183513-9077f7d1.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-183513-9077f7d1.jsonl",
+        "sha256": "7e061fc88c4116d3172aed4dfc1c699679e4ac4d9c3455d64d56f27158b8d1df"
+      },
+      {
+        "old": "logs/history/2026-11-01/joystick-20261101-114019-8401ba1c.jsonl",
+        "new": "logs/sessions/2026-11-01/joystick-20261101-114019-8401ba1c.jsonl",
+        "sha256": "8248fc7401a0f840dcebb58a01d6f2f05ada6d4ddc2c6c6331e0c5592c972cfa"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-125316-a8168a3c.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-125316-a8168a3c.jsonl",
+        "sha256": "0d0b5ba0704dd64c13111bc7ab42c4a777f8c1f499456079aa3d50c598b850b2"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-185423-f4718f33.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-185423-f4718f33.jsonl",
+        "sha256": "5dbcb77df1f333011b05a8ca9795045c5664112dcb39de79faeda7542159303e"
+      },
+      {
+        "old": "logs/history/2026-11-01/joystick-20261101-113752-0d73ce90.jsonl",
+        "new": "logs/sessions/2026-11-01/joystick-20261101-113752-0d73ce90.jsonl",
+        "sha256": "411b8f80c3a186d596e61a1eb7a832a57e85b73230d7e6984717498d8cc91bb7"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130444-94099fc7.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130444-94099fc7.jsonl",
+        "sha256": "e4992c1523ffb81a645c32b05636213babbc33aab8050cbd64c7f0d6d757d231"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130753-90ac72c7.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130753-90ac72c7.jsonl",
+        "sha256": "f539de9c0998e21837d3217b99561019389f20ce30c021b1bb604a51768a9dbf"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-122722-eb22720d.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-122722-eb22720d.jsonl",
+        "sha256": "111d279873e1c677d247ea4920bbabe4aed4ec09d4b100fc0a35de257810b3ac"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-163043-48f5d78c.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-163043-48f5d78c.jsonl",
+        "sha256": "8090d5660608ae1a8b8ed1d589c1df8f6468a48b48121053f03b95f5238404c7"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130924-f0c08b17.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130924-f0c08b17.jsonl",
+        "sha256": "76dcacbc28d2253eca9ba95f46526688dde796da97e3bc45250be57349c16b92"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130535-801d5ac5.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130535-801d5ac5.jsonl",
+        "sha256": "c4d3114b9526903f92ff103828465fedfaab7b11f09bbc63ecbed8492ee7f2f4"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-170627-98d95b21.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-170627-98d95b21.jsonl",
+        "sha256": "7a0a4adeb43e9a6d37f45e8b9a2e229f1afa24b4df20b23f248717abbac9ace5"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130122-2f897a24.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130122-2f897a24.jsonl",
+        "sha256": "5fa59bf49a09b047122fc0f43630c0c21e4f81402dad8411b5bb25fa51075af9"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-131837-bb91912d.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-131837-bb91912d.jsonl",
+        "sha256": "5200bf63b21e29f0988848d2dc34b60b473461caeadecb055fb903e0a4f4e1a6"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-170637-745d3f8c.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-170637-745d3f8c.jsonl",
+        "sha256": "efae8366f2a28f328218cc3caf2a880d03063f2d5c17cad7194a810c3e88d3da"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130822-9c6850c1.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130822-9c6850c1.jsonl",
+        "sha256": "bf112bd0a9d91e5c003dd2061b878005133fdc9ee95fb81397e7fb3f5d0fae25"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-121228-8780e1ba.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-121228-8780e1ba.jsonl",
+        "sha256": "4d1fd6a66540262593f3f45bcd2b6ea9c6192a33eea694acabedd71a3e3fb12a"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-123640-ef0dab4b.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-123640-ef0dab4b.jsonl",
+        "sha256": "50449097ef5db4df8f98c965b9027e785a1d7d0c6cd3ec41f0a02cec46b4976a"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-131333-01d78051.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-131333-01d78051.jsonl",
+        "sha256": "be6df0dcb412a28dca2fc2a391c559e6aaa1efa9512af6fa56a864f0cc902f64"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-122556-130d708a.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-122556-130d708a.jsonl",
+        "sha256": "78bc7845f9d1829d8584554b18324e297e1546c2dcfbd6e967bc309e34c5285e"
+      },
+      {
+        "old": "logs/history/2026-11-01/live-20261101-130050-4cc7a6f6.jsonl",
+        "new": "logs/sessions/2026-11-01/live-20261101-130050-4cc7a6f6.jsonl",
+        "sha256": "6cf30dcc53d2a841ed55f200ff6b4860d439d61ceabc508f2b09640e202fd0e9"
+      },
+      {
+        "old": "logs/history/reset-standalone/manual-validation-20261101-183332-5910609a-stderr.txt",
+        "new": "logs/sessions/reset-standalone/manual-validation-20261101-183332-5910609a-stderr.txt",
+        "sha256": "af5600b185418f2be9d5c917893173a054a80a21dcfa62da84181eafb659c3c9"
+      },
+      {
+        "old": "logs/history/reset-standalone/manual-forward-20261101-170538-e0808076-stderr.txt",
+        "new": "logs/sessions/reset-standalone/manual-forward-20261101-170538-e0808076-stderr.txt",
+        "sha256": "c23ce173d7cd551a78bb0847fe9fa4606707a7bf1ec33ec713a384642bd17b50"
+      },
+      {
+        "old": "logs/history/reset-standalone/manual-forward-20261101-170538-e0808076.jsonl",
+        "new": "logs/sessions/reset-standalone/manual-forward-20261101-170538-e0808076.jsonl",
+        "sha256": "0cdbbd99e17309b70699638a575722e2bafa046a55e6b24bba1efb75cb73351d"
+      },
+      {
+        "old": "logs/history/reset-standalone/manual-validation-20261101-183414-70c1a084.jsonl",
+        "new": "logs/sessions/reset-standalone/manual-validation-20261101-183414-70c1a084.jsonl",
+        "sha256": "1020e3b1d63081164f5a6becf72cd12f3e6df6bbfaff422731b86771475cb435"
+      },
+      {
+        "old": "logs/history/reset-standalone/manual-validation-20261101-183332-5910609a.jsonl",
+        "new": "logs/sessions/reset-standalone/manual-validation-20261101-183332-5910609a.jsonl",
+        "sha256": "a0f40b76250cb8d33c9ffbadeafe38fb7bc83a46cecb07abd0f8191f63a714cb"
+      },
+      {
+        "old": "logs/history/reset-standalone/manual-validation-20261101-183414-70c1a084-stderr.txt",
+        "new": "logs/sessions/reset-standalone/manual-validation-20261101-183414-70c1a084-stderr.txt",
+        "sha256": "6532d5b0ef8ee7a9eeec5431c35f2f686de6eefb37b14d8f9056e49b45b79951"
+      },
+      {
+        "old": "logs/history/undated/readonly-targets-49175d44.jsonl",
+        "new": "logs/sessions/undated/readonly-targets-49175d44.jsonl",
+        "sha256": "0a0444a3b1381c99b91bee3106ee091d837f8fa696854dba7226ba402582fb43"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-124527-99e3bc44.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-124527-99e3bc44.jsonl",
+        "sha256": "14c3cf4a91ce14cfdaad97abeee3a72c02852f15680cef1c4625fae90f32755f"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123847-85eb9c07.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123847-85eb9c07.jsonl",
+        "sha256": "9f87af04451e3cebad4be7c2b2a08c30e3cb4098b8c92af8324d5ffe7d92e628"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-122117-de3b2321.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-122117-de3b2321.jsonl",
+        "sha256": "269c1855210f86ace659b232a52ab59582fb202f8f7d0dafff7a702a88446d0a"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-142918-fc6b928b.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-142918-fc6b928b.jsonl",
+        "sha256": "6fa3e260ffab0bd704e6c87bec493b19af0e440c1c8c4502af2aac8b6272a852"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-142849-1abfafb2.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-142849-1abfafb2.jsonl",
+        "sha256": "c04127abe846c94d8128451d1ace3eb4387e2576063fa57ca15859c86bbb5a73"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123133-84b1d83a.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123133-84b1d83a.jsonl",
+        "sha256": "f2bf4548cb49cea3e3303e7c1c08f5d7b32c207185bd489f30f49b388b2d1dd0"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-114450-f8c373e8.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-114450-f8c373e8.jsonl",
+        "sha256": "5aab684e7d11e38150d3339ea849da3aaaa42d0845ad02a10c772a25f44773c8"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-131153-585865c7.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-131153-585865c7.jsonl",
+        "sha256": "5fca0aeb4f45b3857cf7201009cc1034accd1c079d0397e0b1855bca753ceb58"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-121419-ce85d955.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-121419-ce85d955.jsonl",
+        "sha256": "358736701f15d76f350a6cf65e4d0fa6918c5fe3587d7a57f527d83766e7badb"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-124807-f204e82c.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-124807-f204e82c.jsonl",
+        "sha256": "c3b3dcf772de49b86b0bcce1535239e6a5692541552355dbd97075feda21e73f"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-140806-b75db4ab.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-140806-b75db4ab.jsonl",
+        "sha256": "57a1b93b41f2904200cb45bba5b9a7c849a0b8ec53770af5bebb15e6240db489"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-113938-e94a1c46.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-113938-e94a1c46.jsonl",
+        "sha256": "ef31979a1c07ec82f3b2450280b87b1c93180cc30011b5ca099de549ca981281"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-125541-942045cc.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-125541-942045cc.jsonl",
+        "sha256": "1e9c4d007f1ce8a233076567b021fb549872088114f2186d9bb27f7c93d074ed"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-120654-49b9bf83.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-120654-49b9bf83.jsonl",
+        "sha256": "9dabb9dd6feb6c9ff2831a90672874e9455405cd078001c6130598a5bead72db"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-141024-ab1e851d.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-141024-ab1e851d.jsonl",
+        "sha256": "c87a3091618455fbae912543f4a2c4e8514a1cc3a84b62a6cb554b65dcc3a6fc"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-141151-fd2e1aab.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-141151-fd2e1aab.jsonl",
+        "sha256": "a8decf0a51eb8d2f6e90d8ac783482745f507aebb37037e22b7a0c621ec434bb"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-143238-c748e550.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-143238-c748e550.jsonl",
+        "sha256": "ea7f0acab5c57187e2d6b1721147b60eba4f422b0a5b802b9ddfc68d84e3bcd5"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-140811-a3272736.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-140811-a3272736.jsonl",
+        "sha256": "b50de09c1ddb9bd500a4d6d698dbe08f15a2bdd4b3a5ea388f6be19fe04bf43b"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-124818-edb8bc69.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-124818-edb8bc69.jsonl",
+        "sha256": "6bdbd0c4eae210aff6bdd0661a943d6ef1784349c0963ed15389ef228cf68a99"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123436-456939dd.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123436-456939dd.jsonl",
+        "sha256": "579b7ad9d9835890ee210f7df10f701508bbecbfcaec3c6952fc2a336bc84a4f"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-125613-8327af33.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-125613-8327af33.jsonl",
+        "sha256": "f604735d359d9152ec0fc7016bff279969dace2722ade2408bca2af3751a1f5f"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-122708-735aab4e.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-122708-735aab4e.jsonl",
+        "sha256": "addd572e319616e0adc2055a95661db57bcab8ff243d3dbf50b5bc14cfc02d55"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-121126-60943b92.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-121126-60943b92.jsonl",
+        "sha256": "b026bd6eb7c55c1e1479b181dd74fbb33462d8e147e883f1be32000cee356bf6"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-140513-6e8f1ed8.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-140513-6e8f1ed8.jsonl",
+        "sha256": "aa1f4e15e24cba4d0004e64db5c8c492e109dd055083c23437a9c92794bc0fed"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-143111-c16d6d33.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-143111-c16d6d33.jsonl",
+        "sha256": "d3f52818eaab6edca73ab2529a0d5748d4f940c349c2a8b602a74c18143aeef3"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123810-0b1780a9.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123810-0b1780a9.jsonl",
+        "sha256": "4efcd3714ffe217cada904543fa84c6df578f704c03f550cff8b42526ee08d47"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-115249-efb5dc18.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-115249-efb5dc18.jsonl",
+        "sha256": "948d404fa60f7a34621f68d11aa5f7a47c07a6092fbdec0bbb14f444d78f7a8f"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-101209-5e9ba5f3.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-101209-5e9ba5f3.jsonl",
+        "sha256": "25443f7d3cffc35384a1ba775d419a72bed6d626f69dc3115b51d4e0cd994a37"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-102316-cad65a74.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-102316-cad65a74.jsonl",
+        "sha256": "602f83eb456d8a63f67b1ed1b6953c6bc51a5c9d8fe7f32cb0a86295048d78f4"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-125429-afc94adb.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-125429-afc94adb.jsonl",
+        "sha256": "8827e088385bf9eb50d8c37afbeceb2859b96c9e420e9cd498f262fefa08e225"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-135326-58c04380.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-135326-58c04380.jsonl",
+        "sha256": "a5698d2a9a7071b19cbba9719b3662a8223bc209f3c563d746dc4de9686f2333"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-120906-63b8c698.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-120906-63b8c698.jsonl",
+        "sha256": "5eb694d4dacb6fb07ab659fe8bb417dc8e03443769a40089b4876da015f11f58"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123500-733e5d78.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123500-733e5d78.jsonl",
+        "sha256": "71463fc1ef02031165194b63ce349bf078fbfe4323a5853c31e4960b5126a491"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-141232-2d793082.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-141232-2d793082.jsonl",
+        "sha256": "c6f0dee2aa104ab02cb81e4c5f32dd8e5f89e0bd0ab2d8d2bbb2227feacff13b"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-122643-d34d4d93.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-122643-d34d4d93.jsonl",
+        "sha256": "342ccf16c3347608b090992090fbcc58755246b0e894d4bda9cff799b8ecfc1c"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-130656-f35a4dd9.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-130656-f35a4dd9.jsonl",
+        "sha256": "d90d67f7a4aa7b333008a62675fcca7fff472add18dccf36e70f35ed8d333a58"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-142915-cfc4ab96.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-142915-cfc4ab96.jsonl",
+        "sha256": "78699f7c2278be2f7a875d151bfa64d07bd110e2aac8ada89a7b8e0749f40f82"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-143139-fba60f67.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-143139-fba60f67.jsonl",
+        "sha256": "803d38108f9138b75010df9c023b7996a0b51d75fb721ee5816556ccb39e4b11"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-135231-a74b53b5.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-135231-a74b53b5.jsonl",
+        "sha256": "f1f171ab8c05d15176d9960633e5fc518ab86f9834fd10c6636a64f106e77156"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-110444-4edd4271.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-110444-4edd4271.jsonl",
+        "sha256": "32d1b8732cb13280a427c693db82732649e948d7853e18291b5993ec64ec0f14"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-130725-a3e9a3a4.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-130725-a3e9a3a4.jsonl",
+        "sha256": "7a01c981392f27c6e38dc9cfaa4c5189af3703ea1f8e6675d6d9f920b2386408"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-100607-12aabdd6.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-100607-12aabdd6.jsonl",
+        "sha256": "b966162a38ec819b1d59277dbac7fb15401fd45e3a9c76665eeab8185688693d"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-120545-bb4424c3.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-120545-bb4424c3.jsonl",
+        "sha256": "49cf36229cd0e05892ea29023bf005510f86df9c9c98e69eccdf2384d2ec88f3"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-124946-4522b031.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-124946-4522b031.jsonl",
+        "sha256": "bd60514612c2d3500e31512c8e9a0e2b0a38fe5a59d3f49da76a16306ccd8a4c"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-125634-be244484.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-125634-be244484.jsonl",
+        "sha256": "b96f05db40ea61124d64e3009749bb76c4a25983770e135deeb294485292c241"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-122357-a2d3e94c.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-122357-a2d3e94c.jsonl",
+        "sha256": "9f367d31812bc08a6e4e7935a829fab07bb84dbe73261e705e9db09302c2d50a"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-120817-0a06235a.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-120817-0a06235a.jsonl",
+        "sha256": "3bcbcb20f9abbadc5e285e54a3c070f019f50912c7c0005e3a35b7e7912d2020"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-124938-bc5c4ceb.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-124938-bc5c4ceb.jsonl",
+        "sha256": "c390d22e9eb3511af1dc1b60f21cc0f28b5beb59bfc7be3b14787b80e6042aac"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123755-9b6f03cf.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123755-9b6f03cf.jsonl",
+        "sha256": "8306b42cfb7a45762b15ba8188a95293ef920b899126e64d8f1c0588d42043f5"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-141545-b7963808.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-141545-b7963808.jsonl",
+        "sha256": "e27646f38cefaa1a7fbe1f8cd6dbae7606d8dd2946fe2741f1262466e7da53b1"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-140444-a98bae8f.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-140444-a98bae8f.jsonl",
+        "sha256": "b2cdb592b60d1ae649a53e10a92cb47f03d2d16d7767470ecc742588fc009861"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-121941-deaf51c4.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-121941-deaf51c4.jsonl",
+        "sha256": "6d08b717b88b68d3b9f59d24afe1432cbf7e78ca7258c611c06d64d93058d1d0"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-115813-ade73260.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-115813-ade73260.jsonl",
+        "sha256": "a6cb6bcb350ef74a9d52004bf3fa401abe4083c701313295e0d393389de8ab19"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-142958-96ced803.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-142958-96ced803.jsonl",
+        "sha256": "36e237701f69f0782afc654df795db9bdbf92bb65d57f0af943e8c9bf9b9410a"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-123123-48b32587.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-123123-48b32587.jsonl",
+        "sha256": "cdb37f74ea534114fa32ff8e1a86fef949e839f75b018abb58ce40d8592e5ba9"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-122109-ae47648d.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-122109-ae47648d.jsonl",
+        "sha256": "7e557dd22036765e9974e92b6eb44a2c3239327b7112a0b39d515c19abe3b894"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-140523-9284a00a.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-140523-9284a00a.jsonl",
+        "sha256": "5cce795055dbed25a7f6788958545c31053ec6471e5fb923dcdc7227d4fc0e7b"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-102302-9b1b2dbf.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-102302-9b1b2dbf.jsonl",
+        "sha256": "4a52d5be9c0cfed78e9080f702194a10c1fe9aaadea94aabbf0f519f0e70ac51"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-100703-dd4c8a1e.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-100703-dd4c8a1e.jsonl",
+        "sha256": "691bda0c97b68d72f8330feaa94a0dcd1010d77243438bd275d0b7db673d0c1d"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-135243-dfba95c3.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-135243-dfba95c3.jsonl",
+        "sha256": "b4fff532ac4fd47a407c8e92f601a0592dafdbac2e3c613a4a7215ebdf462b59"
+      },
+      {
+        "old": "logs/history/2026-11-02/live-20261102-131134-35a6c7c9.jsonl",
+        "new": "logs/sessions/2026-11-02/live-20261102-131134-35a6c7c9.jsonl",
+        "sha256": "d04cd559bd9e3501b23f3782ed05028cdca2c3690a00782ed18dd5bee1c82c04"
+      }
+    ],
+    "backup_status": "deleted_at_user_request",
+    "backup_deleted_at": "2026-11-02T15:24:30.753133+08:00"
+  }
+}

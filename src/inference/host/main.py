@@ -1,0 +1,361 @@
+#!/usr/bin/env python3
+"""Host-side Gento Skye inference loop."""
+import argparse
+import base64
+from io import BytesIO
+from fractions import Fraction
+import json
+import os
+from pathlib import Path
+import queue
+import select
+import socket
+import subprocess
+import sys
+import threading
+import time
+import uuid
+
+import av
+import numpy as np
+from PIL import Image
+
+from kinematics import JOINTS, Kinematics
+from protocol import PolicyClient
+from images import ImageHistory
+
+
+ROOT = Path(__file__).resolve().parents[3]
+
+
+def jpeg_base64(array):
+    stream = BytesIO()
+    Image.fromarray(np.asarray(array, dtype=np.uint8)).save(stream, format="JPEG", quality=90)
+    return base64.b64encode(stream.getvalue()).decode("ascii")
+
+
+class CameraDecoder:
+    def __init__(self):
+        self.decoder = av.CodecContext.create("h264", "r")
+
+    def decode(self, timestamp_ns, encoded):
+        result = None
+        packet = av.Packet(base64.b64decode(encoded))
+        packet.pts = timestamp_ns
+        packet.time_base = Fraction(1, 1_000_000_000)
+        try:
+            frames = self.decoder.decode(packet)
+        except av.error.InvalidDataError:
+            return None
+        for frame in frames:
+            array = frame.to_ndarray(format="rgb24")
+            stamp = round(frame.pts * frame.time_base * 1_000_000_000) if frame.pts is not None else timestamp_ns
+            result = (stamp, array)
+        return result
+
+
+class RobotClient:
+    def __init__(self, config, decode_camera=True, task=None):
+        self.history = None
+        if decode_camera:
+            settings = config["inference"]
+            self.history = ImageHistory(settings["tasks"][task]["image"], settings["image_history_offsets_s"])
+        robot = config["robot"]
+        remote_root = robot["remote_root"]
+        shell = ("source /etc/apex/apex_ros_env.sh >/dev/null 2>&1 && exec python3 -u -B "
+                 + remote_root + "/src/inference/robot/runtime.py --config "
+                 + "-")
+        self.process = subprocess.Popen(["ssh", "-T", "-o", "BatchMode=yes", robot["ssh"], shell],
+                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                        stderr=sys.stderr, text=True, bufsize=1)
+        self.messages = queue.Queue()
+        self.process.stdin.write(json.dumps(config, allow_nan=False) + "\n")
+        self.process.stdin.flush()
+        self.decode_camera = decode_camera
+        self.image = None
+        self.image_lock = threading.Lock()
+        self.decoder = CameraDecoder()
+        self.thread = threading.Thread(target=self._read, daemon=True)
+        self.thread.start()
+
+    def _read(self):
+        for line in self.process.stdout:
+            try:
+                message = json.loads(line)
+                if message.get("type") == "camera":
+                    if not self.decode_camera:
+                        continue
+                    image = self.decoder.decode(message["timestamp_ns"], message["data"])
+                    if image is not None:
+                        self.history.append(*image)
+                else:
+                    self.messages.put(message)
+            except Exception as exc:
+                self.messages.put({"type": "error", "error": "robot stream: " + str(exc)})
+        self.messages.put({"type": "error", "error": "robot endpoint closed"})
+
+    def send(self, command, **fields):
+        self.process.stdin.write(json.dumps({"command": command, **fields}, allow_nan=False) + "\n")
+        self.process.stdin.flush()
+
+    def wait(self, expected, timeout=120):
+        deadline = time.monotonic() + timeout
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError("robot endpoint timeout waiting for " + expected)
+            message = self.messages.get(timeout=remaining)
+            if message.get("type") == "stage":
+                print("robot:", message["stage"], flush=True)
+                continue
+            if message.get("type") == "error":
+                raise RuntimeError(message["error"])
+            if message.get("type") == expected:
+                return message
+
+    def image_history(self, timestamp_ns):
+        return self.history.sample(timestamp_ns)
+
+    def close(self):
+        if self.process.poll() is None:
+            try:
+                self.process.stdin.close()
+            except OSError:
+                pass
+            try:
+                self.process.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                self.process.terminate()
+                self.process.wait(timeout=2)
+
+
+class Tunnel:
+    def __init__(self, config):
+        server = config["server"]
+        self.process = subprocess.Popen([
+            "ssh", "-N", "-o", "ExitOnForwardFailure=yes", "-o", "BatchMode=yes",
+            "-L", f'{server["local_port"]}:{server["server_host"]}:{server["server_port"]}',
+            server["ssh_host"],
+        ])
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            if self.process.poll() is not None:
+                raise RuntimeError("SSH inference tunnel exited")
+            try:
+                with socket.create_connection(("127.0.0.1", server["local_port"]), timeout=.2):
+                    return
+            except OSError:
+                time.sleep(.1)
+        raise TimeoutError("SSH inference tunnel did not become ready")
+
+    def close(self):
+        if self.process.poll() is None:
+            self.process.terminate()
+            self.process.wait(timeout=2)
+
+
+def q_listener(event):
+    if not sys.stdin.isatty():
+        return
+    import termios
+    import tty
+    fd, previous = sys.stdin.fileno(), termios.tcgetattr(sys.stdin)
+    try:
+        tty.setcbreak(fd)
+        while not event.is_set():
+            if select.select([fd], [], [], .1)[0] and os.read(fd, 1).lower() == b"q":
+                event.set()
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, previous)
+
+
+def check_info(info, config, task, steps):
+    expected = config["inference"]
+    if info.get("data_contract") != expected.get("data_contract"):
+        raise RuntimeError("server must implement the configured SKYE native-wrist data_contract")
+    checks = (("action_dim", expected["action_dim"]),
+              ("action_horizon", expected["action_horizon"]),
+              ("action_dt_s", expected["action_dt_s"]))
+    for key, value in checks:
+        if key in info and info[key] != value:
+            raise RuntimeError(f"server {key}={info[key]!r}, expected {value!r}")
+    if "tasks" in info and task not in info["tasks"]:
+        raise RuntimeError("server does not provide task " + task)
+    if steps > expected["action_horizon"]:
+        raise ValueError("steps exceeds action horizon")
+
+
+def task_spec(settings, task):
+    record = settings["tasks"][task]
+    mask = [True] * settings["action_dim"]
+    for index in record.get("masked_indices", []):
+        mask[index] = False
+    for start, end in record.get("masked_ranges", []):
+        mask[start:end] = [False] * (end - start)
+    return record["instruction"], mask
+
+
+def response_masks(reply, task_mask, frames, dimensions):
+    raw = reply.get("mask", reply.get("action_mask"))
+    if raw is None:
+        raise RuntimeError("server response does not contain a mask")
+    values = np.asarray(raw)
+    if values.shape == (dimensions,):
+        values = np.broadcast_to(values, (frames, dimensions))
+    elif values.ndim == 2 and values.shape[1] == dimensions and values.shape[0] >= frames:
+        values = values[:frames]
+    else:
+        raise RuntimeError("server response mask has an invalid shape")
+    if values.dtype != np.bool_ and not np.isin(values, [0, 1]).all():
+        raise RuntimeError("server response mask must contain booleans")
+    return np.asarray(values, dtype=bool) & np.asarray(task_mask, dtype=bool)
+
+
+def build_infer_request(settings, task, instruction, task_mask, request_id, session_id,
+                        observation, image_sample, kinematics, calibration):
+    state = kinematics.state78(observation, calibration)
+    mapping = settings["protocol_to_robot"]
+    state[27] -= mapping["waist_yaw_offset_rad"]
+    state[28] = (state[28] - mapping["waist_pitch_offset_rad"]) / mapping["waist_pitch_scale"]
+    state[29] = ((state[29] - mapping["waist_height_offset_m"])
+                 / mapping["waist_height_scale"])
+    return build_infer_request_from_state(
+        settings, task, instruction, task_mask, request_id, session_id,
+        observation["timestamp_ns"], state, image_sample)
+
+
+def build_infer_request_from_state(settings, task, instruction, task_mask, request_id,
+                                   session_id, timestamp_ns, state, image_sample, state_valid=None):
+    if isinstance(image_sample, dict):
+        image_fields = dict(image_sample)
+        image_fields["images"] = {"head_color": image_fields.pop("head_color")}
+    else:
+        image_time, image = image_sample
+        image_fields = {"images": {"head_color": image}, "image_timestamp_ns": image_time}
+    state_mask = np.asarray(task_mask, dtype=bool)
+    if state_valid is not None:
+        state_mask = state_mask & np.asarray(state_valid, dtype=bool)
+    state = np.asarray(state, dtype=np.float32)
+    if state.shape != (settings["action_dim"],) or not np.isfinite(state).all():
+        raise ValueError("protocol state must be a finite action_dim vector")
+    state = state.copy()
+    state[~state_mask] = 0
+    return {
+        "command": "infer",
+        "task": task,
+        "robot_id": settings["robot_id"],
+        "instruction": instruction,
+        "mask": task_mask,
+        "request_id": request_id,
+        "session_id": session_id,
+        "observation_timestamp_ns": timestamp_ns,
+        "data_contract": settings.get("data_contract"),
+        "observation": {
+            "state": state.tolist(),
+            "state_mask": state_mask.tolist(),
+            **image_fields,
+        },
+    }
+
+
+def response_rows(reply, request_id, task_mask, steps, settings, observation, kinematics):
+    if reply.get("request_id", request_id) != request_id:
+        raise RuntimeError("server response request_id mismatch")
+    actions = np.asarray(reply.get("actions", reply.get("action_chunk")), dtype=float)
+    if actions.ndim != 2 or actions.shape[1] != settings["action_dim"] or len(actions) < steps:
+        raise RuntimeError("server returned an invalid action chunk")
+    masks = response_masks(reply, task_mask, steps, settings["action_dim"])
+    if not np.isfinite(actions[:steps][masks]).all():
+        raise RuntimeError("server returned NaN or Inf in an enabled field")
+    actions = actions.copy()
+    mapping = settings["protocol_to_robot"]
+    actions[:steps, 27] += mapping["waist_yaw_offset_rad"]
+    actions[:steps, 28] = (actions[:steps, 28] * mapping["waist_pitch_scale"]
+                           + mapping["waist_pitch_offset_rad"])
+    actions[:steps, 29] = (actions[:steps, 29] * mapping["waist_height_scale"]
+                           + mapping["waist_height_offset_m"])
+    seed = dict(zip(observation["joint_names"], observation["joint_positions"], strict=True))
+    if not all(name in seed for name in JOINTS):
+        raise RuntimeError("joint observation is incomplete")
+    return kinematics.action_rows(actions[:steps], masks, seed)
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", type=Path, default=ROOT / "configs/inference/default.json")
+    parser.add_argument("--task", required=True)
+    parser.add_argument("--steps", type=int)
+    parser.add_argument("--execute", action="store_true")
+    args = parser.parse_args(argv)
+    config = json.loads(args.config.read_text())
+    if not args.execute:
+        print("配置检查完成；添加 --execute 后才会复位机器人并运行 inference。")
+        return 0
+    settings = config["inference"]
+    if args.task not in settings["tasks"]:
+        parser.error("unknown task: " + args.task)
+    instruction, task_mask = task_spec(settings, args.task)
+    steps = settings["execute_steps"] if args.steps is None else args.steps
+    if not 1 <= steps <= settings["action_horizon"]:
+        parser.error("steps must be within action horizon")
+    if "image" not in settings["tasks"][args.task]:
+        parser.error("task has no SKYE image crop configured")
+    models = ROOT / "src/inference/models"
+    kinematics = Kinematics(models / "runtime_expanded.urdf", models / "robot_Gento_Sky.xml")
+    stop = threading.Event()
+    keyboard = threading.Thread(target=q_listener, args=(stop,), daemon=True)
+    keyboard.start()
+    tunnel = robot = None
+    try:
+        tunnel = Tunnel(config)
+        server = config["server"]
+        with PolicyClient("127.0.0.1", server["local_port"], server["timeout_s"]) as policy:
+            info = policy.request("info")
+            check_info(info, config, args.task, steps)
+            robot = RobotClient(config, task=args.task)
+            robot.wait("ready")
+            reset = policy.request("reset", task=args.task, robot_id=settings["robot_id"],
+                                   instruction=instruction, mask=task_mask,
+                                   data_contract=settings["data_contract"])
+            session_id = reset.get("session_id", uuid.uuid4().hex)
+            print("inference 已启动，按 q 结束并依次复位身体、腰部和底盘。", flush=True)
+            while not stop.is_set():
+                robot.send("observe")
+                observation = robot.wait("observation", timeout=5)
+                request_id = uuid.uuid4().hex
+                request = build_infer_request(
+                    settings, args.task, instruction, task_mask, request_id, session_id,
+                    observation, robot.image_history(observation["timestamp_ns"]), kinematics, config["grippers"])
+                reply = policy.request_object(request)
+                rows = response_rows(reply, request_id, task_mask, steps, settings,
+                                     observation, kinematics)
+                robot.send("execute", rows=rows, dt=settings["action_dt_s"])
+                robot.wait("executed", timeout=steps * settings["action_dt_s"] + 5)
+        robot.send("quit")
+        robot.wait("finished", timeout=180)
+        return 0
+    except KeyboardInterrupt:
+        stop.set()
+        if robot is not None and robot.process.poll() is None:
+            robot.send("quit")
+            robot.wait("finished", timeout=180)
+        return 130
+    except Exception:
+        if robot is not None and robot.process.poll() is None:
+            try:
+                robot.send("quit")
+                robot.wait("finished", timeout=180)
+            except Exception:
+                pass
+        raise
+    finally:
+        stop.set()
+        keyboard.join(timeout=1)
+        if robot is not None:
+            robot.close()
+        if tunnel is not None:
+            tunnel.close()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

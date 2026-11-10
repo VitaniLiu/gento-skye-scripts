@@ -1,0 +1,33 @@
+{
+  "defaults": {
+    "waist_height_scale": 1,
+    "base_forward_scale": 1,
+    "base_clockwise_scale": -1,
+    "sign_evidence": "controller.py speeds: up vx+.2, left wz+.2/right wz-.2; output clockwise negates native wz. waist height native model axis mapped +1 in action78_posttrain.",
+    "base_rotation_policy": "locked_zero"
+  },
+  "tasks": {
+    "gouwu": {
+      "waist_height_enabled": false,
+      "base_rotation_policy": "locked_zero"
+    },
+    "test": {
+      "waist_height_enabled": true
+    },
+    "shopping": {
+      "waist_height_enabled": true,
+      "intended_waist_height_enabled": false,
+      "scope": "Existing shopping recording: operator accidentally moved waist. Preserve measured height and controller target; task design remains locked. Review configuration before later captures.",
+      "source_episode": "episode00000000"
+    },
+    "shouwu": {
+      "waist_height_enabled": false,
+      "scope": "Only body dimension 4 (index 30, base forward velocity) enabled; body indices 27,28,29,31 locked zero."
+    },
+    "toulaji": {
+      "waist_height_enabled": true,
+      "base_rotation_policy": "enabled",
+      "scope": "Body indices 29,30,31 enabled: waist height, base forward velocity, base rotation; 27,28 remain locked."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "new_components_deployed": [],
+  "existing_components_observed": [
+    "/opt/ApexTeleop",
+    "/home/user/apex_record_sync",
+    "/home/user/apex_recording_bridge"
+  ],
+  "existing_recordings_observed": "/home/user/gento_replay_bags",
+  "status": "inventory_only_not_validated"
+}

@@ -1,0 +1,6 @@
+{
+  "logs_dir": "logs/teleop",
+  "routes_dir": "logs/teleop/routes",
+  "history": "src/teleop/chassis/logs, data, reference are imported historical material",
+  "motion_on_import": false
+}

@@ -1,0 +1,8 @@
+{
+  "source_schema": "skye_native_flange_fk_replay_v1",
+  "waist_binding": {
+    "scale": 1.0,
+    "offset": -0.4756409823894501
+  },
+  "evidence": "Native package body channels verified identical to processed package; processed schema action[29] binding. Robot absolute height = action[29] / waist_height_scale + 0.4756409823894501. Applies only to named source schema."
+}

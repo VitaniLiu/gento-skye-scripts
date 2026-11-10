@@ -1,0 +1,10 @@
+{
+  "project_root": "/home/descfly/gento-skye_scripts",
+  "sdk_root": "/home/descfly/人形版本_CT040501_SDK040501_260820/SDK/00040501",
+  "robot_ssh": "user@6.6.7.100",
+  "storage_mount": "/mnt/apex-data",
+  "storage_serial": "WD-WX12A367D1A2",
+  "production_data_root": "/mnt/apex-data/gento-skye",
+  "robot_raw_root": null,
+  "motion_enabled": false
+}

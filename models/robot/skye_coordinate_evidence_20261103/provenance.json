@@ -1,0 +1,74 @@
+{
+  "captured_utc": "2026-11-03T02:51:23.618859+00:00",
+  "scope": "kinematic model/config evidence; meshes and include dependencies not bundled; not standalone deployment",
+  "entries": [
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/tmp/launch_params_sokoqdwj",
+      "file": "runtime_state_publisher.yaml",
+      "sha256": "b0b6b9228e47a567ad44e1481acae0f3d58a0722b55c61135c73a9ac4e3b9c3d"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_description/share/marvin_description/urdf/Gento_Sky/Gento_Sky.urdf",
+      "file": "robot_Gento_Sky.urdf",
+      "sha256": "5a3207932330c1b60f9175dda23a90386d881401bbfd3b97ba975068b27f20d0"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_description/share/marvin_description/urdf/Gento_Sky/Gento_Sky.urdf.xacro",
+      "file": "robot_Gento_Sky.urdf.xacro",
+      "sha256": "0948126ef0bdbdc2ac311210e26d78b68994ff0a084453768215007a89beb080"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_description/share/marvin_description/mjcf/Gento_Sky/Gento_Sky.xml",
+      "file": "robot_Gento_Sky.xml",
+      "sha256": "c34f0ad10ee6f7635e4c4120da38cefdd2ca22f5c0cce0f878b8b891c8996b58"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_description/share/marvin_description/mjcf/scene_teleop_sky.xml",
+      "file": "robot_scene_teleop_sky.xml",
+      "sha256": "fe99bb4e561070b82264d8f6f0e388ceae219fb4b0c3227580b5fb20bc8767fd"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_qp_controller/share/marvin_qp_controller/config/skye/ik_tasks.yaml",
+      "file": "robot_ik_tasks.yaml",
+      "sha256": "6e9947a697602372debcfec80d3c147fb2d4752bad4228edcb90788414f4f3c7"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_teleop/share/marvin_teleop/config/skye/robot_param.yaml",
+      "file": "robot_teleop_parameters.yaml",
+      "sha256": "2a3ecfe8c3cc6f97c333a6a40d376cbd875b677887b015ba2fe51738a7b58164"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_ros_control/share/marvin_ros_control/config/robot_param_skye.yaml",
+      "file": "robot_control_parameters.yaml",
+      "sha256": "03f17f0b60f2cdd974880ae615c7a0680245287a3b93a185a1a1f8684a3f79d0"
+    },
+    {
+      "source_robot": "user@6.6.7.100",
+      "source": "/opt/kernelmind/apex/install/marvin_teleop/share/marvin_teleop/launch/teleop_skye.launch.py",
+      "file": "robot_teleop_skye.launch.py",
+      "sha256": "95c4959b1cd55848b91b6d810c87a2b43d805b49288397b8b3c1caaa8d2e3e58"
+    },
+    {
+      "source_host": "av-pipeline",
+      "source": "/opt/ApexTeleop/resources/app/dist/urdf/Gento_Sky/Gento_Sky.urdf",
+      "file": "host_apex_Gento_Sky.urdf",
+      "sha256": "321f4210e2a1ce12d1a937a38486cb8009093770e434598b6de4b0aa96bd0410"
+    },
+    {
+      "source": "runtime_state_publisher.yaml:robot_description",
+      "file": "runtime_expanded.urdf",
+      "sha256": "6caa36a4327deb3e206512eda54875bfecb40f7bf316a3d03458c2211f200911"
+    }
+  ],
+  "historical_recording_model_match": "unverified",
+  "tracking_to_base_model": "identity fixed joint in runtime startup URDF and active-selected MJCF",
+  "physical_calibration": "not independently measured"
+}

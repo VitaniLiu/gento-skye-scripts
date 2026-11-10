@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+export PYTHONDONTWRITEBYTECODE=1
+export TMPDIR="$ROOT/tests/tmp"
+export HF_HUB_OFFLINE=1 HF_DATASETS_OFFLINE=1
+export HF_HOME="$ROOT/tests/cache/huggingface"
+export HF_DATASETS_CACHE="$HF_HOME/datasets"
+export XDG_CACHE_HOME="$ROOT/tests/cache"
+export PYTHONPATH="$ROOT/src"
+mkdir -p "$TMPDIR" "$HF_DATASETS_CACHE"
+exec "$ROOT/.venv/bin/python" -m processing.convert_cli "$@"

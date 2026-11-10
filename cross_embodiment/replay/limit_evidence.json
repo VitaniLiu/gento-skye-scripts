@@ -1,0 +1,27 @@
+{
+  "captured_at": "2026-11-10",
+  "robot": "user@6.6.7.100",
+  "conclusion": "Joint6/Joint7 limits are present in Gento Skye's installed robot-owned URDFs and are not introduced by cross_embodiment.",
+  "robot_files": [
+    {
+      "path": "/opt/kernelmind/apex/install/marvin_description/share/marvin_description/urdf/Gento_Sky/Gento_Sky.urdf",
+      "sha256": "5a3207932330c1b60f9175dda23a90386d881401bbfd3b97ba975068b27f20d0"
+    },
+    {
+      "path": "/opt/kernelmind/apex/install/marvin_description/share/marvin_description/urdf/Gento_Sky/Gento_Sky_mj.urdf",
+      "sha256": "ee1859e37e412b625806db660e74afd471b73dad92a9ebbb98ea2e841f988dd9"
+    },
+    {
+      "path": "/opt/ApexTeleop/resources/app/dist/urdf/Gento_Sky/Gento_Sky.urdf",
+      "sha256": "321f4210e2a1ce12d1a937a38486cb8009093770e434598b6de4b0aa96bd0410"
+    }
+  ],
+  "limits": {
+    "Joint6_L": [-1.0472, 1.0472, 3.1416],
+    "Joint7_L": [-1.5708, 1.5708, 3.1416],
+    "Joint6_R": [-1.0472, 1.0472, 3.1416],
+    "Joint7_R": [-1.5708, 1.5708, 3.1416]
+  },
+  "units": ["lower_rad", "upper_rad", "velocity_rad_s"],
+  "execution_check": "robot_endpoint.py rereads the installed Gento_Sky.urdf and rejects any limit mismatch before publishing"
+}

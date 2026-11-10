@@ -1,0 +1,49 @@
+/**:
+  ros__parameters:
+    robot_type: Gento_Skye
+    robot_ip: 6.6.7.190
+    pd_cmd_cycle_time_ms: 2
+    publish_cmd_pos_debug: true
+    check_cmd_timestamp: true
+    left_joints:
+      - Joint1_L
+      - Joint2_L
+      - Joint3_L
+      - Joint4_L
+      - Joint5_L
+      - Joint6_L
+      - Joint7_L
+    right_joints:
+      - Joint1_R
+      - Joint2_R
+      - Joint3_R
+      - Joint4_R
+      - Joint5_R
+      - Joint6_R
+      - Joint7_R
+    head_joints:
+      - Head_J1_Joint
+      - Head_J2_Joint
+    lift_joints:
+      - waist_joint_1
+    body_joints:
+      - waist_joint_2
+      - waist_joint_3
+    left_pd:
+      k: [3.0, 3.0, 2.4, 2.4, 1.8, 1.8, 1.8]
+      d: [0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18]
+    right_pd:
+      k: [3.0, 3.0, 2.4, 2.4, 1.8, 1.8, 1.8]
+      d: [0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18]
+    body_pd:
+      k: [28.0, 26.0, 28.0, 14.0, 6.0, 4.0]
+      d: [5.5, 3.7, 2.0, 2.2, 2.0, 0.6]
+    left_tool: [1.4646, 16.0, 8.0, 92.0, 0.001, 0.0, 0.0, 0.001, 0.0, 0.001]
+    right_tool: [1.4646, 16.0, 8.0, 92.0, 0.001, 0.0, 0.0, 0.001, 0.0, 0.001]
+    speed_ratio: 100
+    accel_ratio: 100
+    mode1_targets: [1, 1, 1, 1]
+    mode3_targets: [2, 1, 1, 1]
+    arm_supported_control_modes: [1, 2]
+    body_supported_control_modes: [1]
+    lift_supported_control_modes: [1]

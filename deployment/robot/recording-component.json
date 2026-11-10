@@ -1,0 +1,18 @@
+{
+  "component": "robot_recording",
+  "version": "2.0",
+  "execution": "one-shot SSH source bundle or robot-local recording.sh JSON_CONFIG",
+  "service_install": false,
+  "control_actions": false,
+  "raw_root": "/home/user/gento-skye_raw_data",
+  "sources": {
+    "src/recording/protocol.py": "37dac8311b10e01429a76ef635a9a3bfddf1cd969b81129ffa3c1453274b851f",
+    "src/recording/transport.py": "4b01df9dae0845c44cd22c0105c11464e14cc9b880b476b13c1d557970723095",
+    "src/recording/worker.py": "9604fd8cc9cbe0fb4d0240edfeded111e0f424de5aa5234ccb96b92e1ad92693",
+    "src/recording/main.py": "8b1d8e130b65f8cdd4c3818dead3ee67fe6424d5481d29b2ef91094ebf33297b",
+    "deployment/robot/recording.sh": "6b3ddde023d68b9b9fe6e208938e1abfccd4f4c59fddf1d12093b266f53af2cf",
+    "configs/recording/runtime.json": "d1adfe72c6c8dad0183e454ed3b12bc4dd39f18f71fe35a2007b6a3149e99479",
+    "src/recording/interactive.py": "024d8a895f400cf8323b2c65f3e6c4c89c8f7029b6f5b941726fec94be9605f8",
+    "src/recording/sender_log.py": "866ace1c695ec9565d4b03e8fee4c93be629ee2f07dba6e797443ebc80cb4ab2"
+  }
+}

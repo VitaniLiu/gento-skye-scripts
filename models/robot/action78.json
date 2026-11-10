@@ -1,0 +1,709 @@
+{
+  "schema_version": "1.0",
+  "mapping_id": "unresolved-78-v1",
+  "verified": false,
+  "dimensions": [
+    {
+      "index": 0,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 1,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 2,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 3,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 4,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 5,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 6,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 7,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 8,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 9,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 10,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 11,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 12,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 13,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 14,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 15,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 16,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 17,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 18,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 19,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 20,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 21,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 22,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 23,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 24,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 25,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 26,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 27,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 28,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 29,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 30,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 31,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 32,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 33,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 34,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 35,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 36,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 37,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 38,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 39,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 40,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 41,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 42,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 43,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 44,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 45,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 46,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 47,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 48,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 49,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 50,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 51,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 52,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 53,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 54,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 55,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 56,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 57,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 58,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 59,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 60,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 61,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 62,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 63,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 64,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 65,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 66,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 67,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 68,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 69,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 70,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 71,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 72,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 73,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 74,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 75,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 76,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    },
+    {
+      "index": 77,
+      "name": null,
+      "unit": null,
+      "frame": null,
+      "min": null,
+      "max": null,
+      "evidence": null
+    }
+  ]
+}

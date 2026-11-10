@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
+ROBOT=${1:-user@6.6.7.100}
+ssh -o BatchMode=yes "$ROBOT" "mkdir -p /home/user/gento-skye_scripts/src/inference/robot /home/user/gento-skye_scripts/configs/inference"
+rsync -a --delete "$ROOT/src/inference/robot/" "$ROBOT:/home/user/gento-skye_scripts/src/inference/robot/"
+rsync -a "$ROOT/configs/inference/" "$ROBOT:/home/user/gento-skye_scripts/configs/inference/"
+echo "Inference robot endpoint installed on $ROBOT"

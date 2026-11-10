@@ -1,0 +1,19 @@
+{
+  "robot": "user@6.6.7.100",
+  "waist_height_m": 0.49631398916244507,
+  "start_tolerance_rad": 0.08,
+  "move_to_start_speed_fraction": 0.1,
+  "move_to_start_control_hz": 50.0,
+  "move_to_start_min_duration_s": 4.0,
+  "move_to_start_max_duration_s": 30.0,
+  "move_to_start_settle_s": 1.0,
+  "max_nfev": 70,
+  "joint_limit_policy": "solve_wide_then_clip_to_target_urdf_and_rate_limits",
+  "eef_residual_policy": "report_only_do_not_reject",
+  "fixed_commands": {
+    "base_vx": 0.0,
+    "base_wz": 0.0,
+    "left_gripper": 0.0,
+    "right_gripper": 0.0
+  }
+}

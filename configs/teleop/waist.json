@@ -1,0 +1,9 @@
+{
+  "reset_height_m": 0.49631398916244507,
+  "joint_name": "waist_joint_1",
+  "unit": "m",
+  "reference": "joint displacement; not overall robot height",
+  "captured_at": "2026-11-05T09:45:34.758033+00:00",
+  "capture_source": "/tj/joint_states",
+  "ros_domain_id": 24
+}

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<CycloneDDS xmlns="https://cdds.io/config">
+  <Domain>
+    <General>
+      
+      <FragmentSize>65000B</FragmentSize>
+      <MaxMessageSize>65000B</MaxMessageSize>
+      <Interfaces>
+        
+        <NetworkInterface name="mgbe0_0" />
+      </Interfaces>
+      <AllowMulticast>spdp</AllowMulticast>
+    </General>
+    <Discovery>
+      
+      <MaxAutoParticipantIndex>256</MaxAutoParticipantIndex>
+      
+      <LeaseDuration>10 s</LeaseDuration>
+    <SPDPInterval>200 ms</SPDPInterval></Discovery>
+    
+    <SharedMemory>
+      <Enable>false</Enable>
+    </SharedMemory>
+    <Tracing>
+      <Verbosity>warning</Verbosity>
+      <OutputFile>stderr</OutputFile>
+    </Tracing>
+  </Domain>
+</CycloneDDS>

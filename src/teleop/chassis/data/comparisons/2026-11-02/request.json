@@ -1,0 +1,15 @@
+{
+  "request": "Compare next manual outbound route against replay of that exact outbound route",
+  "created_at": "2026-11-02T14:36:29.874045+08:00",
+  "previous_completed_session": "logs/live-20261102-143238-c748e550.jsonl",
+  "log_directory": "/home/descfly/tianjidipan/logs",
+  "manual_window": "session start through last stationary target before reset_started; exclude A-return",
+  "replay_source": "pending completion of new manual capture; never select old pinned replay",
+  "compare": [
+    "global start/end displacement and yaw",
+    "start-aligned trajectory errors",
+    "time-aligned and distance-aligned errors",
+    "command sequence equality"
+  ],
+  "motion_started_by_assistant": false
+}

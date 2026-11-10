@@ -1,0 +1,62 @@
+{
+  "profile": "egoav_78d_20261021_v1",
+  "target": "Gento Skye",
+  "waist_height_m": 0.49631398916244507,
+  "source_to_target": {
+    "translation_m": [
+      0,
+      0,
+      0
+    ],
+    "rotation_xyzw": [
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "position_tolerance_m": 0.005,
+  "rotation_tolerance_rad": 0.03,
+  "rotation_weight_m": 0.2,
+  "continuity_weight": 0.001,
+  "max_nfev": 70,
+  "groups": [
+    {
+      "name": "left",
+      "start": 0,
+      "body": "left_tool",
+      "joints": [
+        "Joint1_L",
+        "Joint2_L",
+        "Joint3_L",
+        "Joint4_L",
+        "Joint5_L",
+        "Joint6_L",
+        "Joint7_L"
+      ]
+    },
+    {
+      "name": "right",
+      "start": 9,
+      "body": "right_tool",
+      "joints": [
+        "Joint1_R",
+        "Joint2_R",
+        "Joint3_R",
+        "Joint4_R",
+        "Joint5_R",
+        "Joint6_R",
+        "Joint7_R"
+      ]
+    },
+    {
+      "name": "head",
+      "start": 18,
+      "body": "eyes_link",
+      "joints": [
+        "Head_J1_Joint",
+        "Head_J2_Joint"
+      ]
+    }
+  ]
+}

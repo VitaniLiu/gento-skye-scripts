@@ -1,0 +1,31 @@
+{
+  "schema": "gento_gripper_slow_v1",
+  "domain_id": 24,
+  "close_seconds": 3,
+  "open_seconds": 3,
+  "rate_hz": 100,
+  "timeout_s": 0.3,
+  "press_threshold": 0.1,
+  "release_threshold": 0.05,
+  "sides": {
+    "L": {
+      "source_topic": "/tj/control/gripperValueL",
+      "target_topic": "/tj/control/gripper_slow_targetL",
+      "feedback_topic": "/tj/info/gripper_feedback_L",
+      "can_interface": "vcan0",
+      "motor_id": 1,
+      "minimum": 0,
+      "maximum": 1.6
+    },
+    "R": {
+      "source_topic": "/tj/control/gripperValueR",
+      "target_topic": "/tj/control/gripper_slow_targetR",
+      "feedback_topic": "/tj/info/gripper_feedback_R",
+      "can_interface": "vcan1",
+      "motor_id": 2,
+      "minimum": 0,
+      "maximum": 1.6
+    }
+  },
+  "teleop_mode": "direct"
+}
