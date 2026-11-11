@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import queue
+import re
 import select
 import socket
 import subprocess
@@ -26,6 +27,28 @@ from images import ImageHistory
 
 
 ROOT = Path(__file__).resolve().parents[3]
+
+
+def load_configuration(path, model):
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", model):
+        raise ValueError("invalid model name")
+    config = json.loads(path.read_text())
+    deployment_path = path.parent / f"deployed_{model}.json"
+    deployment = json.loads(deployment_path.read_text())
+    if deployment.get("wire_protocol") != "json_length_v1":
+        raise ValueError("unsupported wire protocol")
+    if deployment.get("transport", "ssh") not in ("ssh", "tcp"):
+        raise ValueError("unknown server transport")
+    instruction_mode = deployment.get("instruction_mode", "request")
+    if instruction_mode not in ("request", "server"):
+        raise ValueError("unknown instruction mode")
+    tasks_path = deployment_path.parent / deployment["tasks_file"]
+    settings = config["inference"]
+    settings["model"] = deployment["model"]
+    settings["instruction_mode"] = instruction_mode
+    settings["tasks"] = json.loads(tasks_path.read_text())["tasks"]
+    config["server"] = deployment
+    return config
 
 
 def jpeg_base64(array):
@@ -157,6 +180,17 @@ class Tunnel:
             self.process.wait(timeout=2)
 
 
+def server_address(config):
+    server = config["server"]
+    transport = server.get("transport", "ssh")
+    if transport == "tcp":
+        return server["server_host"], server["server_port"], None
+    if transport == "ssh":
+        tunnel = Tunnel(config)
+        return "127.0.0.1", server["local_port"], tunnel
+    raise ValueError("unknown server transport: " + str(transport))
+
+
 def q_listener(event):
     if not sys.stdin.isatty():
         return
@@ -172,7 +206,7 @@ def q_listener(event):
         termios.tcsetattr(fd, termios.TCSADRAIN, previous)
 
 
-def check_info(info, config, task, steps):
+def check_info(info, config, task, instruction, steps):
     expected = config["inference"]
     checks = (("action_dim", expected["action_dim"]),
               ("action_horizon", expected["action_horizon"]),
@@ -180,8 +214,13 @@ def check_info(info, config, task, steps):
     for key, value in checks:
         if key in info and info[key] != value:
             raise RuntimeError(f"server {key}={info[key]!r}, expected {value!r}")
-    if "tasks" in info and task not in info["tasks"]:
-        raise RuntimeError("server does not provide task " + task)
+    server_task = expected["tasks"][task].get("server_task", task)
+    if "tasks" in info and server_task not in info["tasks"]:
+        raise RuntimeError("server does not provide task " + server_task)
+    if expected["instruction_mode"] == "server":
+        task_info = info.get("tasks", {}).get(server_task, {})
+        if not isinstance(task_info, dict) or task_info.get("prompt") != instruction:
+            raise RuntimeError("server task instruction does not match client configuration")
     if steps > expected["action_horizon"]:
         raise ValueError("steps exceeds action horizon")
 
@@ -194,6 +233,10 @@ def task_spec(settings, task):
     for start, end in record.get("masked_ranges", []):
         mask[start:end] = [False] * (end - start)
     return record["instruction"], mask
+
+
+def request_task(settings, task):
+    return settings["tasks"][task].get("server_task", task)
 
 
 def response_masks(reply, task_mask, frames, dimensions):
@@ -245,12 +288,11 @@ def build_infer_request_from_state(settings, task, instruction, task_mask, reque
         raise ValueError("protocol state must be a finite action_dim vector")
     state = state.copy()
     state[~state_mask] = 0
-    return {
+    request = {
         "command": "infer",
         "model": settings.get("model", "default"),
         "task": task,
         "robot_id": settings["robot_id"],
-        "instruction": instruction,
         "mask": task_mask,
         "request_id": request_id,
         "session_id": session_id,
@@ -262,6 +304,9 @@ def build_infer_request_from_state(settings, task, instruction, task_mask, reque
             **image_fields,
         },
     }
+    if settings.get("instruction_mode", "request") == "request":
+        request["instruction"] = instruction
+    return request
 
 
 def response_rows(reply, request_id, task_mask, steps, settings, observation, kinematics):
@@ -301,15 +346,14 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=ROOT / "configs/inference/default.json")
     parser.add_argument("--task", required=True)
-    parser.add_argument("--model", help="model identifier registered on the policy server")
+    parser.add_argument("--model", required=True, help="deployment name")
     parser.add_argument("--steps", type=int)
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args(argv)
-    config = json.loads(args.config.read_text())
-    config["inference"]["model"] = args.model if args.model is not None else config.get("model", "default")
-    if not args.execute:
-        print(f"配置检查完成：task={args.task}, model={config['inference']['model']}；添加 --execute 后运行。")
-        return 0
+    try:
+        config = load_configuration(args.config, args.model)
+    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        parser.error(str(exc))
     settings = config["inference"]
     if args.task not in settings["tasks"]:
         parser.error("unknown task: " + args.task)
@@ -319,30 +363,36 @@ def main(argv=None):
         parser.error("steps must be within action horizon")
     if "image" not in settings["tasks"][args.task]:
         parser.error("task has no SKYE image crop configured")
+    if not args.execute:
+        print(f"配置检查完成：task={args.task}, model={args.model}；添加 --execute 后运行。")
+        return 0
     models = ROOT / "src/inference/models"
     kinematics = Kinematics(models / "runtime_expanded.urdf", models / "robot_Gento_Sky.xml")
     stop = threading.Event()
     keyboard = threading.Thread(target=q_listener, args=(stop,), daemon=True)
     keyboard.start()
-    tunnel = robot = None
+    connection = robot = None
     try:
-        tunnel = Tunnel(config)
+        host, port, connection = server_address(config)
         server = config["server"]
-        with PolicyClient("127.0.0.1", server["local_port"], server["timeout_s"]) as policy:
+        with PolicyClient(host, port, server["timeout_s"]) as policy:
             info = policy.request("info")
-            check_info(info, config, args.task, steps)
+            check_info(info, config, args.task, instruction, steps)
             robot = RobotClient(config, task=args.task)
             robot.wait("ready")
-            reset = policy.request("reset", task=args.task, model=settings["model"], robot_id=settings["robot_id"],
-                                   instruction=instruction, mask=task_mask,
-                                   data_contract=settings["data_contract"])
+            reset_fields = dict(task=request_task(settings, args.task), model=settings["model"],
+                                robot_id=settings["robot_id"], mask=task_mask,
+                                data_contract=settings["data_contract"])
+            if settings["instruction_mode"] == "request":
+                reset_fields["instruction"] = instruction
+            reset = policy.request("reset", **reset_fields)
             session_id = reset.get("session_id", uuid.uuid4().hex)
             print("inference 已启动，按 q 结束并依次复位身体、腰部和底盘。", flush=True)
             while not stop.is_set():
                 observation, images = aligned_observation(robot)
                 request_id = uuid.uuid4().hex
                 request = build_infer_request(
-                    settings, args.task, instruction, task_mask, request_id, session_id,
+                    settings, request_task(settings, args.task), instruction, task_mask, request_id, session_id,
                     observation, images, kinematics, config["grippers"])
                 reply = policy.request_object(request)
                 rows = response_rows(reply, request_id, task_mask, steps, settings,
@@ -371,8 +421,8 @@ def main(argv=None):
         keyboard.join(timeout=1)
         if robot is not None:
             robot.close()
-        if tunnel is not None:
-            tunnel.close()
+        if connection is not None:
+            connection.close()
 
 
 if __name__ == "__main__":

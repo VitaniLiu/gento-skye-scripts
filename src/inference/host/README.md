@@ -35,7 +35,10 @@ raw feedback 0.3145900070667267 - sample(-0.1610509753227234) =
 0.4756409823894501 m protocol origin. Startup reset remains the capture default
 0.49631398916244507 m; it is not a replacement protocol origin.
 
-Model selection: --model MODEL_ID overrides top-level config model. The selected
-identifier is sent as model in reset and infer. It is a server-side identifier,
-not a path loaded by this client. Verify the deployed server accepts this field;
-client transmission alone does not prove server routing.
+Model selection: `--model NAME` loads `configs/inference/deployed_NAME.json`.
+That deployment selects SSH or direct TCP transport, the server endpoint and a
+task registry through `tasks_file`; the deployment's `model` value is sent in
+reset and infer, so NAME may be a checkpoint/profile alias.
+`instruction_mode=request` sends the selected task's instruction in every reset
+and infer request. `instruction_mode=server` sends `server_task` instead and
+requires the prompt reported by server info to match the local task registry.

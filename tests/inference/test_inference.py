@@ -15,7 +15,8 @@ sys.path.insert(0, str(ROOT / "src/inference/host"))
 sys.path.insert(0, str(ROOT / "src/inference/robot"))
 
 from kinematics import JOINTS, Kinematics
-from main import build_infer_request, response_masks, response_rows, task_spec
+from main import (build_infer_request, load_configuration, response_masks,
+                  response_rows, server_address, task_spec)
 from protocol import PolicyClient
 from retrace import RecordedPath, Sample
 from runtime import home_duration
@@ -24,6 +25,7 @@ from runtime import home_duration
 class InferenceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.config = load_configuration(ROOT / "configs/inference/default.json", "default")
         models = ROOT / "src/inference/models"
         cls.kinematics = Kinematics(models / "runtime_expanded.urdf", models / "robot_Gento_Sky.xml")
         tree = ET.parse(models / "robot_Gento_Sky.xml").getroot()
@@ -49,7 +51,7 @@ class InferenceTests(unittest.TestCase):
         self.assertEqual([len(group) for group in row["groups"]], [7, 7, 2])
 
     def test_flange_state_and_ik_round_trip(self):
-        config = json.loads((ROOT / "configs/inference/default.json").read_text())
+        config = self.config
         k = self.kinematics
         for delta in (0.0, 0.03, -0.03):
             with self.subTest(delta=delta):
@@ -76,7 +78,7 @@ class InferenceTests(unittest.TestCase):
                     self.assertLess(np.linalg.norm(actual[name][:3, :3] - frames[name][:3, :3]), .043)
 
     def test_raw_gripper_feedback_normalized_once(self):
-        config = json.loads((ROOT / "configs/inference/default.json").read_text())
+        config = self.config
         for fraction in (0.0, 0.5, 1.0):
             observation = {"joint_names": list(JOINTS),
                            "joint_positions": [self.home[name] for name in JOINTS],
@@ -117,8 +119,15 @@ class InferenceTests(unittest.TestCase):
         self.assertEqual(seen, [{"command": "info"}])
         self.assertEqual(result["action_dim"], 78)
 
+    def test_model_deployment_selects_server_and_task_file(self):
+        self.assertEqual(self.config["server"]["model"], "default")
+        self.assertEqual(set(self.config["inference"]["tasks"]), {"gouwu", "toulaji"})
+        direct = {"server": {"transport": "tcp", "server_host": "127.0.0.1",
+                             "server_port": 8000}}
+        self.assertEqual(server_address(direct), ("127.0.0.1", 8000, None))
+
     def test_task_masks_are_sent_as_78_boolean_dimensions(self):
-        settings = json.loads((ROOT / "configs/inference/default.json").read_text())["inference"]
+        settings = self.config["inference"]
         _, gouwu = task_spec(settings, "gouwu")
         _, toulaji = task_spec(settings, "toulaji")
         self.assertEqual(len(gouwu), 78)
@@ -129,7 +138,7 @@ class InferenceTests(unittest.TestCase):
                          [27, 28, *range(32, 54), *range(55, 77)])
 
     def test_response_mask_blocks_robot_fields(self):
-        settings = json.loads((ROOT / "configs/inference/default.json").read_text())["inference"]
+        settings = self.config["inference"]
         _, task_mask = task_spec(settings, "gouwu")
         server_mask = [True] * 78
         server_mask[30] = False
@@ -157,7 +166,7 @@ class InferenceTests(unittest.TestCase):
             response_masks({}, [True] * 78, 1, 78)
 
     def test_protocol_waist_height_is_converted_in_both_directions(self):
-        config = json.loads((ROOT / "configs/inference/default.json").read_text())
+        config = self.config
         settings = config["inference"]
         _, task_mask = task_spec(settings, "toulaji")
         class FakeKinematics:

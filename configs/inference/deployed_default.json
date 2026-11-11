@@ -1,0 +1,12 @@
+{
+  "model": "default",
+  "transport": "ssh",
+  "ssh_host": "zw",
+  "server_host": "127.0.0.1",
+  "server_port": 8000,
+  "local_port": 18000,
+  "timeout_s": 30,
+  "wire_protocol": "json_length_v1",
+  "instruction_mode": "request",
+  "tasks_file": "tasks_default.json"
+}

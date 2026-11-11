@@ -11,13 +11,14 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src/inference/host"))
 from images import ImageHistory, prepare_rgb
-from main import build_infer_request_from_state, check_info, response_rows, task_spec
+from main import (build_infer_request_from_state, check_info, load_configuration,
+                  response_rows, task_spec)
 from kinematics import JOINTS, Kinematics
 
 class SkyeHandoffTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.config = json.loads((ROOT / "configs/inference/default.json").read_text())
+        cls.config = load_configuration(ROOT / "configs/inference/default.json", "default")
         cls.settings = cls.config["inference"]
         cls.z = zipfile.ZipFile(ROOT / "tests/inference/skye_handoff_20261111/sample.zip")
         cls.sample = json.loads(cls.z.read("single_sample/sample.json"))
@@ -56,8 +57,10 @@ class SkyeHandoffTests(unittest.TestCase):
         self.assertEqual(request["data_contract"],self.settings["data_contract"])
 
     def test_server_contract_and_direct_wrist_dispatch(self):
-        check_info({},self.config,"toulaji",32)
-        check_info({"data_contract":self.settings["data_contract"]},self.config,"toulaji",32)
+        instruction = self.settings["tasks"]["toulaji"]["instruction"]
+        check_info({},self.config,"toulaji",instruction,32)
+        check_info({"data_contract":self.settings["data_contract"]},self.config,
+                   "toulaji",instruction,32)
         values = np.asarray(self.sample["arrays"]["source_action_base_wrist_column6d"]["values"]).copy()
         # Sample base-wrist arrays already contain Q: emulate server undoing it.
         Q = self.sample["Q_and_tool_inverse_already_applied_in_source"]["Q_from_restored_wrist"]

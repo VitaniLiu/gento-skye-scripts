@@ -20,7 +20,7 @@ sys.path.insert(0, str(HOST))
 from images import ImageHistory
 from kinematics import JOINTS, Kinematics  # noqa: E402
 from main import (RobotClient, build_infer_request_from_state, jpeg_base64, q_listener,
-                  response_rows, task_spec)  # noqa: E402
+                  load_configuration, response_rows, task_spec)  # noqa: E402
 from processing.conversion import Collector  # noqa: E402
 from processing.command_targets import CommandTargets  # noqa: E402
 from processing.remote import request as raw_request  # noqa: E402
@@ -40,8 +40,8 @@ def dump_line(value):
                       separators=(",", ":")) + "\n"
 
 
-def load_config(path, task):
-    config = json.loads(path.read_text())
+def load_config(path, model, task):
+    config = load_configuration(path, model)
     settings = config["inference"]
     if task not in settings["tasks"]:
         raise ValueError("unknown task: " + task)
@@ -336,6 +336,7 @@ def main(argv=None):
     parser.add_argument("--config", type=Path,
                         default=ROOT / "configs/inference/default.json")
     parser.add_argument("--task", required=True)
+    parser.add_argument("--model", default="default")
     parser.add_argument("--raw-root", type=Path,
                         default=Path("/home/user/gento-skye_raw_data"))
     parser.add_argument("--execute", action="store_true",
@@ -353,7 +354,7 @@ def main(argv=None):
     run_parser.add_argument("--episode", type=int, required=True)
     run_parser.add_argument("--protocol-file", type=Path)
     args = parser.parse_args(argv)
-    config, settings = load_config(args.config, args.task)
+    config, settings = load_config(args.config, args.model, args.task)
     if args.command in ("replay", "run") and not args.execute:
         parser.error("replay and run require --execute")
     if args.command == "convert":

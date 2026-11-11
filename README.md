@@ -26,7 +26,9 @@ Static motion candidate review: clean --preview TASK (read-only videos and plots
 Inference is self-contained in `src/inference`, `configs/inference`, and `scripts/inference`.
 It does not import the teleop, replay, recording, or processing implementation.
 
-Edit `configs/inference/default.json` to point at the deployed model service, then install the robot endpoint once:
+Robot settings are in `configs/inference/default.json`. A model name selects
+`configs/inference/deployed_MODEL.json`, which contains the server connection and
+references a `tasks_*.json` task registry. Install the robot endpoint once:
 
 ```bash
 scripts/inference/install
@@ -35,13 +37,13 @@ scripts/inference/install
 Validate the local configuration without contacting or moving the robot:
 
 ```bash
-scripts/inference/inference --task toulaji
+scripts/inference/inference --model default --task toulaji
 ```
 
 Run real inference explicitly:
 
 ```bash
-scripts/inference/inference --task toulaji --steps 32 --execute
+scripts/inference/inference --model default --task toulaji --steps 32 --execute
 ```
 
 Startup restores Apex Home and the configured waist height, switches the robot to impedance mode, and releases chassis parking. Each reset and infer request includes the task-specific 78-dimensional mask from the inference configuration. Each infer response must return a mask. The client intersects both masks and does not forward masked server fields to the robot. Press `q` to restore upper body and waist, then return the chassis to the measured start position.

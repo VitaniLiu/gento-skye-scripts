@@ -105,3 +105,7 @@ For `--execute`, the independent endpoint may move from measured robot joints to
 ## 2026-11-11 development branch
 
 User designates `develop` in `https://github.com/VitaniLiu/gento-skye-scripts` as the code development branch. Commit and push subsequent code changes to `develop` first; do not push directly to `main`. The live source is `/home/descfly/gento-skye_scripts`; the Git checkout used for publication is `tests/github-publish-20261111`. Synchronize reviewed source changes into that checkout before committing. Exclude recordings, generated protocol data, logs, virtual environments, caches and temporary backups from publication.
+
+## 2026-11-11 inference deployment selection
+
+Formal inference requires `--model NAME`. The base robot/runtime settings remain in `configs/inference/default.json`; `configs/inference/deployed_NAME.json` selects the server model identifier, endpoint, SSH or direct TCP transport, wire protocol and `tasks_file`; NAME may be a deployment/checkpoint alias. The referenced inference-owned task file contains instruction, mask and image preprocessing. `instruction_mode=request` sends the configured instruction, while `instruction_mode=server` sends the configured server task identifier and requires the server-reported prompt to match. The offline client test defaults to model `default`. Preserve the existing robot startup, response-mask intersection, q cleanup, periodic execution and server timeout behavior.
