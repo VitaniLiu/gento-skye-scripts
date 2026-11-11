@@ -1,5 +1,5 @@
-"""Byte-transparent fixed64 SSH transport; no model or robot semantics.
-64路持久SSH分片传输；仅重组原始请求，不变更位姿、图像、掩码或执行逻辑。
+"""Byte-transparent fixed64 transport over one persistent SSH tunnel.
+64路持久TCP分片复用一条SSH隧道；不变更位姿、图像、掩码或执行逻辑。
 """
 from concurrent.futures import ThreadPoolExecutor
 import argparse
@@ -59,15 +59,35 @@ class SocketStream:
 class SSHStream:
     """One independent persistent SSH TCP flow / 一条独立、持久的SSH TCP连接。"""
     def __init__(self,host,gateway_port,timeout):
-        self.process=subprocess.Popen(['ssh','-T','-o','BatchMode=yes','-o','ExitOnForwardFailure=yes',
-            '-o','ControlMaster=no','-o','ControlPath=none','-o','ServerAliveInterval=30',
-            '-o','ServerAliveCountMax=3','-W',f'127.0.0.1:{gateway_port}',host],
-            stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
-        for stream in (self.process.stdin,self.process.stdout):os.set_blocking(stream.fileno(),False)
-        try:
-            if self.read(len(GREETING),time.monotonic()+timeout)!=GREETING:raise ValueError('wrong gateway greeting')
-        except Exception:
-            self.close();raise
+        # Only retry an unestablished SSH greeting. No model request exists here.
+        for attempt in range(1,4):
+            self.process=subprocess.Popen(['ssh','-T','-o','BatchMode=yes','-o','ExitOnForwardFailure=yes',
+                '-o','ControlMaster=no','-o','ControlPath=none','-o','ConnectTimeout=10',
+                '-o','ServerAliveInterval=30','-o','ServerAliveCountMax=3',
+                '-W',f'127.0.0.1:{gateway_port}',host],
+                stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
+            for stream in (self.process.stdin,self.process.stdout):os.set_blocking(stream.fileno(),False)
+            try:
+                if self.read(len(GREETING),time.monotonic()+timeout)!=GREETING:
+                    raise ValueError('wrong gateway greeting')
+                return
+            except Exception as error:
+                # EOF previously discarded the useful upstream SSH rejection.
+                try:self.process.wait(timeout=.2)
+                except subprocess.TimeoutExpired:pass
+                os.set_blocking(self.process.stderr.fileno(),False)
+                stderr=(self.process.stderr.read(4096) or b'').decode(errors='replace').strip()
+                self.close()
+                detail=stderr or str(error)
+                fatal=any(token in detail.lower() for token in (
+                    'permission denied','host key verification failed',
+                    'remote host identification has changed','could not resolve hostname',
+                    'administratively prohibited'))
+                transient=isinstance(error,(ConnectionError,TimeoutError)) and not fatal
+                if not transient or attempt==3:
+                    raise ConnectionError(f'SSH lane handshake failed ({host}, attempt {attempt}/3): {detail}') from error
+                logging.warning('SSH startup lane rejected; retry %s/3: %s',attempt+1,detail)
+                time.sleep(.5*2**(attempt-1))
     def read(self,n,deadline):
         out=bytearray();fd=self.process.stdout.fileno()
         while len(out)<n:
@@ -263,16 +283,62 @@ class Gateway(socketserver.ThreadingTCPServer):
         super().server_close()
 
 
+class SharedSSHTunnel:
+    """One SSH connection forwarding all data lanes to the CPU gateway."""
+    def __init__(self, host, gateway_port, timeout=30):
+        with socket.socket() as reservation:
+            reservation.bind(('127.0.0.1',0))
+            self.port=reservation.getsockname()[1]
+        self.process=subprocess.Popen([
+            'ssh','-N','-T','-o','BatchMode=yes','-o','ExitOnForwardFailure=yes',
+            '-o','ControlMaster=no','-o','ControlPath=none','-o','ConnectTimeout=10',
+            '-o','ServerAliveInterval=30','-o','ServerAliveCountMax=3',
+            '-L',f'127.0.0.1:{self.port}:127.0.0.1:{gateway_port}',host],
+            stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
+        deadline=time.monotonic()+timeout
+        try:
+            while True:
+                if self.process.poll() is not None:
+                    detail=self.process.stderr.read(4096).decode(errors='replace').strip()
+                    raise ConnectionError('Shared SSH tunnel exited: '+detail)
+                try:
+                    probe=socket.create_connection(('127.0.0.1',self.port),timeout=.2)
+                    probe.close()
+                    return
+                except OSError:
+                    if time.monotonic()>=deadline:raise TimeoutError('Shared SSH tunnel startup timed out')
+                    time.sleep(.05)
+        except Exception:
+            self.close()
+            raise
+    def open_lane(self):
+        sock=socket.create_connection(('127.0.0.1',self.port),timeout=30)
+        try:
+            if recv_exact(sock,len(GREETING))!=GREETING:raise ValueError('wrong gateway greeting')
+            return SocketStream(sock)
+        except Exception:
+            sock.close()
+            raise
+    def close(self):
+        if self.process.poll() is None:self.process.terminate()
+        try:self.process.wait(timeout=2)
+        except subprocess.TimeoutExpired:self.process.kill();self.process.wait(timeout=2)
+        self.process.stderr.close()
+
+
 class ParallelTunnel:
     """Transparent local TCP frontend for the existing PolicyClient / 原Client透明TCP前端。"""
     def __init__(self,server):
         lanes=int(server.get('parallel_lanes',64))
         if lanes!=64:raise ValueError('this deployment requires64 lanes')
         opened=[];futures=[]
+        self.ssh=SharedSSHTunnel(server['ssh_host'],server.get('parallel_gateway_port',19578))
         try:
-            # Bound concurrent authentication to avoid SSH MaxStartups drops.
+            # TCP channels share one authenticated SSH connection.
             with ThreadPoolExecutor(max_workers=4) as executor:
-                futures=[executor.submit(SSHStream,server['ssh_host'],server.get('parallel_gateway_port',19578),30) for _ in range(lanes)]
+                futures=[]
+                for index in range(lanes):
+                    futures.append(executor.submit(self.ssh.open_lane))
                 try:
                     for f in futures:opened.append(f.result())
                 except Exception:
@@ -285,6 +351,7 @@ class ParallelTunnel:
                     stream=f.result()
                     if stream not in opened:opened.append(stream)
             for stream in opened:stream.close()
+            self.ssh.close()
             raise
         self.pool=ParallelPool(opened,server['server_port'],server.get('timeout_s',300))
         pool=self.pool
@@ -303,10 +370,10 @@ class ParallelTunnel:
         class Frontend(socketserver.ThreadingTCPServer):
             allow_reuse_address=True;daemon_threads=True
         try:self.server=Frontend(('127.0.0.1',server['local_port']),Handler)
-        except Exception:self.pool.close();raise
+        except Exception:self.pool.close();self.ssh.close();raise
         self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
     def close(self):
-        self.pool.close();self.server.shutdown();self.server.server_close();self.thread.join(timeout=2)
+        self.pool.close();self.server.shutdown();self.server.server_close();self.thread.join(timeout=2);self.ssh.close()
 
 
 def main():
