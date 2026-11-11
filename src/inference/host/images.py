@@ -38,6 +38,13 @@ class ImageHistory:
                 return
             self.frames.append((int(timestamp_ns), payload))
 
+    def latest_before(self, cutoff_ns):
+        with self.lock:
+            frame = next((f for f in reversed(self.frames) if f[0] <= cutoff_ns), None)
+        if frame is None:
+            raise RuntimeError("no head image at or before observation time")
+        return frame[0]
+
     def sample(self, t0_ns):
         with self.lock:
             frames = [f for f in self.frames if f[0] <= t0_ns]

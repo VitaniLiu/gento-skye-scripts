@@ -5,7 +5,8 @@
     "remote_root": "/home/user/gento-skye_scripts",
     "ros_domain_id": 24,
     "reset_height_m": 0.49631398916244507,
-    "impedance_mode": 3
+    "impedance_mode": 3,
+    "reset_height_source": "capture default configs/teleop/waist.json: 0.49631398916244507 m"
   },
   "server": {
     "ssh_host": "zw",
@@ -26,7 +27,8 @@
       "waist_pitch_scale": -1.0,
       "waist_pitch_offset_rad": -3.0484872695524246e-05,
       "waist_height_scale": 1.0,
-      "waist_height_offset_m": 0.4756409823894501
+      "waist_height_offset_m": 0.4756409823894501,
+      "waist_height_origin_source": "Verified sample episode00000010 grid feedback 0.3145900070667267 minus sample -0.1610509753227234 = 0.4756409823894501 m"
     },
     "tasks": {
       "gouwu": {
@@ -65,43 +67,6 @@
           "encoding": "PNG"
         }
       },
-      "shopping": {
-        "instruction": "shopping",
-        "masked_indices": [
-          27,
-          28,
-          31
-        ],
-        "masked_ranges": [
-          [
-            32,
-            54
-          ],
-          [
-            55,
-            77
-          ]
-        ]
-      },
-      "shouwu": {
-        "instruction": "shouwu",
-        "masked_indices": [
-          27,
-          28,
-          29,
-          31
-        ],
-        "masked_ranges": [
-          [
-            32,
-            54
-          ],
-          [
-            55,
-            77
-          ]
-        ]
-      },
       "toulaji": {
         "instruction": "toulaji",
         "masked_indices": [
@@ -135,24 +100,6 @@
           ],
           "encoding": "PNG"
         }
-      },
-      "test": {
-        "instruction": "test",
-        "masked_indices": [
-          27,
-          28,
-          31
-        ],
-        "masked_ranges": [
-          [
-            32,
-            54
-          ],
-          [
-            55,
-            77
-          ]
-        ]
       }
     },
     "data_contract": {

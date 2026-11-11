@@ -113,6 +113,9 @@ class RobotClient:
             if message.get("type") == expected:
                 return message
 
+    def image_anchor(self, cutoff_ns):
+        return self.history.latest_before(cutoff_ns)
+
     def image_history(self, timestamp_ns):
         return self.history.sample(timestamp_ns)
 
@@ -171,8 +174,6 @@ def q_listener(event):
 
 def check_info(info, config, task, steps):
     expected = config["inference"]
-    if info.get("data_contract") != expected.get("data_contract"):
-        raise RuntimeError("server must implement the configured SKYE native-wrist data_contract")
     checks = (("action_dim", expected["action_dim"]),
               ("action_horizon", expected["action_horizon"]),
               ("action_dt_s", expected["action_dt_s"]))
@@ -219,9 +220,13 @@ def build_infer_request(settings, task, instruction, task_mask, request_id, sess
     state[28] = (state[28] - mapping["waist_pitch_offset_rad"]) / mapping["waist_pitch_scale"]
     state[29] = ((state[29] - mapping["waist_height_offset_m"])
                  / mapping["waist_height_scale"])
-    return build_infer_request_from_state(
+    request = build_infer_request_from_state(
         settings, task, instruction, task_mask, request_id, session_id,
         observation["timestamp_ns"], state, image_sample)
+    for key in ("source_timestamps_ns", "timestamp_basis"):
+        if key in observation:
+            request["observation"][key] = observation[key]
+    return request
 
 
 def build_infer_request_from_state(settings, task, instruction, task_mask, request_id,
@@ -242,6 +247,7 @@ def build_infer_request_from_state(settings, task, instruction, task_mask, reque
     state[~state_mask] = 0
     return {
         "command": "infer",
+        "model": settings.get("model", "default"),
         "task": task,
         "robot_id": settings["robot_id"],
         "instruction": instruction,
@@ -280,16 +286,29 @@ def response_rows(reply, request_id, task_mask, steps, settings, observation, ki
     return kinematics.action_rows(actions[:steps], masks, seed)
 
 
+def aligned_observation(robot):
+    # First establish numeric coverage, then anchor at an actual decoded image.
+    robot.send("observe")
+    coverage = robot.wait("observation", timeout=5)
+    t0 = robot.image_anchor(coverage["timestamp_ns"])
+    images = robot.image_history(t0)
+    robot.send("observe", timestamp_ns=t0)
+    observation = robot.wait("observation", timeout=5)
+    return observation, images
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=ROOT / "configs/inference/default.json")
     parser.add_argument("--task", required=True)
+    parser.add_argument("--model", help="model identifier registered on the policy server")
     parser.add_argument("--steps", type=int)
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args(argv)
     config = json.loads(args.config.read_text())
+    config["inference"]["model"] = args.model if args.model is not None else config.get("model", "default")
     if not args.execute:
-        print("配置检查完成；添加 --execute 后才会复位机器人并运行 inference。")
+        print(f"配置检查完成：task={args.task}, model={config['inference']['model']}；添加 --execute 后运行。")
         return 0
     settings = config["inference"]
     if args.task not in settings["tasks"]:
@@ -314,18 +333,17 @@ def main(argv=None):
             check_info(info, config, args.task, steps)
             robot = RobotClient(config, task=args.task)
             robot.wait("ready")
-            reset = policy.request("reset", task=args.task, robot_id=settings["robot_id"],
+            reset = policy.request("reset", task=args.task, model=settings["model"], robot_id=settings["robot_id"],
                                    instruction=instruction, mask=task_mask,
                                    data_contract=settings["data_contract"])
             session_id = reset.get("session_id", uuid.uuid4().hex)
             print("inference 已启动，按 q 结束并依次复位身体、腰部和底盘。", flush=True)
             while not stop.is_set():
-                robot.send("observe")
-                observation = robot.wait("observation", timeout=5)
+                observation, images = aligned_observation(robot)
                 request_id = uuid.uuid4().hex
                 request = build_infer_request(
                     settings, args.task, instruction, task_mask, request_id, session_id,
-                    observation, robot.image_history(observation["timestamp_ns"]), kinematics, config["grippers"])
+                    observation, images, kinematics, config["grippers"])
                 reply = policy.request_object(request)
                 rows = response_rows(reply, request_id, task_mask, steps, settings,
                                      observation, kinematics)

@@ -12,6 +12,7 @@ import sys
 import time
 
 from retrace import RecordedPath, Sample
+from alignment import ObservationHistory
 
 
 def home_duration(message, default=20.0):
@@ -40,6 +41,7 @@ class Runtime:
                    domain_id=config["robot"]["ros_domain_id"])
         self.node = rclpy.create_node("gento_inference")
         self.config = config
+        self.observation_history = ObservationHistory()
         self.joints = {}
         self.joint_timestamp_ns = 0
         self.body = None
@@ -98,6 +100,7 @@ class Runtime:
     def on_joints(self, msg):
         self.joints = dict(zip(msg.name, msg.position))
         self.joint_timestamp_ns = msg.header.stamp.sec * 1_000_000_000 + msg.header.stamp.nanosec
+        self.observation_history.append("joints", self.joint_timestamp_ns, self.joints.copy())
 
     def on_body(self, msg):
         self.body = list(msg.body_positions)
@@ -106,6 +109,7 @@ class Runtime:
     def on_gripper(self, side, msg):
         if msg.data:
             self.grippers[side] = float(msg.data[0])
+            self.observation_history.append(side + "_gripper", self.node.get_clock().now().nanoseconds, self.grippers[side])
 
     def on_camera(self, msg):
         now = time.monotonic()
@@ -119,6 +123,7 @@ class Runtime:
         speed = msg.speed
         self.base = (float(speed.linear.x), float(speed.linear.y), float(speed.angular.z),
                      bool(msg.is_parking_mode), time.monotonic())
+        self.observation_history.append("base", self.node.get_clock().now().nanoseconds, (self.base[0], self.base[2]))
 
     def on_odom(self, msg):
         pose = msg.pose.pose
@@ -243,13 +248,8 @@ class Runtime:
         message.twist.angular.z = wz
         self.chassis_pub.publish(message)
 
-    def observation(self):
-        if not self.joints or self.body is None or None in self.grippers.values() or self.base is None:
-            raise RuntimeError("robot observation is incomplete")
-        emit({"type": "observation", "timestamp_ns": self.joint_timestamp_ns,
-              "joint_names": list(self.joints), "joint_positions": list(self.joints.values()),
-              "left_gripper": self.grippers["left"], "right_gripper": self.grippers["right"],
-              "base_vx": self.base[0], "base_wz": self.base[2]})
+    def observation(self, timestamp_ns=None):
+        emit(self.observation_history.snapshot(timestamp_ns))
 
     def execute(self, rows, dt):
         begin = time.monotonic()
@@ -315,7 +315,7 @@ def main():
                 continue
             command = json.loads(sys.stdin.readline())
             if command["command"] == "observe":
-                runtime.observation()
+                runtime.observation(command.get("timestamp_ns"))
             elif command["command"] == "execute":
                 runtime.execute(command["rows"], command["dt"])
                 emit({"type": "executed"})
