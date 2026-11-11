@@ -2,7 +2,7 @@
   "model": "ours_pre",
   "transport": "ssh",
   "ssh_host": "zw",
-  "server_host": "10.0.0.203",
+  "server_host": "10.0.0.167",
   "server_port": 19305,
   "local_port": 19305,
   "timeout_s": 300,
@@ -15,5 +15,7 @@
     -0.4,
     -0.2,
     0.0
-  ]
+  ],
+  "parallel_lanes": 64,
+  "parallel_gateway_port": 19578
 }

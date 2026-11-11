@@ -2,7 +2,7 @@
   "model": "alpha",
   "transport": "ssh",
   "ssh_host": "zw",
-  "server_host": "10.0.0.203",
+  "server_host": "10.0.0.167",
   "server_port": 19301,
   "local_port": 19301,
   "timeout_s": 300,
@@ -11,5 +11,7 @@
   "tasks_file": "tasks_eightpost.json",
   "image_history_offsets_s": [
     0.0
-  ]
+  ],
+  "parallel_lanes": 64,
+  "parallel_gateway_port": 19578
 }

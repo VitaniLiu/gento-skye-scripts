@@ -187,7 +187,13 @@ def server_address(config):
     if transport == "tcp":
         return server["server_host"], server["server_port"], None
     if transport == "ssh":
-        tunnel = Tunnel(config)
+        if "parallel_lanes" in server:
+            if server["parallel_lanes"] != 64:
+                raise ValueError("parallel transport requires64 lanes")
+            from parallel_transport import ParallelTunnel
+            tunnel = ParallelTunnel(server)
+        else:
+            tunnel = Tunnel(config)
         return "127.0.0.1", server["local_port"], tunnel
     raise ValueError("unknown server transport: " + str(transport))
 
