@@ -41,7 +41,16 @@
       -0.4,
       -0.2,
       0.0
-    ]
+    ],
+    "trajectory": {
+      "servo_dt_s": 0.01,
+      "startup_min_s": 3.0,
+      "joint_velocity_scale": 0.5,
+      "joint_acceleration_per_velocity_s": 2.0,
+      "waist_height_velocity_m_s": 0.03,
+      "continuity_weight": 0.0,
+      "late_tolerance_s": 0.1
+    }
   },
   "grippers": {
     "left": {

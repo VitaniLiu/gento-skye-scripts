@@ -24,6 +24,7 @@ from PIL import Image
 from kinematics import JOINTS, Kinematics
 from protocol import PolicyClient
 from images import ImageHistory
+from startup import StartupCancelled, align_startup, check_stop
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -98,6 +99,7 @@ class RobotClient:
         self.decode_camera = decode_camera
         self.image = None
         self.image_lock = threading.Lock()
+        self.image_after_ns = 0
         self.decoder = CameraDecoder()
         self.thread = threading.Thread(target=self._read, daemon=True)
         self.thread.start()
@@ -111,7 +113,9 @@ class RobotClient:
                         continue
                     image = self.decoder.decode(message["timestamp_ns"], message["data"])
                     if image is not None:
-                        self.history.append(*image)
+                        with self.image_lock:
+                            if image[0] >= self.image_after_ns:
+                                self.history.append(*image)
                 else:
                     self.messages.put(message)
             except Exception as exc:
@@ -136,6 +140,13 @@ class RobotClient:
                 raise RuntimeError(message["error"])
             if message.get("type") == expected:
                 return message
+
+    def reset_image_history(self, after_ns):
+        # Gate late decoded packets as well as frames already in the buffer.
+        with self.image_lock:
+            self.image_after_ns = int(after_ns) + 1
+            with self.history.lock:
+                self.history.frames.clear()
 
     def image_anchor(self, cutoff_ns):
         return self.history.latest_before(cutoff_ns)
@@ -198,7 +209,7 @@ def server_address(config):
     raise ValueError("unknown server transport: " + str(transport))
 
 
-def q_listener(event):
+def q_listener(event, on_stop=None):
     if not sys.stdin.isatty():
         return
     import termios
@@ -209,6 +220,8 @@ def q_listener(event):
         while not event.is_set():
             if select.select([fd], [], [], .1)[0] and os.read(fd, 1).lower() == b"q":
                 event.set()
+                if on_stop is not None:
+                    on_stop()
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, previous)
 
@@ -340,11 +353,24 @@ def response_rows(reply, request_id, task_mask, steps, settings, observation, ki
     return kinematics.action_rows(actions[:steps], masks, seed)
 
 
-def aligned_observation(robot):
+def aligned_observation(robot, after_ns=None, stop=None):
     # First establish numeric coverage, then anchor at an actual decoded image.
-    robot.send("observe")
-    coverage = robot.wait("observation", timeout=5)
-    t0 = robot.image_anchor(coverage["timestamp_ns"])
+    deadline = time.monotonic() + 5
+    while True:
+        if stop is not None:
+            check_stop(stop)
+        robot.send("observe")
+        coverage = robot.wait("observation", timeout=5)
+        try:
+            t0 = robot.image_anchor(coverage["timestamp_ns"])
+            if after_ns is None or t0 > after_ns:
+                break
+        except RuntimeError:
+            if after_ns is None:
+                raise
+        if time.monotonic() >= deadline:
+            raise TimeoutError("no fresh head image after startup arrival")
+        time.sleep(.01)
     images = robot.image_history(t0)
     robot.send("observe", timestamp_ns=t0)
     observation = robot.wait("observation", timeout=5)
@@ -378,9 +404,10 @@ def main(argv=None):
     models = ROOT / "src/inference/models"
     kinematics = Kinematics(models / "runtime_expanded.urdf", models / "robot_Gento_Sky.xml")
     stop = threading.Event()
-    keyboard = threading.Thread(target=q_listener, args=(stop,), daemon=True)
-    keyboard.start()
     connection = robot = None
+    keyboard = threading.Thread(target=q_listener, args=(stop, lambda: robot.send("cancel")
+                                if robot is not None and robot.process.poll() is None else None), daemon=True)
+    keyboard.start()
     try:
         host, port, connection = server_address(config)
         server = config["server"]
@@ -390,6 +417,13 @@ def main(argv=None):
             check_info(info, config, args.task, instruction, steps)
             robot = RobotClient(config, task=args.task)
             robot.wait("ready")
+            arrival = align_startup(robot, settings["tasks"][args.task], task_mask, settings,
+                                    kinematics, config["grippers"], stop, response_rows)
+            initial_observation = None
+            if arrival is not None:
+                robot.reset_image_history(arrival["timestamp_ns"])
+                initial_observation = aligned_observation(robot, after_ns=arrival["timestamp_ns"], stop=stop)
+            check_stop(stop)
             reset_fields = dict(task=request_task(settings, args.task), model=settings["model"],
                                 robot_id=settings["robot_id"], mask=task_mask,
                                 data_contract=settings["data_contract"])
@@ -399,7 +433,9 @@ def main(argv=None):
             session_id = reset.get("session_id", uuid.uuid4().hex)
             print("inference 已启动，按 q 结束并依次复位身体、腰部和底盘。", flush=True)
             while not stop.is_set():
-                observation, images = aligned_observation(robot)
+                observation, images = initial_observation or aligned_observation(robot)
+                initial_observation = None
+                check_stop(stop)
                 request_id = uuid.uuid4().hex
                 request = build_infer_request(
                     settings, request_task(settings, args.task), instruction, task_mask, request_id, session_id,
@@ -412,7 +448,7 @@ def main(argv=None):
         robot.send("quit")
         robot.wait("finished", timeout=180)
         return 0
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, StartupCancelled):
         stop.set()
         if robot is not None and robot.process.poll() is None:
             robot.send("quit")

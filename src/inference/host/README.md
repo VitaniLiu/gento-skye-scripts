@@ -64,3 +64,38 @@ Nested server error responses stop the request, including the initial info call.
 Example configuration check (no network or motion):
 `scripts/inference/inference --model ours_a1 --task toulaji --steps 32`
 Add --execute only for an explicitly intended robot run after server integration.
+
+
+## 2026-11-11 once-per-launch task startup alignment
+
+After the existing runtime Home/waist reset, impedance mode and parking release,
+SKYE tasks with `startup` in tasks_eightpost.json align once per client launch to
+the task DATA observation `state` at frame 0 (not an action target). The configured
+native base_link flange/head state is unnormalized column6d, with the existing
+relative waist origin. Source episode/frame and float32 state SHA-256 are recorded
+in the task configuration. Gouwu uses original episode00000000; toulaji uses
+original episode00000010. No image or dataset file is required on deployment.
+
+The host compares enabled pose, waist and calibrated gripper coordinates. Base
+vx/wz are always zero during this transition, regardless of DATA velocities;
+masked coordinates and unused finger fields are ignored. Existing response IK
+solves the target; the existing C1 planner joins measured joints to it at 100 Hz,
+with zero endpoint velocity, at least 3 seconds entry, 0.5 x URDF joint velocity,
+waist <=0.03 m/s and the existing acceleration policy. Runtime uniform 10 ms
+scheduling may stretch the last planner interval by less than 10 ms. The solved
+target is checked before execution; measured arrival is required afterwards.
+
+Declared arrival tolerances: arms 3 mm, head 5 mm, pose rotation 0.03 rad,
+active waist height 1 mm/angles 0.01 rad, and grippers 0.03 fraction. Arrival
+polling times out after 5 seconds; failure or q/cancel prevents policy reset and
+inference and follows the existing body/waist/chassis cleanup. This is a joint
+space transition with no Cartesian path or collision guarantee.
+
+After arrival (including an already-aligned pose), buffered images are cleared
+and late camera packets at/before the arrival timestamp are rejected. A fresh
+causally aligned observation/image sample is acquired before policy reset and
+used for the first infer; leading history slots pad from the earliest fresh
+frame. Startup alignment never repeats between action chunks. Policy chunks
+retain direct 20 Hz execution; tasks without a startup specification retain
+legacy startup behavior. Development checks are offline only; no hardware motion
+or control endpoint is started by tests/inference/test_startup_alignment.py.
