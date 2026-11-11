@@ -35,7 +35,7 @@ def load_configuration(path, model):
     config = json.loads(path.read_text())
     deployment_path = path.parent / f"deployed_{model}.json"
     deployment = json.loads(deployment_path.read_text())
-    if deployment.get("wire_protocol") != "json_length_v1":
+    if deployment.get("wire_protocol") not in ("json_length_v1", "egoav78_chunk_v1"):
         raise ValueError("unsupported wire protocol")
     if deployment.get("transport", "ssh") not in ("ssh", "tcp"):
         raise ValueError("unknown server transport")
@@ -45,6 +45,7 @@ def load_configuration(path, model):
     tasks_path = deployment_path.parent / deployment["tasks_file"]
     settings = config["inference"]
     settings["model"] = deployment["model"]
+    settings["image_history_offsets_s"] = deployment.get("image_history_offsets_s", settings["image_history_offsets_s"])
     settings["instruction_mode"] = instruction_mode
     settings["tasks"] = json.loads(tasks_path.read_text())["tasks"]
     config["server"] = deployment
@@ -207,6 +208,8 @@ def q_listener(event):
 
 
 def check_info(info, config, task, instruction, steps):
+    from protocol import raise_server_error
+    raise_server_error(info)
     expected = config["inference"]
     checks = (("action_dim", expected["action_dim"]),
               ("action_horizon", expected["action_horizon"]),
@@ -375,7 +378,8 @@ def main(argv=None):
     try:
         host, port, connection = server_address(config)
         server = config["server"]
-        with PolicyClient(host, port, server["timeout_s"]) as policy:
+        with PolicyClient(host, port, server["timeout_s"],
+                          wire_protocol=server.get("wire_protocol", "json_length_v1")) as policy:
             info = policy.request("info")
             check_info(info, config, args.task, instruction, steps)
             robot = RobotClient(config, task=args.task)

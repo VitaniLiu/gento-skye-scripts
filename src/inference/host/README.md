@@ -14,9 +14,10 @@ The existing server needs a SKYE adapter; this change does not implement it.
 
 Images: left-eye RGB 1280x720; toulaji crop [286,0,1006,720), gouwu crop
 [164,255,1179,704), then PIL Lanczos 320x320 with no letterbox/augmentation.
-PNG base64 images.head_color is a list of five frames at [-.8,-.6,-.4,-.2,0]s.
-image_timestamps_ns, image_target_timestamps_ns and image_padding_mask are lists
-of five. Padding repeats earliest available past frame. No future frames.
+The default legacy input uses five PNG base64 images.head_color frames at
+[-.8,-.6,-.4,-.2,0]s; model deployments may select current-only [0].
+image_timestamps_ns, image_target_timestamps_ns and image_padding_mask match
+the selected frame count. Padding repeats earliest available past frame. No future frames.
 The host first obtains numeric coverage, selects the latest decoded image at or
 before that cutoff as t0, then requests numeric snapshots at that exact t0.
 Robot buffers select the most recent sample <= t0 for joints, grippers and base.
@@ -42,3 +43,24 @@ reset and infer, so NAME may be a checkpoint/profile alias.
 `instruction_mode=request` sends the selected task's instruction in every reset
 and infer request. `instruction_mode=server` sends `server_task` instead and
 requires the prompt reported by server info to match the local task registry.
+
+
+Eight-model deployment (2026-11-11):
+`--model pi05|alpha|fastwam|groot|ours_direct|ours_pre|ours_a0|ours_a1`
+selects ports 19300..19307 respectively at 10.0.0.203 via zw.
+These endpoints are recorded deployment values, not a live availability claim.
+All use tasks_eightpost.json with the supplied English training instructions.
+Task identifiers remain gouwu and toulaji without an embodiment prefix.
+Server instruction mode verifies the configured prompt via info; infer sends task.
+The four baselines select offsets [0]; four Ours select [-.8,-.6,-.4,-.2,0].
+Only current state is sent. Native v4 transport uses cmd, float32 state arrays,
+uint8 head_rgb and, for Ours, head_rgb_history, history_offsets and history_is_pad.
+Existing crop/Lanczos/PNG preprocessing is retained; native transport decodes PNG
+back to lossless RGB arrays before array serialization. No PNG gateway is required.
+state_frame=source and embodiment=skye; no client Q or camera transform is added.
+Server must accept these task identifiers and native flange axes; no server changes
+or live inference validation are included in this client implementation.
+Nested server error responses stop the request, including the initial info call.
+Example configuration check (no network or motion):
+`scripts/inference/inference --model ours_a1 --task toulaji --steps 32`
+Add --execute only for an explicitly intended robot run after server integration.

@@ -1,0 +1,19 @@
+{
+  "model": "ours_a0",
+  "transport": "ssh",
+  "ssh_host": "zw",
+  "server_host": "10.0.0.203",
+  "server_port": 19306,
+  "local_port": 19306,
+  "timeout_s": 300,
+  "wire_protocol": "egoav78_chunk_v1",
+  "instruction_mode": "server",
+  "tasks_file": "tasks_eightpost.json",
+  "image_history_offsets_s": [
+    -0.8,
+    -0.6,
+    -0.4,
+    -0.2,
+    0.0
+  ]
+}
