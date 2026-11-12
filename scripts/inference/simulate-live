@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
+export PYTHONDONTWRITEBYTECODE=1 MUJOCO_GL=egl
+export TMPDIR="$ROOT/tests/tmp"
+mkdir -p "$TMPDIR"
+exec "$ROOT/.venv/bin/python" -B "$ROOT/src/inference/host/capture_simulation.py" "$@"

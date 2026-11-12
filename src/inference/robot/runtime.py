@@ -252,10 +252,33 @@ class Runtime:
         emit(self.observation_history.snapshot(timestamp_ns))
 
     def execute(self, rows, dt):
+        if not rows:
+            raise ValueError("execute requires action rows")
         begin = time.monotonic()
+        last_stamp = -1.0
+        max_late = 0.0
+        sent = 0
         for index, row in enumerate(rows):
-            while time.monotonic() < begin + index * dt:
-                self.spin(min(.005, begin + index * dt - time.monotonic()))
+            stamp = index * float(dt)
+            if not math.isfinite(stamp) or stamp < 0 or stamp <= last_stamp:
+                raise ValueError("trajectory timestamps must strictly increase")
+            last_stamp = stamp
+            while True:
+                if select.select([sys.stdin], [], [], 0)[0]:
+                    line = sys.stdin.readline()
+                    if not line or json.loads(line).get("command") == "cancel":
+                        self.publish_base()
+                        return dict(cancelled=True, sent=sent, max_late_s=max_late)
+                    raise RuntimeError("unexpected command during trajectory")
+                delay = begin + stamp - time.monotonic()
+                if delay <= 0:
+                    break
+                self.spin(min(.005, delay))
+            late = time.monotonic() - begin - stamp
+            max_late = max(max_late, late)
+            if late > self.config["inference"]["trajectory"]["late_tolerance_s"]:
+                self.publish_base()
+                raise RuntimeError("trajectory execution late; stale targets were not burst-sent")
             self.publish_upper(row["groups"], row["body"])
             self.waist_pub.publish(self.Float64(data=row["body"][0]))
             self.heartbeat()
@@ -264,7 +287,9 @@ class Runtime:
             if row["right_gripper"] is not None:
                 self.gripper_pubs["right"].publish(self.Float32(data=row["right_gripper"]))
             self.publish_base(row["vx"], row["wz"])
+            sent += 1
         self.publish_base()
+        return dict(cancelled=False, sent=sent, max_late_s=max_late)
 
     def return_base(self):
         self.capture = False
@@ -317,8 +342,10 @@ def main():
             if command["command"] == "observe":
                 runtime.observation(command.get("timestamp_ns"))
             elif command["command"] == "execute":
-                runtime.execute(command["rows"], command["dt"])
-                emit({"type": "executed"})
+                result = runtime.execute(command["rows"], command["dt"])
+                emit({"type": "executed", **result})
+            elif command["command"] == "cancel":
+                pass
             elif command["command"] == "quit":
                 emit({"type": "stage", "stage": "reset_after_q"})
                 runtime.reset_upper()

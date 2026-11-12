@@ -24,14 +24,14 @@ class EightpostTests(unittest.TestCase):
             count = 5 if i >= 4 else 1
             self.assertEqual(len(settings["image_history_offsets_s"]), count)
             for task in ["gouwu","toulaji"]:
-                self.assertEqual(request_task(settings, task), task)
+                self.assertEqual(request_task(settings, task), "skye/" + task)
                 instruction, mask = task_spec(settings, task)
-                check_info({"tasks":{task:{"prompt":instruction}}},config,task,instruction,32)
+                check_info({"tasks":{"skye/"+task:{"prompt":instruction}}},config,task,instruction,32)
                 batch = dict(head_color=[image]*count, image_padding_mask=[False]*count)
                 state = np.arange(78,dtype=np.float32)
-                request = build_infer_request_from_state(settings,task,instruction,mask,"r","s",100,state,batch)
+                request = build_infer_request_from_state(settings,request_task(settings,task),instruction,mask,"r","s",100,state,batch)
                 wire = native_request(request)
-                self.assertEqual(wire["task"],task)
+                self.assertEqual(wire["task"],"skye/"+task)
                 self.assertEqual(wire["state_frame"],"source")
                 self.assertEqual(wire["sample_ns"],100)
                 self.assertNotIn("instruction",wire)

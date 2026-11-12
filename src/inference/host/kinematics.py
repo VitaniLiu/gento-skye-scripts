@@ -86,13 +86,16 @@ class Kinematics:
                                    (bounds["open"] - bounds["closed"]), 0, 1)
         return state
 
-    def action_rows(self, actions, masks, seed):
+    def action_rows(self, actions, masks, seed, continuity_weight=None):
+        if continuity_weight is None:
+            continuity_weight = getattr(self, "continuity_weight", 0.0)
         actions = np.asarray(actions, dtype=float)
         masks = np.asarray(masks, dtype=bool)
         if actions.shape != masks.shape or actions.ndim != 2 or actions.shape[1] != 78:
             raise ValueError("actions and masks must both have shape [frames, 78]")
         q = np.asarray([seed[name] for name in JOINTS], dtype=float)
         rows = []
+        self.last_ik_diagnostics = []
         chains = []
         all_joints, all_extensions = self.joints, self.extensions
         for body, group in zip(("flange_L", "flange_R", "eyes_link"), JOINT_GROUPS):
@@ -135,15 +138,30 @@ class Kinematics:
                     raise ValueError(f"degenerate rotation6d for {body}")
                 second = second / n2
                 target = np.column_stack((first, second, np.cross(first, second)))
+                reference = q[slot].copy()
                 def residual(guess):
                     q[slot] = guess
                     pose = self.forward(q)[body]
-                    return np.r_[pose[:3, 3] - action[offset:offset + 3],
-                                 .2 * Rotation.from_matrix(target @ pose[:3, :3].T).as_rotvec()]
-                result = least_squares(residual, np.clip(q[slot], low, high), bounds=(low, high),
-                                       max_nfev=30, ftol=1e-5, xtol=1e-5, gtol=1e-6)
-                self.joints, self.extensions = original_joints, original_extensions
-                if np.linalg.norm(result.fun[:3]) > .005 or np.linalg.norm(result.fun[3:]) > .006:
+                    orientation = .2 * Rotation.from_matrix(target @ pose[:3, :3].T).as_rotvec()
+                    if body == "eyes_link":
+                        return orientation
+                    return np.r_[pose[:3, 3] - action[offset:offset + 3], orientation,
+                                 continuity_weight * (guess - reference)]
+                try:
+                    result = least_squares(residual, np.clip(q[slot], low, high), bounds=(low, high),
+                                           max_nfev=100, ftol=1e-5, xtol=1e-5, gtol=1e-6)
+                    q[slot] = result.x
+                    solved_pose = self.forward(q)[body]
+                finally:
+                    self.joints, self.extensions = original_joints, original_extensions
+                position_error = float(np.linalg.norm(solved_pose[:3, 3] - action[offset:offset + 3]))
+                rotation_error = float(np.linalg.norm(
+                    Rotation.from_matrix(target @ solved_pose[:3, :3].T).as_rotvec()))
+                self.last_ik_diagnostics.append(dict(frame=len(rows), body=body,
+                    position_error_m=position_error, rotation_error_rad=rotation_error,
+                    solver_success=bool(result.success)))
+                # Head XYZ follows the two-joint mechanism; arms retain full-pose limits.
+                if body != "eyes_link" and (position_error > .005 or rotation_error > .03):
                     raise ValueError(f"IK failed for {body}")
                 q[slot] = result.x
                 groups.append(result.x.tolist())

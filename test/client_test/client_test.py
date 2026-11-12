@@ -301,9 +301,10 @@ def replay_file(args, config, settings, path):
         raise ValueError("protocol action period differs from client config")
     kinematics = make_kinematics()
     stop = threading.Event()
-    keyboard = threading.Thread(target=q_listener, args=(stop,), daemon=True)
-    keyboard.start()
     robot = None
+    keyboard = threading.Thread(target=q_listener, args=(stop, lambda: robot.send("cancel")
+                                if robot is not None and robot.process.poll() is None else None), daemon=True)
+    keyboard.start()
     robot_ready = False
     executed = 0
     try:
@@ -321,8 +322,8 @@ def replay_file(args, config, settings, path):
                 raise ValueError("protocol action/mask count mismatch")
             rows = response_rows(response, request["request_id"], task_mask, count,
                                  settings, observe(robot), kinematics)
-            robot.send("execute", rows=rows, dt=header["action_dt_s"])
-            robot.wait("executed", timeout=count * header["action_dt_s"] + 5)
+            robot.send("execute", rows=rows, dt=settings["action_dt_s"])
+            robot.wait("executed", timeout=len(rows) * settings["action_dt_s"] + 10)
             executed += count
         print(f"protocol replay finished: {executed}/{header['frame_count']} frames", flush=True)
     finally:

@@ -81,15 +81,16 @@ class CameraDecoder:
 
 class RobotClient:
     def __init__(self, config, decode_camera=True, task=None):
+        self.send_lock = threading.Lock()
         self.history = None
         if decode_camera:
             settings = config["inference"]
             self.history = ImageHistory(settings["tasks"][task]["image"], settings["image_history_offsets_s"])
         robot = config["robot"]
         remote_root = robot["remote_root"]
+        endpoint = getattr(self, "endpoint", "runtime.py")
         shell = ("source /etc/apex/apex_ros_env.sh >/dev/null 2>&1 && exec python3 -u -B "
-                 + remote_root + "/src/inference/robot/runtime.py --config "
-                 + "-")
+                 + remote_root + "/src/inference/robot/" + endpoint + " --config -")
         self.process = subprocess.Popen(["ssh", "-T", "-o", "BatchMode=yes", robot["ssh"], shell],
                                         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                         stderr=sys.stderr, text=True, bufsize=1)
@@ -123,8 +124,9 @@ class RobotClient:
         self.messages.put({"type": "error", "error": "robot endpoint closed"})
 
     def send(self, command, **fields):
-        self.process.stdin.write(json.dumps({"command": command, **fields}, allow_nan=False) + "\n")
-        self.process.stdin.flush()
+        with self.send_lock:
+            self.process.stdin.write(json.dumps({"command": command, **fields}, allow_nan=False) + "\n")
+            self.process.stdin.flush()
 
     def wait(self, expected, timeout=120):
         deadline = time.monotonic() + timeout
@@ -350,6 +352,7 @@ def response_rows(reply, request_id, task_mask, steps, settings, observation, ki
     seed = dict(zip(observation["joint_names"], observation["joint_positions"], strict=True))
     if not all(name in seed for name in JOINTS):
         raise RuntimeError("joint observation is incomplete")
+    kinematics.continuity_weight = 0.0
     return kinematics.action_rows(actions[:steps], masks, seed)
 
 
@@ -433,18 +436,64 @@ def main(argv=None):
             session_id = reset.get("session_id", uuid.uuid4().hex)
             print("inference 已启动，按 q 结束并依次复位身体、腰部和底盘。", flush=True)
             while not stop.is_set():
+                stage_start = time.monotonic()
+                print("stage: collecting observation", flush=True)
                 observation, images = initial_observation or aligned_observation(robot)
                 initial_observation = None
                 check_stop(stop)
+                print("observation: %.3f s" % (time.monotonic() - stage_start), flush=True)
                 request_id = uuid.uuid4().hex
                 request = build_infer_request(
                     settings, request_task(settings, args.task), instruction, task_mask, request_id, session_id,
                     observation, images, kinematics, config["grippers"])
+                stage_start = time.monotonic()
+                print("stage: waiting for server, request_id=" + request_id, flush=True)
                 reply = policy.request_object(request)
-                rows = response_rows(reply, request_id, task_mask, steps, settings,
-                                     observation, kinematics)
+                server_seconds = time.monotonic() - stage_start
+                print("server: %.3f s; stage: IK" % server_seconds, flush=True)
+                from protocol import encode_array
+                communication = ROOT / "logs/inference" / ("communication_" + request_id + ".json")
+                communication.parent.mkdir(parents=True, exist_ok=True)
+                communication.write_text(json.dumps(dict(request=request, response=reply,
+                    observation=observation, server_seconds=server_seconds), default=encode_array))
+                stage_start = time.monotonic()
+                try:
+                    rows = response_rows(reply, request_id, task_mask, steps, settings,
+                                         observation, kinematics)
+                except Exception as exc:
+                    from protocol import encode_array
+                    destination = ROOT / "logs/inference" / ("ik_failure_" + request_id + ".json")
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_text(json.dumps(dict(error=str(exc), request=request,
+                        response=reply, observation=observation,
+                        ik_diagnostics=kinematics.last_ik_diagnostics), default=encode_array))
+                    print("动作转换诊断已保存：" + str(destination), file=sys.stderr, flush=True)
+                    raise
+                print("IK: %.3f s" % (time.monotonic() - stage_start), flush=True)
+                head_diagnostics = [d for d in kinematics.last_ik_diagnostics if d["body"] == "eyes_link"]
+                if head_diagnostics:
+                    print("head IK: max position residual=%.4f m, orientation residual=%.4f rad" % (
+                        max(d["position_error_m"] for d in head_diagnostics),
+                        max(d["rotation_error_rad"] for d in head_diagnostics)), flush=True)
+                if stop.is_set():
+                    break
+                robot.send("observe")
+                execution_start = robot.wait("observation", timeout=5)
+                duration = len(rows) * settings["action_dt_s"]
+                destination = ROOT / "logs/inference" / ("chunk_" + request_id + ".json")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                from protocol import encode_array
+                destination.write_text(json.dumps(dict(request=request, response=reply,
+                    observation=observation, execution_observation=execution_start,
+                    execution_rows=rows, action_dt_s=settings["action_dt_s"],
+                    ik_diagnostics=kinematics.last_ik_diagnostics), default=encode_array))
+                print("execution: %d frames, dt=%.3f s, duration=%.3f s" %
+                      (len(rows), settings["action_dt_s"], duration), flush=True)
+                if stop.is_set():
+                    break
                 robot.send("execute", rows=rows, dt=settings["action_dt_s"])
-                robot.wait("executed", timeout=steps * settings["action_dt_s"] + 5)
+                executed = robot.wait("executed", timeout=duration + 10)
+                print("execution: " + json.dumps(executed), flush=True)
         robot.send("quit")
         robot.wait("finished", timeout=180)
         return 0
