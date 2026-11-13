@@ -21,6 +21,9 @@ class StartupAlignmentTests(unittest.TestCase):
         self.startup = importlib.import_module("startup")
         self.config = json.loads((ROOT / "configs/inference/default.json").read_text())
         self.tasks = json.loads((ROOT / "configs/inference/tasks_eightpost.json").read_text())["tasks"]
+        # DATA-state tests exclude native-joint startup, covered separately.
+        self.tasks = {name: record for name, record in self.tasks.items()
+                      if "state" in record.get("startup", {})}
         self.config["inference"]["tasks"] = self.tasks
         self.kin = Kinematics(ROOT / "src/inference/models/runtime_expanded.urdf", ROOT / "src/inference/models/robot_Gento_Sky.xml")
         home = ET.parse(ROOT / "src/inference/models/robot_Gento_Sky.xml").find(".//key[@name=\"home\"]")

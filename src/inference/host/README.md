@@ -171,3 +171,19 @@ frame. Startup alignment never repeats between action chunks. Policy chunks
 retain direct 20 Hz execution; tasks without a startup specification retain
 legacy startup behavior. Development checks are offline only; no hardware motion
 or control endpoint is started by tests/inference/test_startup_alignment.py.
+
+### Confirmed yifu startup posture (2026-11-13)
+
+A task may set `startup.type = "native_joints"` with all fourteen arm joint
+positions in radians. The yifu preset is recorded in
+`tests/inference/yifu_native_startup.json`; the live yifu task configurations
+contain this same startup object. This preserves the user-confirmed forearm
+rotation, lifted wrists and outward wrist adjustment. It holds the existing
+head/waist targets and does not send gripper or base motion during alignment.
+The original Home/impedance preparation runs first. The native transition uses
+the shared limit/rate-aware planner, at least eight seconds, and measured
+arrival within 0.04 rad before resetting image history and collecting the first
+inference observation. Cancellation, incomplete execution or arrival failure
+blocks inference. No physical startup-to-inference test was run for this change.
+The preset is independent of server deployment and cross-embodiment adapters;
+those must already be configured for yifu.

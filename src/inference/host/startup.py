@@ -90,6 +90,8 @@ def align_startup(robot, record, task_mask, settings, kinematics, calibration, s
     spec = record.get("startup")
     if spec is None:
         return None
+    if spec.get("type") == "native_joints":
+        return align_native_startup(robot, spec, settings, kinematics, calibration, stop)
     check_stop(stop)
     target, mask = startup_target(spec, task_mask)
     robot.send("observe")
@@ -138,4 +140,65 @@ def align_startup(robot, record, task_mask, settings, kinematics, calibration, s
             return observation
         if time.monotonic() >= deadline:
             raise RuntimeError("startup arrival verification failed: " + str(errors))
+        time.sleep(.02)
+
+def align_native_startup(robot, spec, settings, kinematics, calibration, stop):
+    """Restore a measured arm posture without IK or gripper changes."""
+    targets = spec["joint_positions"]
+    if set(targets) != set(JOINTS[:14]):
+        raise ValueError("native startup requires exactly fourteen arm joints")
+    tolerance = float(spec["joint_tolerance_rad"])
+    timeout = float(spec["arrival_timeout_s"])
+    minimum = float(spec["minimum_duration_s"])
+    if not all(np.isfinite(v) and v > 0 for v in (tolerance, timeout, minimum)):
+        raise ValueError("invalid native startup timing/tolerance")
+    for name, value in targets.items():
+        low, high, _ = kinematics.limits[name]
+        if not np.isfinite(value) or not low <= value <= high:
+            raise ValueError("native startup target outside limits: " + name)
+
+    def errors(observation):
+        measured = dict(zip(observation["joint_names"], observation["joint_positions"], strict=True))
+        return {name: float(abs(measured[name] - value)) for name, value in targets.items()
+                if not np.isfinite(measured[name]) or abs(measured[name] - value) > tolerance}
+
+    check_stop(stop)
+    robot.send("observe")
+    observation = robot.wait("observation", timeout=5)
+    check_stop(stop)
+    if not errors(observation):
+        print("startup: confirmed native task posture already reached", flush=True)
+        return observation
+    measured = dict(zip(observation["joint_names"], observation["joint_positions"], strict=True))
+    measured.update(targets)
+    q = [measured[name] for name in JOINTS]
+    row = dict(groups=[q[:7], q[7:14], q[14:16]], body=q[16:19],
+               vx=0., wz=0., left_gripper=None, right_gripper=None)
+    planning = dict(settings, trajectory=dict(settings["trajectory"]))
+    planning["trajectory"]["startup_min_s"] = max(minimum, float(planning["trajectory"]["startup_min_s"]))
+    plan = plan_rows([row], observation, kinematics, planning, calibration, startup_transition=True)
+    dt = float(settings["trajectory"]["servo_dt_s"])
+    if abs(dt - .01) > 1e-12:
+        raise ValueError("native startup requires the existing 100 Hz planner")
+    check_stop(stop)
+    print("startup: moving to confirmed native task posture", flush=True)
+    robot.send("execute", rows=plan.rows, dt=dt)
+    executed = robot.wait("executed", timeout=len(plan.rows) * dt + 10)
+    if executed.get("cancelled"):
+        raise StartupCancelled("native startup cancelled")
+    check_stop(stop)
+    if executed.get("sent") != len(plan.rows):
+        raise RuntimeError("native startup trajectory was not completely executed")
+    deadline = time.monotonic() + timeout
+    while True:
+        check_stop(stop)
+        robot.send("observe")
+        observation = robot.wait("observation", timeout=5)
+        check_stop(stop)
+        remaining = errors(observation)
+        if not remaining:
+            print("startup: confirmed native task posture arrival", flush=True)
+            return observation
+        if time.monotonic() >= deadline:
+            raise RuntimeError("native startup arrival failed: " + str(remaining))
         time.sleep(.02)

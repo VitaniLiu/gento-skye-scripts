@@ -1,0 +1,23 @@
+{
+  "type": "native_joints",
+  "joint_positions": {
+    "Joint1_L": 1.5646649599075317,
+    "Joint2_L": -1.1264766454696655,
+    "Joint3_L": -1.1869044303894043,
+    "Joint4_L": -1.5974079370498657,
+    "Joint5_L": -1.9992406368255615,
+    "Joint6_L": -0.3014126121997833,
+    "Joint7_L": 0.002726171398535371,
+    "Joint1_R": -1.4663069248199463,
+    "Joint2_R": -1.1475306749343872,
+    "Joint3_R": 1.1843299865722656,
+    "Joint4_R": -1.612627387046814,
+    "Joint5_R": 1.9978132247924805,
+    "Joint6_R": -0.28748103976249695,
+    "Joint7_R": 0.0031784563325345516
+  },
+  "joint_tolerance_rad": 0.04,
+  "arrival_timeout_s": 5.0,
+  "minimum_duration_s": 8.0,
+  "source": "User-confirmed measured Skye posture, 2026-11-13; forearms outward, wrists lifted and outward adjusted"
+}
