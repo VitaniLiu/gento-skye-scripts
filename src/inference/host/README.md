@@ -172,6 +172,24 @@ retain direct 20 Hz execution; tasks without a startup specification retain
 legacy startup behavior. Development checks are offline only; no hardware motion
 or control endpoint is started by tests/inference/test_startup_alignment.py.
 
+2026-11-12: removed reset-time gripper opening and arrival wait at user request.
+Body/waist reset proceeds directly to chassis return on exit. Model gripper
+actions and task DATA startup alignment are unchanged.
+
+## G2 yifu -> Gento gripper mapping
+
+The yifu client still queries `g2/yifu` with `embodiment=g2` and leaves the
+server task mask unchanged. After each response, the client runs FK with the
+matching Sharpa Wave hand URDFs. For each hand it computes the Euclidean distance
+between the thumb and index fingertip link origins. A distance below the
+configured 0.07 m threshold commands the corresponding Gento gripper closed
+(0.0); a distance at or above the threshold commands it open (1.0). The execution
+mask suppresses Sharpa dimensions 32:54 and 55:77 and enables Gento gripper
+dimensions 54 and 77. Per-frame distances and binary commands are stored in the
+chunk log under `gripper_mapping`. This is an execution-only adapter and does not
+change the G2 request, server inference, or server response mask.
+
+
 ### Confirmed yifu startup posture (2026-11-13)
 
 A task may set `startup.type = "native_joints"` with all fourteen arm joint

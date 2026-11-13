@@ -53,7 +53,8 @@ def native_request(request):
         observation.update(head_rgb_history=np.stack(images),
                            history_offsets=[-16, -12, -8, -4, 0],
                            history_is_pad=obs["image_padding_mask"])
-    return dict(cmd="infer", task=request["task"], embodiment="skye",
+    return dict(cmd="infer", task=request["task"],
+                embodiment=request.get("embodiment", "skye"),
                 state_frame="source", request_id=request["request_id"],
                 session_id=request["session_id"], sample_ns=request["observation_timestamp_ns"],
                 observation=observation)

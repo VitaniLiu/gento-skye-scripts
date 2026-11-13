@@ -24,6 +24,7 @@ from PIL import Image
 from kinematics import JOINTS, Kinematics
 from protocol import PolicyClient
 from images import ImageHistory
+from sharpa_pinch import SharpaPinchMapper
 from startup import StartupCancelled, align_startup, check_stop
 
 
@@ -279,8 +280,27 @@ def response_masks(reply, task_mask, frames, dimensions):
     return np.asarray(values, dtype=bool) & np.asarray(task_mask, dtype=bool)
 
 
+def apply_execution_mask_override(masks, override):
+    """Adapt only robot execution; the policy request and server mask stay unchanged."""
+    values = np.asarray(masks, dtype=bool).copy()
+    if override is None:
+        return values
+    if values.ndim != 2:
+        raise ValueError("execution masks must be two-dimensional")
+    dimensions = values.shape[1]
+    for start, end in override.get("masked_ranges", []):
+        if not (0 <= start <= end <= dimensions):
+            raise ValueError("execution masked range is out of bounds")
+        values[:, start:end] = False
+    for index in override.get("enabled_indices", []):
+        if not 0 <= index < dimensions:
+            raise ValueError("execution enabled index is out of bounds")
+        values[:, index] = True
+    return values
+
+
 def build_infer_request(settings, task, instruction, task_mask, request_id, session_id,
-                        observation, image_sample, kinematics, calibration):
+                        observation, image_sample, kinematics, calibration, embodiment="skye"):
     state = kinematics.state78(observation, calibration)
     mapping = settings["protocol_to_robot"]
     state[27] -= mapping["waist_yaw_offset_rad"]
@@ -289,7 +309,7 @@ def build_infer_request(settings, task, instruction, task_mask, request_id, sess
                  / mapping["waist_height_scale"])
     request = build_infer_request_from_state(
         settings, task, instruction, task_mask, request_id, session_id,
-        observation["timestamp_ns"], state, image_sample)
+        observation["timestamp_ns"], state, image_sample, embodiment=embodiment)
     for key in ("source_timestamps_ns", "timestamp_basis"):
         if key in observation:
             request["observation"][key] = observation[key]
@@ -297,7 +317,8 @@ def build_infer_request(settings, task, instruction, task_mask, request_id, sess
 
 
 def build_infer_request_from_state(settings, task, instruction, task_mask, request_id,
-                                   session_id, timestamp_ns, state, image_sample, state_valid=None):
+                                   session_id, timestamp_ns, state, image_sample, state_valid=None,
+                                   embodiment="skye"):
     if isinstance(image_sample, dict):
         image_fields = dict(image_sample)
         image_fields["images"] = {"head_color": image_fields.pop("head_color")}
@@ -316,6 +337,7 @@ def build_infer_request_from_state(settings, task, instruction, task_mask, reque
         "command": "infer",
         "model": settings.get("model", "default"),
         "task": task,
+        "embodiment": embodiment,
         "robot_id": settings["robot_id"],
         "mask": task_mask,
         "request_id": request_id,
@@ -333,16 +355,25 @@ def build_infer_request_from_state(settings, task, instruction, task_mask, reque
     return request
 
 
-def response_rows(reply, request_id, task_mask, steps, settings, observation, kinematics):
+def response_rows(reply, request_id, task_mask, steps, settings, observation, kinematics,
+                  execution_mask_override=None, execution_gripper_mapping=None,
+                  gripper_mapper=None):
     if reply.get("request_id", request_id) != request_id:
         raise RuntimeError("server response request_id mismatch")
     actions = np.asarray(reply.get("actions", reply.get("action_chunk")), dtype=float)
     if actions.ndim != 2 or actions.shape[1] != settings["action_dim"] or len(actions) < steps:
         raise RuntimeError("server returned an invalid action chunk")
+    actions = actions.copy()
+    kinematics.last_gripper_mapping = None
+    if execution_gripper_mapping is not None:
+        if gripper_mapper is None:
+            raise ValueError("execution gripper mapping requires a hand model")
+        actions[:steps], kinematics.last_gripper_mapping = gripper_mapper.map_actions(
+            actions[:steps], execution_gripper_mapping)
     masks = response_masks(reply, task_mask, steps, settings["action_dim"])
+    masks = apply_execution_mask_override(masks, execution_mask_override)
     if not np.isfinite(actions[:steps][masks]).all():
         raise RuntimeError("server returned NaN or Inf in an enabled field")
-    actions = actions.copy()
     mapping = settings["protocol_to_robot"]
     actions[:steps, 27] += mapping["waist_yaw_offset_rad"]
     actions[:steps, 28] = (actions[:steps, 28] * mapping["waist_pitch_scale"]
@@ -406,6 +437,15 @@ def main(argv=None):
         return 0
     models = ROOT / "src/inference/models"
     kinematics = Kinematics(models / "runtime_expanded.urdf", models / "robot_Gento_Sky.xml")
+    task_record = settings["tasks"][args.task]
+    gripper_mapping = task_record.get("execution_gripper_mapping")
+    gripper_mapper = None
+    if gripper_mapping is not None:
+        if gripper_mapping.get("type") != "sharpa_thumb_index_threshold":
+            parser.error("unknown execution gripper mapping type")
+        gripper_mapper = SharpaPinchMapper(
+            models / gripper_mapping["left_urdf"],
+            models / gripper_mapping["right_urdf"])
     stop = threading.Event()
     connection = robot = None
     keyboard = threading.Thread(target=q_listener, args=(stop, lambda: robot.send("cancel")
@@ -445,7 +485,8 @@ def main(argv=None):
                 request_id = uuid.uuid4().hex
                 request = build_infer_request(
                     settings, request_task(settings, args.task), instruction, task_mask, request_id, session_id,
-                    observation, images, kinematics, config["grippers"])
+                    observation, images, kinematics, config["grippers"],
+                    embodiment=settings["tasks"][args.task].get("embodiment", "skye"))
                 stage_start = time.monotonic()
                 print("stage: waiting for server, request_id=" + request_id, flush=True)
                 reply = policy.request_object(request)
@@ -459,14 +500,17 @@ def main(argv=None):
                 stage_start = time.monotonic()
                 try:
                     rows = response_rows(reply, request_id, task_mask, steps, settings,
-                                         observation, kinematics)
+                                         observation, kinematics,
+                                         task_record.get("execution_mask_override"),
+                                         gripper_mapping, gripper_mapper)
                 except Exception as exc:
                     from protocol import encode_array
                     destination = ROOT / "logs/inference" / ("ik_failure_" + request_id + ".json")
                     destination.parent.mkdir(parents=True, exist_ok=True)
                     destination.write_text(json.dumps(dict(error=str(exc), request=request,
                         response=reply, observation=observation,
-                        ik_diagnostics=kinematics.last_ik_diagnostics), default=encode_array))
+                        ik_diagnostics=kinematics.last_ik_diagnostics,
+                        gripper_mapping=kinematics.last_gripper_mapping), default=encode_array))
                     print("动作转换诊断已保存：" + str(destination), file=sys.stderr, flush=True)
                     raise
                 print("IK: %.3f s" % (time.monotonic() - stage_start), flush=True)
@@ -486,7 +530,8 @@ def main(argv=None):
                 destination.write_text(json.dumps(dict(request=request, response=reply,
                     observation=observation, execution_observation=execution_start,
                     execution_rows=rows, action_dt_s=settings["action_dt_s"],
-                    ik_diagnostics=kinematics.last_ik_diagnostics), default=encode_array))
+                    ik_diagnostics=kinematics.last_ik_diagnostics,
+                    gripper_mapping=kinematics.last_gripper_mapping), default=encode_array))
                 print("execution: %d frames, dt=%.3f s, duration=%.3f s" %
                       (len(rows), settings["action_dt_s"], duration), flush=True)
                 if stop.is_set():

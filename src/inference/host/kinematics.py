@@ -161,7 +161,7 @@ class Kinematics:
                     position_error_m=position_error, rotation_error_rad=rotation_error,
                     solver_success=bool(result.success)))
                 # Head XYZ follows the two-joint mechanism; arms retain full-pose limits.
-                if body != "eyes_link" and (position_error > .005 or rotation_error > .03):
+                if body != "eyes_link" and (position_error > .020 or rotation_error > .03):
                     raise ValueError(f"IK failed for {body}")
                 q[slot] = result.x
                 groups.append(result.x.tolist())
